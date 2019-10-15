@@ -1,6 +1,5 @@
 #include <iostream>
 
-#include <google/protobuf/stubs/common.h>
 
 int main() {
     std::cout << "Hello, World!" << std::endl;

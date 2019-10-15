@@ -28,40 +28,51 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-// Author: kenton@google.com (Kenton Varda)
+// This header file defines an internal class that encapsulates internal message
+// metadata (Unknown-field set, Arena pointer, ...) and allows its
+// representation to be made more space-efficient via various optimizations.
+//
+// Note that this is distinct from google::protobuf::Metadata, which encapsulates
+// Descriptor and Reflection pointers.
 
-#include <google/protobuf/compiler/java/java_doc_comment.h>
+#ifndef GOOGLE_PROTOBUF_METADATA_H__
+#define GOOGLE_PROTOBUF_METADATA_H__
 
-#include <gtest/gtest.h>
+#include <google/protobuf/metadata_lite.h>
+#include <google/protobuf/unknown_field_set.h>
+
+#ifdef SWIG
+#error "You cannot SWIG proto headers"
+#endif
 
 namespace google {
 namespace protobuf {
-namespace compiler {
-namespace java {
-namespace {
+namespace internal {
 
-TEST(JavaDocCommentTest, Escaping) {
-  EXPECT_EQ("foo /&#42; bar *&#47; baz", EscapeJavadoc("foo /* bar */ baz"));
-  EXPECT_EQ("foo /&#42;&#47; baz", EscapeJavadoc("foo /*/ baz"));
-  EXPECT_EQ("{&#64;foo}", EscapeJavadoc("{@foo}"));
-  EXPECT_EQ("&lt;i&gt;&amp;&lt;/i&gt;", EscapeJavadoc("<i>&</i>"));
-  EXPECT_EQ("foo&#92;u1234bar", EscapeJavadoc("foo\\u1234bar"));
-  EXPECT_EQ("&#64;deprecated", EscapeJavadoc("@deprecated"));
-}
+class InternalMetadataWithArena
+    : public InternalMetadataWithArenaBase<UnknownFieldSet,
+                                           InternalMetadataWithArena> {
+ public:
+  InternalMetadataWithArena() {}
+  explicit InternalMetadataWithArena(Arena* arena)
+      : InternalMetadataWithArenaBase<UnknownFieldSet,
+                                      InternalMetadataWithArena>(arena) {}
 
-// TODO(kenton):  It's hard to write a robust test of the doc comments -- we
-//   can only really compare the output against a golden value, which is a
-//   fairly tedious and fragile testing strategy.  If we want to go that route,
-//   it probably makes sense to bite the bullet and write a test that compares
-//   the whole generated output for unittest.proto against a golden value, with
-//   a very simple script that can be run to regenerate it with the latest code.
-//   This would mean that updates to the golden file would have to be included
-//   in any change to the code generator, which would actually be fairly useful
-//   as it allows the reviewer to see clearly how the generated code is
-//   changing.
+  void DoSwap(UnknownFieldSet* other) { mutable_unknown_fields()->Swap(other); }
 
-}  // namespace
-}  // namespace java
-}  // namespace compiler
+  void DoMergeFrom(const UnknownFieldSet& other) {
+    mutable_unknown_fields()->MergeFrom(other);
+  }
+
+  void DoClear() { mutable_unknown_fields()->Clear(); }
+
+  static const UnknownFieldSet& default_instance() {
+    return *UnknownFieldSet::default_instance();
+  }
+};
+
+}  // namespace internal
 }  // namespace protobuf
 }  // namespace google
+
+#endif  // GOOGLE_PROTOBUF_METADATA_H__

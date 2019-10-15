@@ -52,7 +52,6 @@
 #include <google/protobuf/compiler/java/java_string_field_lite.h>
 #include <google/protobuf/io/printer.h>
 #include <google/protobuf/stubs/strutil.h>
-#include <google/protobuf/stubs/substitute.h>
 
 
 namespace google {
