@@ -8,8 +8,14 @@ file(GLOB SRC
         )
 
 find_library(PROTOBUF_LITE protobuf-lite)
+find_library(PROTOBUF protobuf)
+find_library(PROTOC protoc)
+message(${PROTOBUF})
 
 add_executable(protobuf-leo ${SRC} main.cpp)
 target_link_libraries(protobuf-leo ${PROTOBUF_LITE})
+target_link_libraries(protobuf-leo ${PROTOBUF})
+target_link_libraries(protobuf-leo ${PROTOC})
+
 target_include_directories(protobuf-leo PRIVATE include)
 target_include_directories(protobuf-leo PRIVATE src)
