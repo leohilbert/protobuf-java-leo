@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(protobuf-java-leo)
+project(protoc-gen-java-leo)
 
 set(CMAKE_CXX_STANDARD 17)
 
