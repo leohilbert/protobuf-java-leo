@@ -168,6 +168,19 @@ private static final long serialVersionUID = 0L;
       com.example.tutorial.PhoneType result = com.example.tutorial.PhoneType.valueOf(type_);
       return result == null ? com.example.tutorial.PhoneType.UNRECOGNIZED : result;
     }
+    /**
+     * <code>.tutorial.PhoneType type = 2[json_name = "type"];</code>
+     * @param value The type to set.
+     */
+    public void setType(com.example.tutorial.PhoneType value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      if(type_ != value) {    
+        type_ = value;
+        onChanged();
+      }
+    }
 
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
