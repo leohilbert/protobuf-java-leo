@@ -18,6 +18,11 @@ public interface PhoneNumberOrBuilder extends
    */
   com.google.protobuf.ByteString
       getNumberBytes();
+  /**
+   * <code>string number = 1[json_name = "number"];</code>
+   * @param value The number to set.
+   */
+  java.lang.String setNumber(java.lang.String value);
 
   /**
    * <code>.tutorial.PhoneType type = 2[json_name = "type"];</code>
@@ -29,4 +34,9 @@ public interface PhoneNumberOrBuilder extends
    * @return The type.
    */
   com.example.tutorial.PhoneType getType();
+  /**
+   * <code>.tutorial.PhoneType type = 2[json_name = "type"];</code>
+   * @param value The type to set.
+   */
+  com.example.tutorial.PhoneType setType(com.example.tutorial.PhoneType value);
 }

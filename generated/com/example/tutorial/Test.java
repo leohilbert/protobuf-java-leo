@@ -73,6 +73,19 @@ private static final long serialVersionUID = 0L;
               email_ = s;
               break;
             }
+            case 34: {
+              com.example.tutorial.PhoneNumber.Builder subBuilder = null;
+              if (number_ != null) {
+                subBuilder = number_.toBuilder();
+              }
+              number_ = input.readMessage(com.example.tutorial.PhoneNumber.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(number_);
+                number_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -150,7 +163,8 @@ private static final long serialVersionUID = 0L;
         throw new NullPointerException();
       }
       
-      if(!value.equals(name_)) {    name_ = value;
+      if(!value.equals(name_)) {
+        name_ = value;
         onChanged();
       }
     }
@@ -228,7 +242,44 @@ private static final long serialVersionUID = 0L;
         throw new NullPointerException();
       }
       
-      if(!value.equals(email_)) {    email_ = value;
+      if(!value.equals(email_)) {
+        email_ = value;
+        onChanged();
+      }
+    }
+
+    public static final int NUMBER_FIELD_NUMBER = 4;
+    private com.example.tutorial.PhoneNumber number_;
+    /**
+     * <code>.tutorial.PhoneNumber number = 4[json_name = "number"];</code>
+     * @return Whether the number field is set.
+     */
+    public boolean hasNumber() {
+      return number_ != null;
+    }
+    /**
+     * <code>.tutorial.PhoneNumber number = 4[json_name = "number"];</code>
+     * @return The number.
+     */
+    public com.example.tutorial.PhoneNumber getNumber() {
+      return number_ == null ? com.example.tutorial.PhoneNumber.getDefaultInstance() : number_;
+    }
+    /**
+     * <code>.tutorial.PhoneNumber number = 4[json_name = "number"];</code>
+     */
+    public com.example.tutorial.PhoneNumberOrBuilder getNumberOrBuilder() {
+      return getNumber();
+    }
+    /**
+     * <code>.tutorial.PhoneNumber number = 4[json_name = "number"];</code>
+     * @param value The number to set.
+     */
+    public void setNumber(com.example.tutorial.PhoneNumber value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      if(!value.equals(number_)) {
+        number_ = value;
         onChanged();
       }
     }
@@ -256,6 +307,9 @@ private static final long serialVersionUID = 0L;
       if (!getEmailBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, email_);
       }
+      if (number_ != null) {
+        output.writeMessage(4, getNumber());
+      }
       unknownFields.writeTo(output);
     }
 
@@ -274,6 +328,10 @@ private static final long serialVersionUID = 0L;
       }
       if (!getEmailBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, email_);
+      }
+      if (number_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, getNumber());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -296,6 +354,11 @@ private static final long serialVersionUID = 0L;
           != other.getId()) return false;
       if (!getEmail()
           .equals(other.getEmail())) return false;
+      if (hasNumber() != other.hasNumber()) return false;
+      if (hasNumber()) {
+        if (!getNumber()
+            .equals(other.getNumber())) return false;
+      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -313,6 +376,10 @@ private static final long serialVersionUID = 0L;
       hash = (53 * hash) + getId();
       hash = (37 * hash) + EMAIL_FIELD_NUMBER;
       hash = (53 * hash) + getEmail().hashCode();
+      if (hasNumber()) {
+        hash = (37 * hash) + NUMBER_FIELD_NUMBER;
+        hash = (53 * hash) + getNumber().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -452,6 +519,12 @@ private static final long serialVersionUID = 0L;
 
         email_ = "";
 
+        if (numberBuilder_ == null) {
+          number_ = null;
+        } else {
+          number_ = null;
+          numberBuilder_ = null;
+        }
         return this;
       }
 
@@ -481,6 +554,11 @@ private static final long serialVersionUID = 0L;
         result.name_ = name_;
         result.id_ = id_;
         result.email_ = email_;
+        if (numberBuilder_ == null) {
+          result.number_ = number_;
+        } else {
+          result.number_ = numberBuilder_.build();
+        }
         onBuilt();
         return result;
       }
@@ -539,6 +617,9 @@ private static final long serialVersionUID = 0L;
         if (!other.getEmail().isEmpty()) {
           email_ = other.email_;
           onChanged();
+        }
+        if (other.hasNumber()) {
+          mergeNumber(other.getNumber());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -761,6 +842,125 @@ private static final long serialVersionUID = 0L;
         email_ = value;
         onChanged();
         return this;
+      }
+
+      private com.example.tutorial.PhoneNumber number_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.example.tutorial.PhoneNumber, com.example.tutorial.PhoneNumber.Builder, com.example.tutorial.PhoneNumberOrBuilder> numberBuilder_;
+      /**
+       * <code>.tutorial.PhoneNumber number = 4[json_name = "number"];</code>
+       * @return Whether the number field is set.
+       */
+      public boolean hasNumber() {
+        return numberBuilder_ != null || number_ != null;
+      }
+      /**
+       * <code>.tutorial.PhoneNumber number = 4[json_name = "number"];</code>
+       * @return The number.
+       */
+      public com.example.tutorial.PhoneNumber getNumber() {
+        if (numberBuilder_ == null) {
+          return number_ == null ? com.example.tutorial.PhoneNumber.getDefaultInstance() : number_;
+        } else {
+          return numberBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.tutorial.PhoneNumber number = 4[json_name = "number"];</code>
+       */
+      public Builder setNumber(com.example.tutorial.PhoneNumber value) {
+        if (numberBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          number_ = value;
+          onChanged();
+        } else {
+          numberBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.tutorial.PhoneNumber number = 4[json_name = "number"];</code>
+       */
+      public Builder setNumber(
+          com.example.tutorial.PhoneNumber.Builder builderForValue) {
+        if (numberBuilder_ == null) {
+          number_ = builderForValue.build();
+          onChanged();
+        } else {
+          numberBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.tutorial.PhoneNumber number = 4[json_name = "number"];</code>
+       */
+      public Builder mergeNumber(com.example.tutorial.PhoneNumber value) {
+        if (numberBuilder_ == null) {
+          if (number_ != null) {
+            number_ =
+              com.example.tutorial.PhoneNumber.newBuilder(number_).mergeFrom(value).buildPartial();
+          } else {
+            number_ = value;
+          }
+          onChanged();
+        } else {
+          numberBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.tutorial.PhoneNumber number = 4[json_name = "number"];</code>
+       */
+      public Builder clearNumber() {
+        if (numberBuilder_ == null) {
+          number_ = null;
+          onChanged();
+        } else {
+          number_ = null;
+          numberBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.tutorial.PhoneNumber number = 4[json_name = "number"];</code>
+       */
+      public com.example.tutorial.PhoneNumber.Builder getNumberBuilder() {
+        
+        onChanged();
+        return getNumberFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.tutorial.PhoneNumber number = 4[json_name = "number"];</code>
+       */
+      public com.example.tutorial.PhoneNumberOrBuilder getNumberOrBuilder() {
+        if (numberBuilder_ != null) {
+          return numberBuilder_.getMessageOrBuilder();
+        } else {
+          return number_ == null ?
+              com.example.tutorial.PhoneNumber.getDefaultInstance() : number_;
+        }
+      }
+      /**
+       * <code>.tutorial.PhoneNumber number = 4[json_name = "number"];</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.example.tutorial.PhoneNumber, com.example.tutorial.PhoneNumber.Builder, com.example.tutorial.PhoneNumberOrBuilder> 
+          getNumberFieldBuilder() {
+        if (numberBuilder_ == null) {
+          numberBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.example.tutorial.PhoneNumber, com.example.tutorial.PhoneNumber.Builder, com.example.tutorial.PhoneNumberOrBuilder>(
+                  getNumber(),
+                  getParentForChildren(),
+                  isClean());
+          number_ = null;
+        }
+        return numberBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(

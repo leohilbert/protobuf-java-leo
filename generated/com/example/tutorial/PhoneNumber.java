@@ -145,7 +145,8 @@ private static final long serialVersionUID = 0L;
         throw new NullPointerException();
       }
       
-      if(!value.equals(number_)) {    number_ = value;
+      if(!value.equals(number_)) {
+        number_ = value;
         onChanged();
       }
     }

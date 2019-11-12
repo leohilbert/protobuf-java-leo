@@ -34,12 +34,14 @@ public final class TestProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n\036java/src/main/proto/test.proto\022\010tutori" +
-      "al\"@\n\004Test\022\022\n\004name\030\001 \001(\tR\004name\022\016\n\002id\030\002 \001" +
-      "(\005R\002id\022\024\n\005email\030\003 \001(\tR\005email\"N\n\013PhoneNum" +
-      "ber\022\026\n\006number\030\001 \001(\tR\006number\022\'\n\004type\030\002 \001(" +
-      "\0162\023.tutorial.PhoneTypeR\004type*+\n\tPhoneTyp" +
-      "e\022\n\n\006MOBILE\020\000\022\010\n\004HOME\020\001\022\010\n\004WORK\020\002B$\n\024com" +
-      ".example.tutorialB\nTestProtosP\001b\006proto3"
+      "al\"o\n\004Test\022\022\n\004name\030\001 \001(\tR\004name\022\016\n\002id\030\002 \001" +
+      "(\005R\002id\022\024\n\005email\030\003 \001(\tR\005email\022-\n\006number\030\004" +
+      " \001(\0132\025.tutorial.PhoneNumberR\006number\"N\n\013P" +
+      "honeNumber\022\026\n\006number\030\001 \001(\tR\006number\022\'\n\004ty" +
+      "pe\030\002 \001(\0162\023.tutorial.PhoneTypeR\004type*+\n\tP" +
+      "honeType\022\n\n\006MOBILE\020\000\022\010\n\004HOME\020\001\022\010\n\004WORK\020\002" +
+      "B$\n\024com.example.tutorialB\nTestProtosP\001b\006" +
+      "proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -50,7 +52,7 @@ public final class TestProtos {
     internal_static_tutorial_Test_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_Test_descriptor,
-        new java.lang.String[] { "Name", "Id", "Email", });
+        new java.lang.String[] { "Name", "Id", "Email", "Number", });
     internal_static_tutorial_PhoneNumber_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_tutorial_PhoneNumber_fieldAccessorTable = new

@@ -153,6 +153,10 @@ void ImmutableMessageFieldGenerator::GenerateInterfaceMembers(
   printer->Print(
       variables_,
       "$deprecation$$type$OrBuilder get$capitalized_name$OrBuilder();\n");
+
+  WriteFieldAccessorDocComment(printer, descriptor_, SETTER);
+  printer->Print(variables_,
+                 "$deprecation$$type$ set$capitalized_name$($type$ value);\n");
 }
 
 void ImmutableMessageFieldGenerator::GenerateMembers(
@@ -208,6 +212,21 @@ void ImmutableMessageFieldGenerator::GenerateMembers(
                    "}\n");
     printer->Annotate("{", "}", descriptor_);
   }
+
+  // !!!! Leo !!!! Add Setters to messages
+  WriteFieldAccessorDocComment(printer, descriptor_, SETTER, false);
+  printer->Print(variables_,
+                 "$deprecation$public void "
+                 "${$set$capitalized_name$$}$($type$ value) {\n"
+                 "  if (value == null) {\n"
+                 "    throw new NullPointerException();\n"
+                 "  }\n"
+                 "  if(!value.equals($name$_)) {\n"
+                 "    $name$_ = value;\n"
+                 "    $on_changed$\n"
+                 "  }\n"
+                 "}\n");
+  printer->Annotate("{", "}", descriptor_);
 }
 
 void ImmutableMessageFieldGenerator::PrintNestedBuilderCondition(

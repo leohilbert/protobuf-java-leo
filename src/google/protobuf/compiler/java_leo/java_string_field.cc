@@ -200,6 +200,10 @@ void ImmutableStringFieldGenerator::GenerateInterfaceMembers(
   printer->Print(variables_,
                  "$deprecation$com.google.protobuf.ByteString\n"
                  "    get$capitalized_name$Bytes();\n");
+
+  WriteFieldAccessorDocComment(printer, descriptor_, SETTER);
+  printer->Print(variables_,
+                 "$deprecation$java.lang.String set$capitalized_name$(java.lang.String value);\n");
 }
 
 void ImmutableStringFieldGenerator::GenerateMembers(
@@ -267,7 +271,7 @@ void ImmutableStringFieldGenerator::GenerateMembers(
                  "    throw new NullPointerException();\n"
                  "  }\n"
                  "  $set_has_field_bit_builder$\n"
-                 "  if(!value.equals($name$_)) {"
+                 "  if(!value.equals($name$_)) {\n"
                  "    $name$_ = value;\n"
                  "    $on_changed$\n"
                  "  }\n"

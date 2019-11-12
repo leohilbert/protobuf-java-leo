@@ -18,6 +18,11 @@ public interface TestOrBuilder extends
    */
   com.google.protobuf.ByteString
       getNameBytes();
+  /**
+   * <code>string name = 1[json_name = "name"];</code>
+   * @param value The name to set.
+   */
+  java.lang.String setName(java.lang.String value);
 
   /**
    * <pre>
@@ -28,6 +33,15 @@ public interface TestOrBuilder extends
    * @return The id.
    */
   int getId();
+  /**
+   * <pre>
+   * Unique ID number for this person.
+   * </pre>
+   *
+   * <code>int32 id = 2[json_name = "id"];</code>
+   * @param value The id to set.
+   */
+  int setId(int value);
 
   /**
    * <code>string email = 3[json_name = "email"];</code>
@@ -40,4 +54,29 @@ public interface TestOrBuilder extends
    */
   com.google.protobuf.ByteString
       getEmailBytes();
+  /**
+   * <code>string email = 3[json_name = "email"];</code>
+   * @param value The email to set.
+   */
+  java.lang.String setEmail(java.lang.String value);
+
+  /**
+   * <code>.tutorial.PhoneNumber number = 4[json_name = "number"];</code>
+   * @return Whether the number field is set.
+   */
+  boolean hasNumber();
+  /**
+   * <code>.tutorial.PhoneNumber number = 4[json_name = "number"];</code>
+   * @return The number.
+   */
+  com.example.tutorial.PhoneNumber getNumber();
+  /**
+   * <code>.tutorial.PhoneNumber number = 4[json_name = "number"];</code>
+   */
+  com.example.tutorial.PhoneNumberOrBuilder getNumberOrBuilder();
+  /**
+   * <code>.tutorial.PhoneNumber number = 4[json_name = "number"];</code>
+   * @param value The number to set.
+   */
+  com.example.tutorial.PhoneNumber setNumber(com.example.tutorial.PhoneNumber value);
 }

@@ -166,6 +166,10 @@ void ImmutableEnumFieldGenerator::GenerateInterfaceMembers(
   }
   WriteFieldAccessorDocComment(printer, descriptor_, GETTER);
   printer->Print(variables_, "$deprecation$$type$ get$capitalized_name$();\n");
+
+  WriteFieldAccessorDocComment(printer, descriptor_, SETTER);
+  printer->Print(variables_,
+                 "$deprecation$$type$ set$capitalized_name$($type$ value);\n");
 }
 
 void ImmutableEnumFieldGenerator::GenerateMembers(io::Printer* printer) const {
