@@ -373,6 +373,9 @@ void ImmutableMessageGenerator::Generate(io::Printer* printer) {
     GenerateParsingConstructor(printer);
   }
 
+  // !!!! Leo !!!! Splitting up Constructor and Proto-parsing
+  GenerateUpdateFromMethod(printer);
+
   GenerateDescriptorMethods(printer);
 
   // Nested types
@@ -1182,6 +1185,26 @@ void ImmutableMessageGenerator::GenerateParsingConstructor(
   // Initialize all fields to default.
   printer->Print(
       "this();\n"
+      "updateFrom(input, extensionRegistry);\n"
+      "}\n");
+}
+
+// ===================================================================
+void ImmutableMessageGenerator::GenerateUpdateFromMethod(
+    io::Printer* printer) {
+  std::unique_ptr<const FieldDescriptor* []> sorted_fields(
+      SortFieldsByNumber(descriptor_));
+
+  printer->Print(
+      "private void updateFrom(\n"
+      "    com.google.protobuf.CodedInputStream input,\n"
+      "    com.google.protobuf.ExtensionRegistryLite extensionRegistry)\n"
+      "    throws com.google.protobuf.InvalidProtocolBufferException {\n",
+      "classname", descriptor_->name());
+  printer->Indent();
+
+  // Initialize all fields to default.
+  printer->Print(
       "if (extensionRegistry == null) {\n"
       "  throw new java.lang.NullPointerException();\n"
       "}\n");
