@@ -39,7 +39,6 @@
 
 #include <google/protobuf/compiler/java_leo/java_context.h>
 #include <google/protobuf/compiler/java_leo/java_enum.h>
-#include <google/protobuf/compiler/java_leo/java_enum_lite.h>
 #include <google/protobuf/compiler/java_leo/java_extension.h>
 #include <google/protobuf/compiler/java_leo/java_generator_factory.h>
 #include <google/protobuf/compiler/java_leo/java_helpers.h>
@@ -314,13 +313,8 @@ void FileGenerator::Generate(io::Printer* printer) {
 
   if (!MultipleJavaFiles(file_, immutable_api_)) {
     for (int i = 0; i < file_->enum_type_count(); i++) {
-      if (HasDescriptorMethods(file_, context_->EnforceLite())) {
-        EnumGenerator(file_->enum_type(i), immutable_api_, context_.get())
-            .Generate(printer);
-      } else {
-        EnumLiteGenerator(file_->enum_type(i), immutable_api_, context_.get())
-            .Generate(printer);
-      }
+      EnumGenerator(file_->enum_type(i), immutable_api_, context_.get())
+          .Generate(printer);
     }
     for (int i = 0; i < file_->message_type_count(); i++) {
       message_generators_[i]->GenerateInterface(printer);
@@ -632,21 +626,12 @@ void FileGenerator::GenerateSiblings(
     std::vector<std::string>* annotation_list) {
   if (MultipleJavaFiles(file_, immutable_api_)) {
     for (int i = 0; i < file_->enum_type_count(); i++) {
-      if (HasDescriptorMethods(file_, context_->EnforceLite())) {
-        EnumGenerator generator(file_->enum_type(i), immutable_api_,
-                                context_.get());
-        GenerateSibling<EnumGenerator>(
-            package_dir, java_package_, file_->enum_type(i), context, file_list,
-            options_.annotate_code, annotation_list, "", &generator,
-            &EnumGenerator::Generate);
-      } else {
-        EnumLiteGenerator generator(file_->enum_type(i), immutable_api_,
-                                    context_.get());
-        GenerateSibling<EnumLiteGenerator>(
-            package_dir, java_package_, file_->enum_type(i), context, file_list,
-            options_.annotate_code, annotation_list, "", &generator,
-            &EnumLiteGenerator::Generate);
-      }
+      EnumGenerator generator(file_->enum_type(i), immutable_api_,
+                              context_.get());
+      GenerateSibling<EnumGenerator>(
+          package_dir, java_package_, file_->enum_type(i), context, file_list,
+          options_.annotate_code, annotation_list, "", &generator,
+          &EnumGenerator::Generate);
     }
     for (int i = 0; i < file_->message_type_count(); i++) {
       if (immutable_api_) {

@@ -46,7 +46,6 @@
 #include <google/protobuf/compiler/java_leo/java_generator_factory.h>
 #include <google/protobuf/compiler/java_leo/java_helpers.h>
 #include <google/protobuf/compiler/java_leo/java_message_builder.h>
-#include <google/protobuf/compiler/java_leo/java_message_builder_lite.h>
 #include <google/protobuf/compiler/java_leo/java_name_resolver.h>
 #include <google/protobuf/descriptor.pb.h>
 #include <google/protobuf/io/coded_stream.h>

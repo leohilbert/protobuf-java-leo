@@ -40,16 +40,11 @@
 #include <google/protobuf/stubs/common.h>
 #include <google/protobuf/compiler/java_leo/java_context.h>
 #include <google/protobuf/compiler/java_leo/java_enum_field.h>
-#include <google/protobuf/compiler/java_leo/java_enum_field_lite.h>
 #include <google/protobuf/compiler/java_leo/java_helpers.h>
 #include <google/protobuf/compiler/java_leo/java_map_field.h>
-#include <google/protobuf/compiler/java_leo/java_map_field_lite.h>
 #include <google/protobuf/compiler/java_leo/java_message_field.h>
-#include <google/protobuf/compiler/java_leo/java_message_field_lite.h>
 #include <google/protobuf/compiler/java_leo/java_primitive_field.h>
-#include <google/protobuf/compiler/java_leo/java_primitive_field_lite.h>
 #include <google/protobuf/compiler/java_leo/java_string_field.h>
-#include <google/protobuf/compiler/java_leo/java_string_field_lite.h>
 #include <google/protobuf/io/printer.h>
 #include <google/protobuf/stubs/strutil.h>
 
@@ -120,64 +115,6 @@ ImmutableFieldGenerator* MakeImmutableGenerator(const FieldDescriptor* field,
   }
 }
 
-ImmutableFieldLiteGenerator* MakeImmutableLiteGenerator(
-    const FieldDescriptor* field, int messageBitIndex, Context* context) {
-  if (field->is_repeated()) {
-    switch (GetJavaType(field)) {
-      case JAVATYPE_MESSAGE:
-        if (IsMapEntry(field->message_type())) {
-          return new ImmutableMapFieldLiteGenerator(field, messageBitIndex,
-                                                    context);
-        } else {
-          return new RepeatedImmutableMessageFieldLiteGenerator(
-              field, messageBitIndex, context);
-        }
-      case JAVATYPE_ENUM:
-        return new RepeatedImmutableEnumFieldLiteGenerator(
-            field, messageBitIndex, context);
-      case JAVATYPE_STRING:
-        return new RepeatedImmutableStringFieldLiteGenerator(
-            field, messageBitIndex, context);
-      default:
-        return new RepeatedImmutablePrimitiveFieldLiteGenerator(
-            field, messageBitIndex, context);
-    }
-  } else {
-    if (field->containing_oneof()) {
-      switch (GetJavaType(field)) {
-        case JAVATYPE_MESSAGE:
-          return new ImmutableMessageOneofFieldLiteGenerator(
-              field, messageBitIndex, context);
-        case JAVATYPE_ENUM:
-          return new ImmutableEnumOneofFieldLiteGenerator(
-              field, messageBitIndex, context);
-        case JAVATYPE_STRING:
-          return new ImmutableStringOneofFieldLiteGenerator(
-              field, messageBitIndex, context);
-        default:
-          return new ImmutablePrimitiveOneofFieldLiteGenerator(
-              field, messageBitIndex, context);
-      }
-    } else {
-      switch (GetJavaType(field)) {
-        case JAVATYPE_MESSAGE:
-          return new ImmutableMessageFieldLiteGenerator(field, messageBitIndex,
-                                                        context);
-        case JAVATYPE_ENUM:
-          return new ImmutableEnumFieldLiteGenerator(field, messageBitIndex,
-                                                     context);
-        case JAVATYPE_STRING:
-          return new ImmutableStringFieldLiteGenerator(field, messageBitIndex,
-                                                       context);
-        default:
-          return new ImmutablePrimitiveFieldLiteGenerator(
-              field, messageBitIndex, context);
-      }
-    }
-  }
-}
-
-
 static inline void ReportUnexpectedPackedFieldsCall(io::Printer* printer) {
   // Reaching here indicates a bug. Cases are:
   //   - This FieldGenerator should support packing,
@@ -220,21 +157,6 @@ FieldGeneratorMap<ImmutableFieldGenerator>::FieldGeneratorMap(
 
 template <>
 FieldGeneratorMap<ImmutableFieldGenerator>::~FieldGeneratorMap() {}
-
-template <>
-FieldGeneratorMap<ImmutableFieldLiteGenerator>::FieldGeneratorMap(
-    const Descriptor* descriptor, Context* context)
-    : descriptor_(descriptor), field_generators_(descriptor->field_count()) {
-  // Construct all the FieldGenerators and assign them bit indices for their
-  // bit fields.
-  int messageBitIndex = 0;
-  for (int i = 0; i < descriptor->field_count(); i++) {
-    ImmutableFieldLiteGenerator* generator = MakeImmutableLiteGenerator(
-        descriptor->field(i), messageBitIndex, context);
-    field_generators_[i].reset(generator);
-    messageBitIndex += generator->GetNumBitsForMessage();
-  }
-}
 
 template <>
 FieldGeneratorMap<ImmutableFieldLiteGenerator>::~FieldGeneratorMap() {}
