@@ -263,7 +263,9 @@ void ImmutableStringFieldGenerator::GenerateMembers(
   printer->Print(variables_,
                  "$deprecation$public void ${$set$capitalized_name$$}$(\n"
                  "    java.lang.String value) {\n"
-                 "$null_check$"
+                 "  if (value == null) {\n"
+                 "    throw new NullPointerException();\n"
+                 "  }\n"
                  "  $set_has_field_bit_builder$\n"
                  "  if(!value.equals($name$_)) {"
                  "    $name$_ = value;\n"
