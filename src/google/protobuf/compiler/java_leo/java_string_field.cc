@@ -257,6 +257,20 @@ void ImmutableStringFieldGenerator::GenerateMembers(
                  "  }\n"
                  "}\n");
   printer->Annotate("{", "}", descriptor_);
+
+  // !!!! Leo !!!! Add Setters to messages
+  WriteFieldAccessorDocComment(printer, descriptor_, SETTER, false);
+  printer->Print(variables_,
+                 "$deprecation$public void ${$set$capitalized_name$$}$(\n"
+                 "    java.lang.String value) {\n"
+                 "$null_check$"
+                 "  $set_has_field_bit_builder$\n"
+                 "  if(!value.equals($name$_)) {"
+                 "    $name$_ = value;\n"
+                 "    $on_changed$\n"
+                 "  }\n"
+                 "}\n");
+  printer->Annotate("{", "}", descriptor_);
 }
 
 void ImmutableStringFieldGenerator::GenerateBuilderMembers(

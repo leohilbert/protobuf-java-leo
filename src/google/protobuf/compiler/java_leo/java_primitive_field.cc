@@ -233,6 +233,20 @@ void ImmutablePrimitiveFieldGenerator::GenerateMembers(
                  "  return $name$_;\n"
                  "}\n");
   printer->Annotate("{", "}", descriptor_);
+
+  // !!!! Leo !!!! Add Setters to messages
+  WriteFieldAccessorDocComment(printer, descriptor_, SETTER, false);
+  printer->Print(variables_,
+                 "$deprecation$public void "
+                 "${$set$capitalized_name$$}$($type$ value) {\n"
+                 "$null_check$"
+                 "  if($name$_ != value) {"
+                 "    $set_has_field_bit_builder$\n"
+                 "    $name$_ = value;\n"
+                 "    $on_changed$\n"
+                 "  }\n"
+                 "}\n");
+  printer->Annotate("{", "}", descriptor_);
 }
 
 void ImmutablePrimitiveFieldGenerator::GenerateBuilderMembers(

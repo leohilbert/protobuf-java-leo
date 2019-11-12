@@ -140,6 +140,20 @@ private static final long serialVersionUID = 0L;
         return (com.google.protobuf.ByteString) ref;
       }
     }
+    /**
+     * <code>string name = 1[json_name = "name"];</code>
+     * @param value The name to set.
+     */
+    public void setName(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      if(!value.equals(name_)) {    name_ = value;
+        onChanged();
+      }
+    }
 
     public static final int ID_FIELD_NUMBER = 2;
     private int id_;
@@ -161,13 +175,12 @@ private static final long serialVersionUID = 0L;
      *
      * <code>int32 id = 2[json_name = "id"];</code>
      * @param value The id to set.
-     * @return This builder for chaining.
      */
     public void setId(int value) {
-      
-      id_ = value;
-      onChanged();
-      return this;
+      if(id_ != value) {    
+        id_ = value;
+        onChanged();
+      }
     }
 
     public static final int EMAIL_FIELD_NUMBER = 3;
@@ -203,6 +216,20 @@ private static final long serialVersionUID = 0L;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string email = 3[json_name = "email"];</code>
+     * @param value The email to set.
+     */
+    public void setEmail(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      if(!value.equals(email_)) {    email_ = value;
+        onChanged();
       }
     }
 
