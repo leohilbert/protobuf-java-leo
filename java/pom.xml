@@ -1,7 +1,7 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.leohilbert.protobuf</groupId>
-    <artifactId>protoc-gen-java-leo-test</artifactId>
+    <artifactId>protobuf-java-leo</artifactId>
     <version>1.0.0</version>
 
     <properties>
@@ -13,6 +13,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.10.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.5.2</version>
@@ -23,11 +28,6 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <version>5.5.2</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
-            <version>3.10.0</version>
         </dependency>
     </dependencies>
     <build>
@@ -45,12 +45,11 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>compile-custom</goal>
+                            <goal>test-compile-custom</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
-
 </project>

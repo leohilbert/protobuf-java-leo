@@ -203,7 +203,7 @@ void ImmutableStringFieldGenerator::GenerateInterfaceMembers(
 
   WriteFieldAccessorDocComment(printer, descriptor_, SETTER);
   printer->Print(variables_,
-                 "$deprecation$java.lang.String set$capitalized_name$(java.lang.String value);\n");
+                 "$deprecation$void set$capitalized_name$(java.lang.String value);\n");
 }
 
 void ImmutableStringFieldGenerator::GenerateMembers(

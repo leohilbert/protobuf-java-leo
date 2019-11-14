@@ -324,7 +324,8 @@ void ImmutableMessageGenerator::Generate(io::Printer* printer) {
         "$deprecation$public $static$final class $classname$ extends\n");
     printer->Annotate("classname", descriptor_);
     printer->Print(variables,
-                   "    com.google.protobuf.GeneratedMessage$ver$ implements\n"
+                   "    de.leohilbert.GeneratedMessageLeo implements\n"
+                   "    $classname$Custom,\n"
                    "    $extra_interfaces$\n"
                    "    $classname$OrBuilder {\n");
     builder_type =

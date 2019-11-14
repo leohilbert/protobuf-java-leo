@@ -214,7 +214,7 @@ void ImmutablePrimitiveFieldGenerator::GenerateInterfaceMembers(
 
   WriteFieldAccessorDocComment(printer, descriptor_, SETTER);
   printer->Print(variables_,
-                 "$deprecation$$type$ set$capitalized_name$($type$ value);\n");
+                 "$deprecation$void set$capitalized_name$($type$ value);\n");
 }
 
 void ImmutablePrimitiveFieldGenerator::GenerateMembers(

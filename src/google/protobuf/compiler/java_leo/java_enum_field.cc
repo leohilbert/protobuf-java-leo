@@ -169,7 +169,7 @@ void ImmutableEnumFieldGenerator::GenerateInterfaceMembers(
 
   WriteFieldAccessorDocComment(printer, descriptor_, SETTER);
   printer->Print(variables_,
-                 "$deprecation$$type$ set$capitalized_name$($type$ value);\n");
+                 "$deprecation$void set$capitalized_name$($type$ value);\n");
 }
 
 void ImmutableEnumFieldGenerator::GenerateMembers(io::Printer* printer) const {
@@ -210,9 +210,10 @@ void ImmutableEnumFieldGenerator::GenerateMembers(io::Printer* printer) const {
                  "  if (value == null) {\n"
                  "    throw new NullPointerException();\n"
                  "  }\n"
-                 "  if($name$_ != value) {"
+                 "  int valueNumber = value.getNumber();\n"
+                 "  if($name$_ != valueNumber) {"
                  "    $set_has_field_bit_builder$\n"
-                 "    $name$_ = value;\n"
+                 "    $name$_ = valueNumber;\n"
                  "    $on_changed$\n"
                  "  }\n"
                  "}\n");

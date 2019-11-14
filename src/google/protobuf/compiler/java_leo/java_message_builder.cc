@@ -95,10 +95,7 @@ void MessageBuilderGenerator::Generate(io::Printer* printer) {
   } else {
     printer->Print(
         "public static final class Builder extends\n"
-        "    com.google.protobuf.GeneratedMessage$ver$.Builder<Builder> "
-        "implements\n"
-        "    $extra_interfaces$\n"
-        "    $classname$OrBuilder {\n",
+        "    com.google.protobuf.GeneratedMessage$ver$.Builder<Builder> {\n",
         "classname", name_resolver_->GetImmutableClassName(descriptor_),
         "extra_interfaces", ExtraBuilderInterfaces(descriptor_), "ver",
         GeneratedCodeVersionSuffix());
