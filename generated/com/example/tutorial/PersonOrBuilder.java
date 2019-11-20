@@ -8,99 +8,87 @@ public interface PersonOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>string name = 1[json_name = "name"];</code>
+   * <code>string name = 1;</code>
    * @return The name.
    */
   java.lang.String getName();
   /**
-   * <code>string name = 1[json_name = "name"];</code>
+   * <code>string name = 1;</code>
    * @return The bytes for name.
    */
   com.google.protobuf.ByteString
       getNameBytes();
-  /**
-   * <code>string name = 1[json_name = "name"];</code>
-   * @param value The name to set.
-   */
-  void setName(java.lang.String value);
 
   /**
    * <pre>
    * Unique ID number for this person.
    * </pre>
    *
-   * <code>int32 id = 2[json_name = "id"];</code>
+   * <code>int32 id = 2;</code>
    * @return The id.
    */
   int getId();
-  /**
-   * <pre>
-   * Unique ID number for this person.
-   * </pre>
-   *
-   * <code>int32 id = 2[json_name = "id"];</code>
-   * @param value The id to set.
-   */
-  void setId(int value);
 
   /**
-   * <code>string email = 3[json_name = "email"];</code>
+   * <code>string email = 3;</code>
    * @return The email.
    */
   java.lang.String getEmail();
   /**
-   * <code>string email = 3[json_name = "email"];</code>
+   * <code>string email = 3;</code>
    * @return The bytes for email.
    */
   com.google.protobuf.ByteString
       getEmailBytes();
-  /**
-   * <code>string email = 3[json_name = "email"];</code>
-   * @param value The email to set.
-   */
-  void setEmail(java.lang.String value);
 
   /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 4[json_name = "phones"];</code>
+   * <code>string uuid = 4 [(.tutorial.javatype) = "WURST"];</code>
+   * @return The uuid.
+   */
+  java.lang.String getUuid();
+  /**
+   * <code>string uuid = 4 [(.tutorial.javatype) = "WURST"];</code>
+   * @return The bytes for uuid.
+   */
+  com.google.protobuf.ByteString
+      getUuidBytes();
+
+  /**
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5;</code>
    */
   java.util.List<com.example.tutorial.Person.PhoneNumber> 
       getPhonesList();
   /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 4[json_name = "phones"];</code>
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5;</code>
    */
   com.example.tutorial.Person.PhoneNumber getPhones(int index);
   /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 4[json_name = "phones"];</code>
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5;</code>
    */
   int getPhonesCount();
   /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 4[json_name = "phones"];</code>
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5;</code>
    */
   java.util.List<? extends com.example.tutorial.Person.PhoneNumberOrBuilder> 
       getPhonesOrBuilderList();
   /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 4[json_name = "phones"];</code>
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5;</code>
    */
   com.example.tutorial.Person.PhoneNumberOrBuilder getPhonesOrBuilder(
       int index);
 
   /**
-   * <code>.google.protobuf.Timestamp last_updated = 5[json_name = "lastUpdated"];</code>
+   * <code>.google.protobuf.Timestamp last_updated = 6;</code>
    * @return Whether the lastUpdated field is set.
    */
   boolean hasLastUpdated();
   /**
-   * <code>.google.protobuf.Timestamp last_updated = 5[json_name = "lastUpdated"];</code>
+   * <code>.google.protobuf.Timestamp last_updated = 6;</code>
    * @return The lastUpdated.
    */
   com.google.protobuf.Timestamp getLastUpdated();
   /**
-   * <code>.google.protobuf.Timestamp last_updated = 5[json_name = "lastUpdated"];</code>
+   * <code>.google.protobuf.Timestamp last_updated = 6;</code>
    */
   com.google.protobuf.TimestampOrBuilder getLastUpdatedOrBuilder();
-  /**
-   * <code>.google.protobuf.Timestamp last_updated = 5[json_name = "lastUpdated"];</code>
-   * @param value The lastUpdated to set.
-   */
-  void setLastUpdated(com.google.protobuf.Timestamp value);
 }

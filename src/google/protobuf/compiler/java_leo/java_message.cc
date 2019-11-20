@@ -1175,17 +1175,15 @@ void ImmutableMessageGenerator::GenerateParsingConstructor(
       SortFieldsByNumber(descriptor_));
 
   printer->Print(
-      "private $classname$(\n"
+      "public $classname$(\n"
       "    com.google.protobuf.CodedInputStream input,\n"
       "    com.google.protobuf.ExtensionRegistryLite extensionRegistry)\n"
       "    throws com.google.protobuf.InvalidProtocolBufferException {\n",
       "classname", descriptor_->name());
-  printer->Indent();
-
   // Initialize all fields to default.
   printer->Print(
-      "this();\n"
-      "updateFrom(input, extensionRegistry);\n"
+      "  this();\n"
+      "  updateFrom(input, extensionRegistry);\n"
       "}\n");
 }
 
@@ -1196,7 +1194,7 @@ void ImmutableMessageGenerator::GenerateUpdateFromMethod(
       SortFieldsByNumber(descriptor_));
 
   printer->Print(
-      "private void updateFrom(\n"
+      "public void updateFrom(\n"
       "    com.google.protobuf.CodedInputStream input,\n"
       "    com.google.protobuf.ExtensionRegistryLite extensionRegistry)\n"
       "    throws com.google.protobuf.InvalidProtocolBufferException {\n",

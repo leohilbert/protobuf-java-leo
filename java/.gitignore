@@ -3,3 +3,6 @@
 .idea
 .pmd
 target/
+.settings/
+.classpath
+.project
