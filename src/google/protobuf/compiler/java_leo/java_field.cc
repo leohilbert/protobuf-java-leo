@@ -48,6 +48,7 @@
 #include <google/protobuf/io/printer.h>
 #include <google/protobuf/stubs/strutil.h>
 
+#include "javaleo/proto/options.pb.h"
 
 namespace google {
 namespace protobuf {
@@ -60,6 +61,7 @@ ImmutableFieldGenerator* MakeImmutableGenerator(const FieldDescriptor* field,
                                                 int messageBitIndex,
                                                 int builderBitIndex,
                                                 Context* context) {
+  string test = field->options().GetExtension(javaleo::proto::javatype);
   if (field->is_repeated()) {
     switch (GetJavaType(field)) {
       case JAVATYPE_MESSAGE:

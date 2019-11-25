@@ -3,31 +3,33 @@ package tutorial;
 option java_multiple_files = true;
 
 import "google/protobuf/timestamp.proto";
+import "options.proto";
 
 option java_package = "com.example.tutorial";
 option java_outer_classname = "AddressBookProtos";
 
 enum PhoneType {
-  MOBILE = 0;
-  HOME = 1;
-  WORK = 2;
+    MOBILE = 0;
+    HOME = 1;
+    WORK = 2;
 }
 
 message Person {
-  string name = 1;
-  int32 id = 2;  // Unique ID number for this person.
-  string email = 3;
+    string id = 1 [(javaleo.proto.javatype) = "uuid"];
+    string name = 2;
+    int32 age = 3;
+    string email = 4;
 
-  message PhoneNumber {
-    string number = 1;
-    PhoneType type = 2;
-  }
+    message PhoneNumber {
+        string number = 1;
+        PhoneType type = 2;
+    }
 
-  repeated PhoneNumber phones = 4;
+    repeated PhoneNumber phones = 5;
 
-  google.protobuf.Timestamp last_updated = 5;
+    google.protobuf.Timestamp last_updated = 6;
 }
 
 message AddressBook {
-  repeated Person people = 1;
+    repeated Person people = 1;
 }

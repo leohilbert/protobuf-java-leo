@@ -4,7 +4,9 @@ based on googles [protoc java compiler](https://github.com/protocolbuffers/proto
 
 Example usage (execute in project-root)
 ---------------------------------
-```
-protoc --plugin=protoc-gen-java-leo=build/protoc-gen-java-leo --java-leo_out=./build ./examples/addressbook.proto
-```
+## ./generate.sh  
+Compiles the project and generates the javaclasses for my test-proto file into ./generated
 
+## ./createDebugInput.sh  
+Will use protoc on the test-proto file and store the CodeGenerationRequest in text-form in ./generated/code_generator_request.pb.bin 
+This allows you to debug the plugin by adding "debugInput" as a program argument (see main.cpp)
