@@ -17,7 +17,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private Person() {
-    id_ = "";
+    id_ = null;
     name_ = "";
     email_ = "";
     phones_ = java.util.Collections.emptyList();
@@ -61,9 +61,8 @@ private static final long serialVersionUID = 0L;
             done = true;
             break;
           case 10: {
-            java.lang.String s = input.readStringRequireUtf8();
 
-            id_ = s;
+            id_ = de.leohilbert.protoconverter.ProtoConverter_JAVA_UTIL_UUID.fromProto(input.readString());
             break;
           }
           case 18: {
@@ -74,7 +73,7 @@ private static final long serialVersionUID = 0L;
           }
           case 24: {
 
-            age_ = input.readInt32();
+            age_ = (input.readInt32());
             break;
           }
           case 34: {
@@ -856,51 +855,23 @@ private static final long serialVersionUID = 0L;
   }
 
   public static final int ID_FIELD_NUMBER = 1;
-  private volatile java.lang.Object id_;
+  private java.util.UUID id_;
   /**
-   * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "uuid"];</code>
+   * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "java.util.UUID"];</code>
    * @return The id.
    */
-  public java.lang.String getId() {
-    java.lang.Object ref = id_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      id_ = s;
-      return s;
-    }
+  public java.util.UUID getId() {
+    return id_;
   }
   /**
-   * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "uuid"];</code>
-   * @return The bytes for id.
-   */
-  public com.google.protobuf.ByteString
-      getIdBytes() {
-    java.lang.Object ref = id_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      id_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
-  }
-  /**
-   * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "uuid"];</code>
+   * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "java.util.UUID"];</code>
    * @param value The id to set.
    */
-  public void setId(
-      java.lang.String value) {
+  public void setId(java.util.UUID value) {
     if (value == null) {
-      throw new NullPointerException();
-    }
-    
-    if(!value.equals(id_)) {
+    throw new NullPointerException();
+  }
+  if(id_ != value) {    
       id_ = value;
       onChanged();
     }
@@ -1113,14 +1084,14 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (!getIdBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, id_);
+    if (id_ != null) {
+      output.writeString(1, de.leohilbert.protoconverter.ProtoConverter_JAVA_UTIL_UUID.toProto(id_));
     }
     if (!getNameBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
     }
     if (age_ != 0) {
-      output.writeInt32(3, age_);
+      output.writeInt32(3, (age_));
     }
     if (!getEmailBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 4, email_);
@@ -1140,15 +1111,16 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (!getIdBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, id_);
+    if (id_ != null) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeStringSize(1, de.leohilbert.protoconverter.ProtoConverter_JAVA_UTIL_UUID.toProto(id_));
     }
     if (!getNameBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
     }
     if (age_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(3, age_);
+        .computeInt32Size(3, (age_));
     }
     if (!getEmailBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, email_);
@@ -1350,7 +1322,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      id_ = "";
+      id_ = null;
 
       name_ = "";
 
@@ -1463,9 +1435,8 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(com.example.tutorial.Person other) {
       if (other == com.example.tutorial.Person.getDefaultInstance()) return this;
-      if (!other.getId().isEmpty()) {
-        id_ = other.id_;
-        onChanged();
+      if (other.getId() != null) {
+        setId(other.getId());
       }
       if (!other.getName().isEmpty()) {
         name_ = other.name_;
@@ -1537,47 +1508,20 @@ private static final long serialVersionUID = 0L;
     }
     private int bitField0_;
 
-    private java.lang.Object id_ = "";
+    private java.util.UUID id_ ;
     /**
-     * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "uuid"];</code>
+     * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "java.util.UUID"];</code>
      * @return The id.
      */
-    public java.lang.String getId() {
-      java.lang.Object ref = id_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        id_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
+    public java.util.UUID getId() {
+      return id_;
     }
     /**
-     * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "uuid"];</code>
-     * @return The bytes for id.
-     */
-    public com.google.protobuf.ByteString
-        getIdBytes() {
-      java.lang.Object ref = id_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        id_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    /**
-     * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "uuid"];</code>
+     * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "java.util.UUID"];</code>
      * @param value The id to set.
      * @return This builder for chaining.
      */
-    public Builder setId(
-        java.lang.String value) {
+    public Builder setId(java.util.UUID value) {
       if (value == null) {
     throw new NullPointerException();
   }
@@ -1587,28 +1531,12 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "uuid"];</code>
+     * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "java.util.UUID"];</code>
      * @return This builder for chaining.
      */
     public Builder clearId() {
       
-      id_ = getDefaultInstance().getId();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "uuid"];</code>
-     * @param value The bytes for id to set.
-     * @return This builder for chaining.
-     */
-    public Builder setIdBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      id_ = value;
+      id_ = null;
       onChanged();
       return this;
     }

@@ -39,19 +39,19 @@ public final class AddressBookProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n\021addressbook.proto\022\010tutorial\032\037google/pr" +
-      "otobuf/timestamp.proto\032\roptions.proto\"\243\002" +
-      "\n\006Person\022\030\n\002id\030\001 \001(\tB\010\222\202\031\004uuidR\002id\022\022\n\004na" +
-      "me\030\002 \001(\tR\004name\022\020\n\003age\030\003 \001(\005R\003age\022\024\n\005emai" +
-      "l\030\004 \001(\tR\005email\0224\n\006phones\030\005 \003(\0132\034.tutoria" +
-      "l.Person.PhoneNumberR\006phones\022=\n\014last_upd" +
-      "ated\030\006 \001(\0132\032.google.protobuf.TimestampR\013" +
-      "lastUpdated\032N\n\013PhoneNumber\022\026\n\006number\030\001 \001" +
-      "(\tR\006number\022\'\n\004type\030\002 \001(\0162\023.tutorial.Phon" +
-      "eTypeR\004type\"7\n\013AddressBook\022(\n\006people\030\001 \003" +
-      "(\0132\020.tutorial.PersonR\006people*+\n\tPhoneTyp" +
-      "e\022\n\n\006MOBILE\020\000\022\010\n\004HOME\020\001\022\010\n\004WORK\020\002B+\n\024com" +
-      ".example.tutorialB\021AddressBookProtosP\001b\006" +
-      "proto3"
+      "otobuf/timestamp.proto\032\roptions.proto\"\255\002" +
+      "\n\006Person\022\"\n\002id\030\001 \001(\tB\022\222\202\031\016java.util.UUID" +
+      "R\002id\022\022\n\004name\030\002 \001(\tR\004name\022\020\n\003age\030\003 \001(\005R\003a" +
+      "ge\022\024\n\005email\030\004 \001(\tR\005email\0224\n\006phones\030\005 \003(\013" +
+      "2\034.tutorial.Person.PhoneNumberR\006phones\022=" +
+      "\n\014last_updated\030\006 \001(\0132\032.google.protobuf.T" +
+      "imestampR\013lastUpdated\032N\n\013PhoneNumber\022\026\n\006" +
+      "number\030\001 \001(\tR\006number\022\'\n\004type\030\002 \001(\0162\023.tut" +
+      "orial.PhoneTypeR\004type\"7\n\013AddressBook\022(\n\006" +
+      "people\030\001 \003(\0132\020.tutorial.PersonR\006people*+" +
+      "\n\tPhoneType\022\n\n\006MOBILE\020\000\022\010\n\004HOME\020\001\022\010\n\004WOR" +
+      "K\020\002B+\n\024com.example.tutorialB\021AddressBook" +
+      "ProtosP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

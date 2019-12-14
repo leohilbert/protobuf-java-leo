@@ -203,6 +203,7 @@ std::string FieldConstantName(const FieldDescriptor* field);
 FieldDescriptor::Type GetType(const FieldDescriptor* field);
 
 enum JavaType {
+  JAVATYPE_CUSTOM,
   JAVATYPE_INT,
   JAVATYPE_LONG,
   JAVATYPE_FLOAT,
@@ -213,6 +214,8 @@ enum JavaType {
   JAVATYPE_ENUM,
   JAVATYPE_MESSAGE
 };
+
+std::string GetCustomJavaType(const FieldDescriptor* field);
 
 JavaType GetJavaType(const FieldDescriptor* field);
 

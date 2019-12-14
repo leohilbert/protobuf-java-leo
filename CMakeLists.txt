@@ -3,7 +3,7 @@ project(protoc-gen-java-leo)
 
 set(CMAKE_CXX_STANDARD 17)
 
-file(GLOB SRC "src/google/protobuf/compiler/java_leo/*.cc" "src/javaleo/proto/*.cc")
+file(GLOB SRC "src/javaleo/proto/*" "src/google/protobuf/compiler/java_leo/*.cc")
 
 find_library(PROTOBUF_LITE protobuf-lite)
 find_library(PROTOBUF protobuf)

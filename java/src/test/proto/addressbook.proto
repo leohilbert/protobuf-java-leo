@@ -15,7 +15,7 @@ enum PhoneType {
 }
 
 message Person {
-    string id = 1 [(javaleo.proto.javatype) = "uuid"];
+    string id = 1 [(javaleo.proto.javatype) = "java.util.UUID"];
     string name = 2;
     int32 age = 3;
     string email = 4;

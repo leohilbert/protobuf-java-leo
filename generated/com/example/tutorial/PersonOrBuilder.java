@@ -8,21 +8,15 @@ public interface PersonOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "uuid"];</code>
+   * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "java.util.UUID"];</code>
    * @return The id.
    */
-  java.lang.String getId();
+  java.util.UUID getId();
   /**
-   * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "uuid"];</code>
-   * @return The bytes for id.
-   */
-  com.google.protobuf.ByteString
-      getIdBytes();
-  /**
-   * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "uuid"];</code>
+   * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "java.util.UUID"];</code>
    * @param value The id to set.
    */
-  void setId(java.lang.String value);
+  void setId(java.util.UUID value);
 
   /**
    * <code>string name = 2[json_name = "name"];</code>

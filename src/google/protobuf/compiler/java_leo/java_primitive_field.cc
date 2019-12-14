@@ -56,6 +56,7 @@ using internal::WireFormatLite;
 
 namespace {
 
+string buildConverterName(const string &customType);
 void SetPrimitiveVariables(const FieldDescriptor* descriptor,
                            int messageBitIndex, int builderBitIndex,
                            const FieldGeneratorInfo* info,
@@ -64,9 +65,30 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
   SetCommonFieldVariables(descriptor, info, variables);
   JavaType javaType = GetJavaType(descriptor);
 
-  (*variables)["type"] = PrimitiveTypeName(javaType);
-  (*variables)["boxed_type"] = BoxedPrimitiveTypeName(javaType);
-  (*variables)["field_type"] = (*variables)["type"];
+  if (javaType == JAVATYPE_CUSTOM) {
+    const string &customType = GetCustomJavaType(descriptor);
+    (*variables)["type"] = customType;
+    (*variables)["boxed_type"] = customType;
+    (*variables)["field_type"] = (*variables)["type"];
+    (*variables)["default"] = "null";
+    (*variables)["default_init"] = "";
+
+    string converterName = buildConverterName(customType);
+    (*variables)["customTypeParse"] = converterName + ".fromProto";
+    (*variables)["customTypeSerialize"] = converterName + ".toProto";
+  } else {
+    (*variables)["type"] = PrimitiveTypeName(javaType);
+    (*variables)["boxed_type"] = BoxedPrimitiveTypeName(javaType);
+    (*variables)["field_type"] = (*variables)["type"];
+    (*variables)["default"] = ImmutableDefaultValue(descriptor, name_resolver);
+    (*variables)["default_init"] =
+        IsDefaultValueJavaDefault(descriptor) ? "" :
+        ("= " + ImmutableDefaultValue(descriptor, name_resolver));
+
+    (*variables)["customTypeParse"] = "";
+    (*variables)["customTypeSerialize"] = "";
+
+  }
 
   if (javaType == JAVATYPE_BOOLEAN || javaType == JAVATYPE_DOUBLE ||
       javaType == JAVATYPE_FLOAT || javaType == JAVATYPE_INT ||
@@ -103,12 +125,6 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
     (*variables)["repeated_add"] = (*variables)["name"] + "_.add";
     (*variables)["repeated_set"] = (*variables)["name"] + "_.set";
   }
-
-  (*variables)["default"] = ImmutableDefaultValue(descriptor, name_resolver);
-  (*variables)["default_init"] =
-      IsDefaultValueJavaDefault(descriptor)
-          ? ""
-          : ("= " + ImmutableDefaultValue(descriptor, name_resolver));
   (*variables)["capitalized_type"] =
       GetCapitalizedType(descriptor, /* immutable = */ true);
   (*variables)["tag"] =
@@ -177,6 +193,13 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
       GenerateGetBitFromLocal(builderBitIndex);
   (*variables)["set_has_field_bit_to_local"] =
       GenerateSetBitToLocal(messageBitIndex);
+}
+
+string buildConverterName(const string &customType) {
+  std::string name(customType);
+  std::transform(name.begin(), name.end(), name.begin(), toupper);
+  std::replace(name.begin(), name.end(), '.', '_');
+  return "de.leohilbert.protoconverter.ProtoConverter_" + name;
 }
 
 }  // namespace
@@ -369,7 +392,7 @@ void ImmutablePrimitiveFieldGenerator::GenerateParsingCode(
     io::Printer* printer) const {
   printer->Print(variables_,
                  "$set_has_field_bit_message$\n"
-                 "$name$_ = input.read$capitalized_type$();\n");
+                 "$name$_ = $customTypeParse$(input.read$capitalized_type$());\n");
 }
 
 void ImmutablePrimitiveFieldGenerator::GenerateParsingDoneCode(
@@ -381,7 +404,7 @@ void ImmutablePrimitiveFieldGenerator::GenerateSerializationCode(
     io::Printer* printer) const {
   printer->Print(variables_,
                  "if ($is_field_present_message$) {\n"
-                 "  output.write$capitalized_type$($number$, $name$_);\n"
+                 "  output.write$capitalized_type$($number$, $customTypeSerialize$($name$_));\n"
                  "}\n");
 }
 
@@ -390,7 +413,7 @@ void ImmutablePrimitiveFieldGenerator::GenerateSerializedSizeCode(
   printer->Print(variables_,
                  "if ($is_field_present_message$) {\n"
                  "  size += com.google.protobuf.CodedOutputStream\n"
-                 "    .compute$capitalized_type$Size($number$, $name$_);\n"
+                 "    .compute$capitalized_type$Size($number$, $customTypeSerialize$($name$_));\n"
                  "}\n");
 }
 
@@ -422,6 +445,7 @@ void ImmutablePrimitiveFieldGenerator::GenerateEqualsCode(
       break;
 
     case JAVATYPE_STRING:
+    case JAVATYPE_CUSTOM:
     case JAVATYPE_BYTES:
       printer->Print(
           variables_,
@@ -474,6 +498,7 @@ void ImmutablePrimitiveFieldGenerator::GenerateHashCode(
       break;
 
     case JAVATYPE_STRING:
+    case JAVATYPE_CUSTOM:
     case JAVATYPE_BYTES:
       printer->Print(
           variables_,

@@ -316,7 +316,25 @@ FieldDescriptor::Type GetType(const FieldDescriptor* field) {
   return field->type();
 }
 
+/**
+ * This is a dirty hack for now, since I'm unable to retrieve the custom field-option
+ * see https://groups.google.com/forum/#!topic/protobuf/qLGAMQRj4w4
+ * @param field field-descriptor
+ * @return the value of the javaleo.proto.javatype
+ */
+std::string GetCustomJavaType(const FieldDescriptor* field) {
+  std::string debugString = field->options().DebugString();
+  if (debugString.find("51234") == 0) {
+    return debugString.substr(8, debugString.rfind('"') - 8);
+  }
+  return "";
+}
+
 JavaType GetJavaType(const FieldDescriptor* field) {
+  if (!GetCustomJavaType(field).empty()) {
+    return JAVATYPE_CUSTOM;
+  }
+
   switch (GetType(field)) {
     case FieldDescriptor::TYPE_INT32:
     case FieldDescriptor::TYPE_UINT32:
@@ -379,10 +397,9 @@ const char* PrimitiveTypeName(JavaType type) {
     case JAVATYPE_BYTES:
       return "com.google.protobuf.ByteString";
     case JAVATYPE_ENUM:
-      return NULL;
     case JAVATYPE_MESSAGE:
+    case JAVATYPE_CUSTOM:
       return NULL;
-
       // No default because we want the compiler to complain if any new
       // JavaTypes are added.
   }
@@ -412,8 +429,8 @@ const char* BoxedPrimitiveTypeName(JavaType type) {
     case JAVATYPE_BYTES:
       return "com.google.protobuf.ByteString";
     case JAVATYPE_ENUM:
-      return NULL;
     case JAVATYPE_MESSAGE:
+    case JAVATYPE_CUSTOM:
       return NULL;
 
       // No default because we want the compiler to complain if any new
@@ -712,7 +729,8 @@ bool IsReferenceType(JavaType type) {
       return true;
     case JAVATYPE_MESSAGE:
       return true;
-
+    case JAVATYPE_CUSTOM:
+      return true;
       // No default because we want the compiler to complain if any new
       // JavaTypes are added.
   }
