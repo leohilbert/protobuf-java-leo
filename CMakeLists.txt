@@ -9,6 +9,8 @@ find_library(PROTOBUF_LITE protobuf-lite)
 find_library(PROTOBUF protobuf)
 find_library(PROTOC protoc)
 
+#message(${PROTOC})
+
 add_executable(${CMAKE_PROJECT_NAME} ${SRC} main.cpp)
 target_link_libraries(${CMAKE_PROJECT_NAME} ${PROTOBUF_LITE})
 target_link_libraries(${CMAKE_PROJECT_NAME} ${PROTOBUF})

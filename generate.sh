@@ -1,4 +1,10 @@
+#!/bin/bash
 set -e
+
+# --------------------------------------------------------------------------------
+# Compiles the project and generates the javaclasses for my test-proto file into ./generated
+# --------------------------------------------------------------------------------
+
 mkdir -p build
 
 protoc --proto_path=java/src/test/proto \
