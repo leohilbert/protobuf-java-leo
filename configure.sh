@@ -2,17 +2,25 @@
 set -e
 
 # --------------------------------------------------------------------------------
-# Downloads and compiles the current supported protoc-release to place it into the "protoc"-folder.
-# This should be used during compile to ensure the same protoc-binary&libraries is used.
+# Downloads the current supported protoc-release to place it into the "protoc"-folder.
+# This binary should be used during compile to ensure the same protoc-binary&libraries is used.
 # --------------------------------------------------------------------------------
 
-latestProtocRelease=$(<fetch/protoc_commit.txt)
+latestProtocRelease=$(<fetch/protoc_release.txt)
 
-docker build -t leo/protoc:$latestProtocRelease --build-arg PROTOBUF_VERSION=$latestProtocRelease docker/protoc
-containerName=$(docker create leo/protoc:$latestProtocRelease)
+case "$(uname -s)" in
+Darwin)
+  os='macos'
+  ;;
+Linux)
+  os='linux'
+  ;;
+CYGWIN* | MINGW32* | MSYS*)
+  os='windows'
+  ;;
+esac
 
-rm -rf protoc && mkdir protoc
-docker cp $containerName:/out/usr/include protoc/include
-docker cp $containerName:/out/usr/bin protoc/bin
-docker cp $containerName:/out/usr/lib protoc/lib
-docker rm $containerName
+url=https://github.com/leohilbert/protobuf-compile/releases/download/$latestProtocRelease/protoc-$latestProtocRelease-$os.zip
+echo "Downloading $url"
+rm -rf ./protoc && mkdir ./protoc
+curl -SL $url | tar -xz - -C ./protoc

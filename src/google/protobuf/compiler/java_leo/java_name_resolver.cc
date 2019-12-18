@@ -34,7 +34,6 @@
 #include <string>
 
 #include <google/protobuf/compiler/java_leo/java_helpers.h>
-#include <google/protobuf/stubs/substitute.h>
 
 namespace google {
 namespace protobuf {

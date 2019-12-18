@@ -52,7 +52,6 @@
 #include <google/protobuf/io/printer.h>
 #include <google/protobuf/wire_format.h>
 #include <google/protobuf/stubs/strutil.h>
-#include <google/protobuf/stubs/substitute.h>
 
 namespace google {
 namespace protobuf {
@@ -314,10 +313,9 @@ void ImmutableMessageGenerator::Generate(io::Printer* printer) {
         "      $classname$> implements\n"
         "    $extra_interfaces$\n"
         "    $classname$OrBuilder {\n");
-    builder_type = strings::Substitute(
-        "com.google.protobuf.GeneratedMessage$1.ExtendableBuilder<$0, ?>",
-        name_resolver_->GetImmutableClassName(descriptor_),
-        GeneratedCodeVersionSuffix());
+    builder_type =
+        "com.google.protobuf.GeneratedMessage" + GeneratedCodeVersionSuffix() +
+            ".ExtendableBuilder<" + name_resolver_->GetImmutableClassName(descriptor_) + ", ?>";
   } else {
     printer->Print(
         variables,
@@ -329,8 +327,7 @@ void ImmutableMessageGenerator::Generate(io::Printer* printer) {
                    "    $extra_interfaces$\n"
                    "    $classname$OrBuilder {\n");
     builder_type =
-        strings::Substitute("com.google.protobuf.GeneratedMessage$0.Builder<?>",
-                            GeneratedCodeVersionSuffix());
+        "com.google.protobuf.GeneratedMessage" + GeneratedCodeVersionSuffix() + ".Builder<?>";
   }
   printer->Print("private static final long serialVersionUID = 0L;\n");
 

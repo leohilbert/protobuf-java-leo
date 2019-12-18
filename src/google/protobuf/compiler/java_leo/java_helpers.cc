@@ -39,12 +39,10 @@
 #include <unordered_set>
 #include <vector>
 
-#include <google/protobuf/stubs/stringprintf.h>
 #include <google/protobuf/compiler/java_leo/java_name_resolver.h>
 #include <google/protobuf/descriptor.pb.h>
 #include <google/protobuf/wire_format.h>
 #include <google/protobuf/stubs/strutil.h>
-#include <google/protobuf/stubs/substitute.h>
 #include <google/protobuf/stubs/hash.h>  // for hash<T *>
 
 namespace google {
@@ -558,9 +556,8 @@ std::string DefaultValue(const FieldDescriptor* field, bool immutable,
       if (GetType(field) == FieldDescriptor::TYPE_BYTES) {
         if (field->has_default_value()) {
           // See comments in Internal.java for gory details.
-          return strings::Substitute(
-              "com.google.protobuf.Internal.bytesDefaultValue(\"$0\")",
-              CEscape(field->default_value_string()));
+          return
+              "com.google.protobuf.Internal.bytesDefaultValue(\"" + CEscape(field->default_value_string()) + "\")";
         } else {
           return "com.google.protobuf.ByteString.EMPTY";
         }
@@ -570,9 +567,8 @@ std::string DefaultValue(const FieldDescriptor* field, bool immutable,
           return "\"" + CEscape(field->default_value_string()) + "\"";
         } else {
           // See comments in Internal.java for gory details.
-          return strings::Substitute(
-              "com.google.protobuf.Internal.stringDefaultValue(\"$0\")",
-              CEscape(field->default_value_string()));
+          return
+              "com.google.protobuf.Internal.stringDefaultValue(\"" + CEscape(field->default_value_string()) + "\")";
         }
       }
 
@@ -1009,31 +1005,6 @@ int GetExperimentalJavaFieldType(const FieldDescriptor* field) {
            extra_bits;
   } else {
     return GetExperimentalJavaFieldTypeForSingular(field) | extra_bits;
-  }
-}
-
-// Escape a UTF-16 character to be embedded in a Java string.
-void EscapeUtf16ToString(uint16 code, std::string* output) {
-  if (code == '\t') {
-    output->append("\\t");
-  } else if (code == '\b') {
-    output->append("\\b");
-  } else if (code == '\n') {
-    output->append("\\n");
-  } else if (code == '\r') {
-    output->append("\\r");
-  } else if (code == '\f') {
-    output->append("\\f");
-  } else if (code == '\'') {
-    output->append("\\'");
-  } else if (code == '\"') {
-    output->append("\\\"");
-  } else if (code == '\\') {
-    output->append("\\\\");
-  } else if (code >= 0x20 && code <= 0x7f) {
-    output->push_back(static_cast<char>(code));
-  } else {
-    output->append(StringPrintf("\\u%04x", code));
   }
 }
 

@@ -48,4 +48,5 @@ if [ -s $patchTempDir ]; then git apply -3 <$patchTempDir; fi
 echo "$newCommitId" >fetch/protoc_commit.txt
 echo "$latestRelease" >fetch/protoc_release.txt
 
-./configure.sh $googleDir
+./configure.sh
+./generate.sh
