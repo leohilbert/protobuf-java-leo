@@ -24,7 +24,10 @@ url=https://github.com/leohilbert/protobuf-compile/releases/download/$latestProt
 echo "Downloading $url"
 rm -rf ./protoc && mkdir ./protoc
 
-if [ $os == "macos" ]; then curl -SL $url | tar -xz - -C ./protoc; fi
+if [ $os == "macos" ];
+  then
+    curl -SL $url | tar -xz - -C ./protoc
+fi
 if [ $os == "linux" ]
   then
     sudo apt-get install bsdtar
