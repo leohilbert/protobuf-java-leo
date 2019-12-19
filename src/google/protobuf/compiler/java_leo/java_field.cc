@@ -61,7 +61,6 @@ ImmutableFieldGenerator* MakeImmutableGenerator(const FieldDescriptor* field,
                                                 int messageBitIndex,
                                                 int builderBitIndex,
                                                 Context* context) {
-  string test = field->options().GetExtension(javaleo::proto::javatype);
   if (field->is_repeated()) {
     switch (GetJavaType(field)) {
       case JAVATYPE_MESSAGE:

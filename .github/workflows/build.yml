@@ -1,0 +1,25 @@
+name: build plugin
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: configure
+        run: ./configure.sh
+      - name: install protoc
+        run: sudo cp -R ./protoc /usr/local
+      - name: install
+        run: |
+          mkdir -p build
+          cd build || exit
+          cmake ..
+          make
+      - name: Upload
+        uses: actions/upload-artifact@v1
+        with:
+          name: protoc-gen-java-leo
+          path: ./build/protoc-gen-java-leo
