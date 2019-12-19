@@ -4,8 +4,10 @@ on: [push]
 
 jobs:
   build:
-    runs-on: macos-latest
-
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
     steps:
       - uses: actions/checkout@v1
       - name: configure
@@ -21,5 +23,5 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v1
         with:
-          name: protoc-gen-java-leo
+          name: protoc-gen-java-leo-${{ matrix.os }}
           path: ./build/protoc-gen-java-leo
