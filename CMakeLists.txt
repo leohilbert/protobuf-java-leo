@@ -6,16 +6,13 @@ set(LIB_PATH protoc/lib)
 
 file(GLOB SRC "src/javaleo/proto/*" "src/google/protobuf/compiler/java_leo/*.cc")
 
-find_library(PROTOBUF_LITE NAMES protobuf-lite PATHS ${LIB_PATH} NO_DEFAULT_PATH)
 find_library(PROTOBUF NAMES protobuf PATHS ${LIB_PATH} NO_DEFAULT_PATH)
 find_library(PROTOC NAMES protoc PATHS ${LIB_PATH} NO_DEFAULT_PATH)
 
-message("Using ${PROTOBUF_LITE}")
 message("Using ${PROTOBUF}")
 message("Using ${PROTOC}")
 
 add_executable(${CMAKE_PROJECT_NAME} ${SRC} main.cpp)
-target_link_libraries(${CMAKE_PROJECT_NAME} ${PROTOBUF_LITE})
 target_link_libraries(${CMAKE_PROJECT_NAME} ${PROTOBUF})
 target_link_libraries(${CMAKE_PROJECT_NAME} ${PROTOC})
 

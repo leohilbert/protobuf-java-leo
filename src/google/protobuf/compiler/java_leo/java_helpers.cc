@@ -44,6 +44,7 @@
 #include <google/protobuf/wire_format.h>
 #include <google/protobuf/stubs/strutil.h>
 #include <google/protobuf/stubs/hash.h>  // for hash<T *>
+#include <javaleo/proto/options.pb.h>
 
 namespace google {
 namespace protobuf {
@@ -314,18 +315,8 @@ FieldDescriptor::Type GetType(const FieldDescriptor* field) {
   return field->type();
 }
 
-/**
- * This is a dirty hack for now, since I'm unable to retrieve the custom field-option
- * see https://groups.google.com/forum/#!topic/protobuf/qLGAMQRj4w4
- * @param field field-descriptor
- * @return the value of the javaleo.proto.javatype
- */
 std::string GetCustomJavaType(const FieldDescriptor* field) {
-  std::string debugString = field->options().DebugString();
-  if (debugString.find("51234") == 0) {
-    return debugString.substr(8, debugString.rfind('"') - 8);
-  }
-  return "";
+  return field->options().GetExtension(javaleo::proto::javatype);
 }
 
 JavaType GetJavaType(const FieldDescriptor* field) {
