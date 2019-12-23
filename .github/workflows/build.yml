@@ -1,0 +1,63 @@
+name: build plugin
+
+on: [push]
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: publish
+        uses: machine-learning-apps/gpr-docker-publish@master
+        id: docker
+        with:
+          IMAGE_NAME: 'protoc-leo'
+          DOCKERFILE_PATH: 'Dockerfile'
+          BUILD_CONTEXT: '.'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v1
+      - name: configure
+        run: ./configure.sh
+      - name: install protoc
+        run: sudo cp -R ./protoc /usr/local
+      - name: install
+        run: |
+          mkdir -p build
+          cd build || exit
+          cmake ..
+          make
+      - name: Upload
+        uses: actions/upload-artifact@v1
+        with:
+          name: protoc-gen-java-leo-${{ matrix.os }}
+          path: ./build/protoc-gen-java-leo
+  build-windows:
+    if: startsWith(github.ref, 'disabled')
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: configure
+        run: |
+          $latestProtocRelease = Get-Content fetch/protoc_release.txt -First 1
+          $url="https://github.com/leohilbert/protobuf-compile/releases/download/$latestProtocRelease/protoc-$latestProtocRelease-windows.zip"
+          Write-Output "Downloading $url"
+          Invoke-WebRequest -uri $url -outfile protoc.zip
+          Expand-Archive protoc.zip protoc
+      - name: install
+        run: |
+          mkdir -p build
+          cd build
+          cmake ..
+          make
+      - name: Upload
+        uses: actions/upload-artifact@v1
+        with:
+          name: protoc-gen-java-leo-${{ matrix.os }}
+          path: ./build/

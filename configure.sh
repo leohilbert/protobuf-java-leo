@@ -23,4 +23,7 @@ esac
 url=https://github.com/leohilbert/protobuf-compile/releases/download/$latestProtocRelease/protoc-$latestProtocRelease-$os.zip
 echo "Downloading $url"
 rm -rf ./protoc && mkdir ./protoc
-curl -SL $url | tar -xz - -C ./protoc
+
+wget $url -q -O protoc.zip
+unzip protoc.zip -d protoc
+rm protoc.zip

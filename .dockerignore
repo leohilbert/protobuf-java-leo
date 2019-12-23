@@ -1,0 +1,9 @@
+.git
+**/.DS_Store
+generated
+build
+protoc
+Dockerfile
+.idea
+github
+.github
