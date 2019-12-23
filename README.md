@@ -42,7 +42,7 @@ Get started
 ==========================================
 The easiest way to compile java-classes with this plugin, is by using the docker-image.
 You don't even need to have protoc installed.
-Take a look at the `runAsDocker.sh`. You can also use the images I push to the [Github Dockerregistry](https://github.com/leohilbert/protoc-gen-java-leo/packages).
+Take a look at the `runAsDocker.sh`. You can also use the images I push to the [DockerHub](https://hub.docker.com/repository/docker/leohilbert/protoc-gen-java-leo).
 
 I also added Github-Actions to compile the plugin for Windows, Linux and MacOS.  
 Of course, you can also compile it yourself by checking the Compile-Guide
