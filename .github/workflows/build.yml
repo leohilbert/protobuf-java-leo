@@ -39,6 +39,7 @@ jobs:
           name: protoc-gen-java-leo-${{ matrix.os }}
           path: ./build/protoc-gen-java-leo
   build-windows:
+    if: startsWith(github.ref, 'disabled')
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v1

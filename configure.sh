@@ -26,3 +26,4 @@ rm -rf ./protoc && mkdir ./protoc
 
 wget $url -q -O protoc.zip
 unzip protoc.zip -d protoc
+rm protoc.zip
