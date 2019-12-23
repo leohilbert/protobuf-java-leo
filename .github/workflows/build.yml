@@ -3,8 +3,9 @@ name: build plugin
 on: [push]
 
 jobs:
-  docker:
+  docker-push:
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
     steps:
       - uses: actions/checkout@master
       - name: publish
@@ -12,6 +13,7 @@ jobs:
         id: docker
         with:
           IMAGE_NAME: 'protoc-leo'
+          TAG: 'latest'
           DOCKERFILE_PATH: 'Dockerfile'
           BUILD_CONTEXT: '.'
         env:
