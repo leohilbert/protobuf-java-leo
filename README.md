@@ -1,18 +1,63 @@
-Leo's custom java-compiler for Proto-files (work in progress!)  
+Leo's custom java-compiler for Proto-files  
 ==========================================
 based on googles [protoc java compiler](https://github.com/protocolbuffers/protobuf/tree/master/src/google/protobuf/compiler/java).
 
-Installation-Guide
+Motivation
 ==========================================
+I want to use proto-messages both as my internal datamodel as well as the DTOs for my network.
+Using protobuf as an internal datamodel has several benefits:
+1. **It's really fast.**  
+No reflections or complex type-mappings. Just field->bytearray in plain java. Much faster than let's say Hybernate or Java-Ser.
+2. **No more wrapper-classes**  
+In my current implementation every object in my datamodel has a "toProto" and "fromProto"-method that copies
+over the parsed Proto-Messages into the mutable "business-logic" javaclasses and vice-versa. The idea is to use the 
+Proto-Messages AS the internal "business-logic" classes as well.
+3. **It's simple**  
+With serialization you can either have it the easy way (Hibernate, Java-Ser) or the fast way (writing your own serializers).
+Since I'm developing a game I need to go for the fast way, but also I do not want to do all the work. 
+That's why I'm just generating everything!
+
+Google's implementation of the protobuf java compiler has a few design-choices that are not matching my usecase.  
+This is why I'm trying to build my own compiler by copying what google did and modifying it in a few areas so 
+it fits my needs.
+
+Features
+------------------------------------------
+These are the changes compared to Google's implementation:
+* All fields now have setters so you can modify them without building a whole new Message-Object
+    * This also should make builders optional, since you can directly set the fields on the Message itself.
+* Each Message-Class references to a "{MESSAGE_NAME}Custom"-class. 
+    * You can use it to implement your own functionality without needing to wrap each Message-object.
+    * The Custom-class will not be generated, so your project will only compile 
+    if you have them in your project.
+* It is possible to directly overwrite the content of an existing Message with another serialized message
+    * In googles implementation you always have to create a new message to deserialize a message-binary
+* javatype-fieldoption which allows you to directly parse your messages into the desired java-class
+    * e.g. a proto "string id" can be a java "java.lang.UUID id" in the generated java-class
+    * Converters need to be manually created when used. You will get a compile-error if they don't exist
+
+You can take a look at `/java/src/test` to see it in action.
+
+Get started
+==========================================
+The easiest way to compile java-classes with this plugin, is by using the docker-image.
+You don't even need to have protoc installed.
+Take a look at the `runAsDocker.sh`. You can also use the images I push to the [Github Dockerregistry](https://github.com/leohilbert/protoc-gen-java-leo/packages).
+
+I also added Github-Actions to compile the plugin for Windows, Linux and MacOS.  
+Of course, you can also compile it yourself by checking the Compile-Guide
+
+Compile-Guide
+------------------------------------------
 * run `./configure.sh`
     * this will download the protoc-libraries into the /protoc-folder
-* make sure you have protoc installed in the used version 
+* make sure you have protoc installed in the version used by the plugin 
     * see `/fetch/protoc_release.txt`
-    * if you don't want to download it you can but the content of protoc in `/usr/local`  
+    * if you don't want to download it you can copy the content of protoc to `/usr/local`  
 * run `./generate.sh` to compile the test-binaries
 
 Updating to the current Protobuf-Release
-==========================================
+------------------------------------------
 First you need to make sure that the newest release is also build in my custom protobuf-compile repo [here](https://github.com/leohilbert/protobuf-compile/) 
 
 Also you need to clone google's protobuf-project somewhere locally.  
