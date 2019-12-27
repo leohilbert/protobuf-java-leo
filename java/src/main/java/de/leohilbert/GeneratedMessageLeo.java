@@ -7,8 +7,8 @@ public abstract class GeneratedMessageLeo extends GeneratedMessageV3 {
         super();
     }
 
-    public GeneratedMessageLeo(Builder<?> builder) {
-        super(builder);
+    protected void fromBuilder(Builder<?> builder) {
+        unknownFields = builder.getUnknownFields();
     }
 
     public void onChanged() {

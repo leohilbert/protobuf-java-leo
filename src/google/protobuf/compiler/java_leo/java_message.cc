@@ -237,10 +237,10 @@ int ImmutableMessageGenerator::GenerateFieldAccessorTableInitializer(
 
 void ImmutableMessageGenerator::GenerateInterface(io::Printer* printer) {
   MaybePrintGeneratedAnnotation(context_, printer, descriptor_,
-                                /* immutable = */ true, "OrBuilder");
+                                /* immutable = */ true, "Interface");
   if (descriptor_->extension_range_count() > 0) {
     printer->Print(
-        "$deprecation$public interface ${$$classname$OrBuilder$}$ extends\n"
+        "$deprecation$public interface ${$$classname$Interface$}$ extends\n"
         "    $extra_interfaces$\n"
         "    com.google.protobuf.GeneratedMessage$ver$.\n"
         "        ExtendableMessageOrBuilder<$classname$> {\n",
@@ -251,7 +251,7 @@ void ImmutableMessageGenerator::GenerateInterface(io::Printer* printer) {
         GeneratedCodeVersionSuffix());
   } else {
     printer->Print(
-        "$deprecation$public interface ${$$classname$OrBuilder$}$ extends\n"
+        "$deprecation$public interface ${$$classname$Interface$}$ extends\n"
         "    $extra_interfaces$\n"
         "    com.google.protobuf.MessageOrBuilder {\n",
         "deprecation",
@@ -312,7 +312,7 @@ void ImmutableMessageGenerator::Generate(io::Printer* printer) {
         "    com.google.protobuf.GeneratedMessage$ver$.ExtendableMessage<\n"
         "      $classname$> implements\n"
         "    $extra_interfaces$\n"
-        "    $classname$OrBuilder {\n");
+        "    $classname$Interface {\n");
     builder_type =
         "com.google.protobuf.GeneratedMessage" + GeneratedCodeVersionSuffix() +
             ".ExtendableBuilder<" + name_resolver_->GetImmutableClassName(descriptor_) + ", ?>";
@@ -322,26 +322,14 @@ void ImmutableMessageGenerator::Generate(io::Printer* printer) {
         "$deprecation$public $static$final class $classname$ extends\n");
     printer->Annotate("classname", descriptor_);
     printer->Print(variables,
-                   "    de.leohilbert.GeneratedMessageLeo implements\n"
-                   "    $classname$Custom,\n"
+                   "    $classname$Custom implements\n"
                    "    $extra_interfaces$\n"
-                   "    $classname$OrBuilder {\n");
+                   "    $classname$Interface {\n");
     builder_type =
         "com.google.protobuf.GeneratedMessage" + GeneratedCodeVersionSuffix() + ".Builder<?>";
   }
   printer->Print("private static final long serialVersionUID = 0L;\n");
-
   printer->Indent();
-  // Using builder_type, instead of Builder, prevents the Builder class from
-  // being loaded into PermGen space when the default instance is created.
-  // This optimizes the PermGen space usage for clients that do not modify
-  // messages.
-  printer->Print(
-      "// Use $classname$.newBuilder() to construct.\n"
-      "private $classname$($buildertype$ builder) {\n"
-      "  super(builder);\n"
-      "}\n",
-      "classname", descriptor_->name(), "buildertype", builder_type);
   printer->Print("private $classname$() {\n", "classname", descriptor_->name());
   printer->Indent();
   GenerateInitializers(printer);

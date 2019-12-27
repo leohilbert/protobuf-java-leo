@@ -7,15 +7,10 @@ package com.example.tutorial;
  * Protobuf type {@code tutorial.Person}
  */
 public  final class Person extends
-    de.leohilbert.GeneratedMessageLeo implements
-    PersonCustom,
+    PersonCustom implements
     // @@protoc_insertion_point(message_implements:tutorial.Person)
-    PersonOrBuilder {
+    PersonInterface {
 private static final long serialVersionUID = 0L;
-  // Use Person.newBuilder() to construct.
-  private Person(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-    super(builder);
-  }
   private Person() {
     id_ = null;
     name_ = "";
@@ -139,7 +134,7 @@ private static final long serialVersionUID = 0L;
             com.example.tutorial.Person.class, com.example.tutorial.Person.Builder.class);
   }
 
-  public interface PhoneNumberOrBuilder extends
+  public interface PhoneNumberInterface extends
       // @@protoc_insertion_point(interface_extends:tutorial.Person.PhoneNumber)
       com.google.protobuf.MessageOrBuilder {
 
@@ -180,15 +175,10 @@ private static final long serialVersionUID = 0L;
    * Protobuf type {@code tutorial.Person.PhoneNumber}
    */
   public  static final class PhoneNumber extends
-      de.leohilbert.GeneratedMessageLeo implements
-      PhoneNumberCustom,
+      PhoneNumberCustom implements
       // @@protoc_insertion_point(message_implements:tutorial.Person.PhoneNumber)
-      PhoneNumberOrBuilder {
+      PhoneNumberInterface {
   private static final long serialVersionUID = 0L;
-    // Use PhoneNumber.newBuilder() to construct.
-    private PhoneNumber(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
     private PhoneNumber() {
       number_ = "";
       type_ = 0;
@@ -1010,8 +1000,8 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
    */
-  public java.util.List<? extends com.example.tutorial.Person.PhoneNumberOrBuilder> 
-      getPhonesOrBuilderList() {
+  public java.util.List<? extends com.example.tutorial.Person.PhoneNumberInterface> 
+      getPhonesInterfaceList() {
     return phones_;
   }
   /**
@@ -1029,7 +1019,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
    */
-  public com.example.tutorial.Person.PhoneNumberOrBuilder getPhonesOrBuilder(
+  public com.example.tutorial.Person.PhoneNumberInterface getPhonesInterface(
       int index) {
     return phones_.get(index);
   }
@@ -1053,7 +1043,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
    */
-  public com.google.protobuf.TimestampOrBuilder getLastUpdatedOrBuilder() {
+  public com.google.protobuf.TimestampInterface getLastUpdatedInterface() {
     return getLastUpdated();
   }
   /**
@@ -1733,7 +1723,7 @@ private static final long serialVersionUID = 0L;
     }
 
     private com.google.protobuf.RepeatedFieldBuilderV3<
-        com.example.tutorial.Person.PhoneNumber, com.example.tutorial.Person.PhoneNumber.Builder, com.example.tutorial.Person.PhoneNumberOrBuilder> phonesBuilder_;
+        com.example.tutorial.Person.PhoneNumber, com.example.tutorial.Person.PhoneNumber.Builder, com.example.tutorial.Person.PhoneNumberInterface> phonesBuilder_;
 
     /**
      * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
@@ -1908,7 +1898,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
      */
-    public com.example.tutorial.Person.PhoneNumberOrBuilder getPhonesOrBuilder(
+    public com.example.tutorial.Person.PhoneNumberInterface getPhonesInterface(
         int index) {
       if (phonesBuilder_ == null) {
         return phones_.get(index);  } else {
@@ -1918,8 +1908,8 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
      */
-    public java.util.List<? extends com.example.tutorial.Person.PhoneNumberOrBuilder> 
-         getPhonesOrBuilderList() {
+    public java.util.List<? extends com.example.tutorial.Person.PhoneNumberInterface> 
+         getPhonesInterfaceList() {
       if (phonesBuilder_ != null) {
         return phonesBuilder_.getMessageOrBuilderList();
       } else {
@@ -1949,11 +1939,11 @@ private static final long serialVersionUID = 0L;
       return getPhonesFieldBuilder().getBuilderList();
     }
     private com.google.protobuf.RepeatedFieldBuilderV3<
-        com.example.tutorial.Person.PhoneNumber, com.example.tutorial.Person.PhoneNumber.Builder, com.example.tutorial.Person.PhoneNumberOrBuilder> 
+        com.example.tutorial.Person.PhoneNumber, com.example.tutorial.Person.PhoneNumber.Builder, com.example.tutorial.Person.PhoneNumberInterface> 
         getPhonesFieldBuilder() {
       if (phonesBuilder_ == null) {
         phonesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-            com.example.tutorial.Person.PhoneNumber, com.example.tutorial.Person.PhoneNumber.Builder, com.example.tutorial.Person.PhoneNumberOrBuilder>(
+            com.example.tutorial.Person.PhoneNumber, com.example.tutorial.Person.PhoneNumber.Builder, com.example.tutorial.Person.PhoneNumberInterface>(
                 phones_,
                 ((bitField0_ & 0x00000001) != 0),
                 getParentForChildren(),
@@ -1965,7 +1955,7 @@ private static final long serialVersionUID = 0L;
 
     private com.google.protobuf.Timestamp lastUpdated_;
     private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> lastUpdatedBuilder_;
+        com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampInterface> lastUpdatedBuilder_;
     /**
      * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
      * @return Whether the lastUpdated field is set.
@@ -2057,7 +2047,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
      */
-    public com.google.protobuf.TimestampOrBuilder getLastUpdatedOrBuilder() {
+    public com.google.protobuf.TimestampInterface getLastUpdatedInterface() {
       if (lastUpdatedBuilder_ != null) {
         return lastUpdatedBuilder_.getMessageOrBuilder();
       } else {
@@ -2069,11 +2059,11 @@ private static final long serialVersionUID = 0L;
      * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
+        com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampInterface> 
         getLastUpdatedFieldBuilder() {
       if (lastUpdatedBuilder_ == null) {
         lastUpdatedBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
+            com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampInterface>(
                 getLastUpdated(),
                 getParentForChildren(),
                 isClean());

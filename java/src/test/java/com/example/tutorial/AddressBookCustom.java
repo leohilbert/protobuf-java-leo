@@ -1,4 +1,6 @@
 package com.example.tutorial;
 
-public interface AddressBookCustom {
+import de.leohilbert.GeneratedMessageLeo;
+
+public abstract class AddressBookCustom extends GeneratedMessageLeo {
 }

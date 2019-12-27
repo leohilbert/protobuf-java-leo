@@ -1,4 +1,6 @@
 package com.example.tutorial;
 
-public interface PersonCustom {
+import de.leohilbert.GeneratedMessageLeo;
+
+public abstract class PersonCustom extends GeneratedMessageLeo {
 }

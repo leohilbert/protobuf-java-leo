@@ -1,4 +1,6 @@
 package com.example.tutorial;
 
-public interface PhoneNumberCustom {
+import de.leohilbert.GeneratedMessageLeo;
+
+public abstract class PhoneNumberCustom extends GeneratedMessageLeo {
 }

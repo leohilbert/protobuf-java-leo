@@ -3,7 +3,7 @@
 
 package com.example.tutorial;
 
-public interface PersonOrBuilder extends
+public interface PersonInterface extends
     // @@protoc_insertion_point(interface_extends:tutorial.Person)
     com.google.protobuf.MessageOrBuilder {
 
@@ -79,12 +79,12 @@ public interface PersonOrBuilder extends
   /**
    * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
    */
-  java.util.List<? extends com.example.tutorial.Person.PhoneNumberOrBuilder> 
-      getPhonesOrBuilderList();
+  java.util.List<? extends com.example.tutorial.Person.PhoneNumberInterface> 
+      getPhonesInterfaceList();
   /**
    * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
    */
-  com.example.tutorial.Person.PhoneNumberOrBuilder getPhonesOrBuilder(
+  com.example.tutorial.Person.PhoneNumberInterface getPhonesInterface(
       int index);
 
   /**
@@ -100,7 +100,7 @@ public interface PersonOrBuilder extends
   /**
    * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
    */
-  com.google.protobuf.TimestampOrBuilder getLastUpdatedOrBuilder();
+  com.google.protobuf.TimestampInterface getLastUpdatedInterface();
   /**
    * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
    * @param value The lastUpdated to set.

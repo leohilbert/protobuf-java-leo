@@ -7,15 +7,10 @@ package com.example.tutorial;
  * Protobuf type {@code tutorial.AddressBook}
  */
 public  final class AddressBook extends
-    de.leohilbert.GeneratedMessageLeo implements
-    AddressBookCustom,
+    AddressBookCustom implements
     // @@protoc_insertion_point(message_implements:tutorial.AddressBook)
-    AddressBookOrBuilder {
+    AddressBookInterface {
 private static final long serialVersionUID = 0L;
-  // Use AddressBook.newBuilder() to construct.
-  private AddressBook(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-    super(builder);
-  }
   private AddressBook() {
     people_ = java.util.Collections.emptyList();
   }
@@ -112,8 +107,8 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
    */
-  public java.util.List<? extends com.example.tutorial.PersonOrBuilder> 
-      getPeopleOrBuilderList() {
+  public java.util.List<? extends com.example.tutorial.PersonInterface> 
+      getPeopleInterfaceList() {
     return people_;
   }
   /**
@@ -131,7 +126,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
    */
-  public com.example.tutorial.PersonOrBuilder getPeopleOrBuilder(
+  public com.example.tutorial.PersonInterface getPeopleInterface(
       int index) {
     return people_.get(index);
   }
@@ -486,7 +481,7 @@ private static final long serialVersionUID = 0L;
     }
 
     private com.google.protobuf.RepeatedFieldBuilderV3<
-        com.example.tutorial.Person, com.example.tutorial.Person.Builder, com.example.tutorial.PersonOrBuilder> peopleBuilder_;
+        com.example.tutorial.Person, com.example.tutorial.Person.Builder, com.example.tutorial.PersonInterface> peopleBuilder_;
 
     /**
      * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
@@ -661,7 +656,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
      */
-    public com.example.tutorial.PersonOrBuilder getPeopleOrBuilder(
+    public com.example.tutorial.PersonInterface getPeopleInterface(
         int index) {
       if (peopleBuilder_ == null) {
         return people_.get(index);  } else {
@@ -671,8 +666,8 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
      */
-    public java.util.List<? extends com.example.tutorial.PersonOrBuilder> 
-         getPeopleOrBuilderList() {
+    public java.util.List<? extends com.example.tutorial.PersonInterface> 
+         getPeopleInterfaceList() {
       if (peopleBuilder_ != null) {
         return peopleBuilder_.getMessageOrBuilderList();
       } else {
@@ -702,11 +697,11 @@ private static final long serialVersionUID = 0L;
       return getPeopleFieldBuilder().getBuilderList();
     }
     private com.google.protobuf.RepeatedFieldBuilderV3<
-        com.example.tutorial.Person, com.example.tutorial.Person.Builder, com.example.tutorial.PersonOrBuilder> 
+        com.example.tutorial.Person, com.example.tutorial.Person.Builder, com.example.tutorial.PersonInterface> 
         getPeopleFieldBuilder() {
       if (peopleBuilder_ == null) {
         peopleBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-            com.example.tutorial.Person, com.example.tutorial.Person.Builder, com.example.tutorial.PersonOrBuilder>(
+            com.example.tutorial.Person, com.example.tutorial.Person.Builder, com.example.tutorial.PersonInterface>(
                 people_,
                 ((bitField0_ & 0x00000001) != 0),
                 getParentForChildren(),

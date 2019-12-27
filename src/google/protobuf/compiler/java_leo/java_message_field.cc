@@ -152,7 +152,7 @@ void ImmutableMessageFieldGenerator::GenerateInterfaceMembers(
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(
       variables_,
-      "$deprecation$$type$OrBuilder get$capitalized_name$OrBuilder();\n");
+      "$deprecation$$type$Interface get$capitalized_name$Interface();\n");
 
   WriteFieldAccessorDocComment(printer, descriptor_, SETTER);
   printer->Print(variables_,
@@ -183,8 +183,8 @@ void ImmutableMessageFieldGenerator::GenerateMembers(
     WriteFieldDocComment(printer, descriptor_);
     printer->Print(
         variables_,
-        "$deprecation$public $type$OrBuilder "
-        "${$get$capitalized_name$OrBuilder$}$() {\n"
+        "$deprecation$public $type$Interface "
+        "${$get$capitalized_name$Interface$}$() {\n"
         "  return $name$_ == null ? $type$.getDefaultInstance() : $name$_;\n"
         "}\n");
     printer->Annotate("{", "}", descriptor_);
@@ -206,8 +206,8 @@ void ImmutableMessageFieldGenerator::GenerateMembers(
 
     WriteFieldDocComment(printer, descriptor_);
     printer->Print(variables_,
-                   "$deprecation$public $type$OrBuilder "
-                   "${$get$capitalized_name$OrBuilder$}$() {\n"
+                   "$deprecation$public $type$Interface "
+                   "${$get$capitalized_name$Interface$}$() {\n"
                    "  return get$capitalized_name$();\n"
                    "}\n");
     printer->Annotate("{", "}", descriptor_);
@@ -273,7 +273,7 @@ void ImmutableMessageFieldGenerator::GenerateBuilderMembers(
                  // If this builder is non-null, it is used and the other fields
                  // are ignored.
                  "private com.google.protobuf.SingleFieldBuilder$ver$<\n"
-                 "    $type$, $type$.Builder, $type$OrBuilder> $name$Builder_;"
+                 "    $type$, $type$.Builder, $type$Interface> $name$Builder_;"
                  "\n");
 
   // The comments above the methods below are based on a hypothetical
@@ -391,8 +391,8 @@ void ImmutableMessageFieldGenerator::GenerateBuilderMembers(
   printer->Annotate("{", "}", descriptor_);
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-                 "$deprecation$public $type$OrBuilder "
-                 "${$get$capitalized_name$OrBuilder$}$() {\n"
+                 "$deprecation$public $type$Interface "
+                 "${$get$capitalized_name$Interface$}$() {\n"
                  "  if ($name$Builder_ != null) {\n"
                  "    return $name$Builder_.getMessageOrBuilder();\n"
                  "  } else {\n"
@@ -405,11 +405,11 @@ void ImmutableMessageFieldGenerator::GenerateBuilderMembers(
   printer->Print(
       variables_,
       "private com.google.protobuf.SingleFieldBuilder$ver$<\n"
-      "    $type$, $type$.Builder, $type$OrBuilder> \n"
+      "    $type$, $type$.Builder, $type$Interface> \n"
       "    get$capitalized_name$FieldBuilder() {\n"
       "  if ($name$Builder_ == null) {\n"
       "    $name$Builder_ = new com.google.protobuf.SingleFieldBuilder$ver$<\n"
-      "        $type$, $type$.Builder, $type$OrBuilder>(\n"
+      "        $type$, $type$.Builder, $type$Interface>(\n"
       "            get$capitalized_name$(),\n"
       "            getParentForChildren(),\n"
       "            isClean());\n"
@@ -572,8 +572,8 @@ void ImmutableMessageOneofFieldGenerator::GenerateMembers(
 
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-                 "$deprecation$public $type$OrBuilder "
-                 "${$get$capitalized_name$OrBuilder$}$() {\n"
+                 "$deprecation$public $type$Interface "
+                 "${$get$capitalized_name$Interface$}$() {\n"
                  "  if ($has_oneof_case_message$) {\n"
                  "     return ($type$) $oneof_name$_;\n"
                  "  }\n"
@@ -591,7 +591,7 @@ void ImmutableMessageOneofFieldGenerator::GenerateBuilderMembers(
                  // If this builder is non-null, it is used and the other fields
                  // are ignored.
                  "private com.google.protobuf.SingleFieldBuilder$ver$<\n"
-                 "    $type$, $type$.Builder, $type$OrBuilder> $name$Builder_;"
+                 "    $type$, $type$.Builder, $type$Interface> $name$Builder_;"
                  "\n");
 
   // The comments above the methods below are based on a hypothetical
@@ -706,8 +706,8 @@ void ImmutableMessageOneofFieldGenerator::GenerateBuilderMembers(
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(
       variables_,
-      "$deprecation$public $type$OrBuilder "
-      "${$get$capitalized_name$OrBuilder$}$() {\n"
+      "$deprecation$public $type$Interface "
+      "${$get$capitalized_name$Interface$}$() {\n"
       "  if (($has_oneof_case_message$) && ($name$Builder_ != null)) {\n"
       "    return $name$Builder_.getMessageOrBuilder();\n"
       "  } else {\n"
@@ -722,14 +722,14 @@ void ImmutableMessageOneofFieldGenerator::GenerateBuilderMembers(
   printer->Print(
       variables_,
       "private com.google.protobuf.SingleFieldBuilder$ver$<\n"
-      "    $type$, $type$.Builder, $type$OrBuilder> \n"
+      "    $type$, $type$.Builder, $type$Interface> \n"
       "    ${$get$capitalized_name$FieldBuilder$}$() {\n"
       "  if ($name$Builder_ == null) {\n"
       "    if (!($has_oneof_case_message$)) {\n"
       "      $oneof_name$_ = $type$.getDefaultInstance();\n"
       "    }\n"
       "    $name$Builder_ = new com.google.protobuf.SingleFieldBuilder$ver$<\n"
-      "        $type$, $type$.Builder, $type$OrBuilder>(\n"
+      "        $type$, $type$.Builder, $type$Interface>(\n"
       "            ($type$) $oneof_name$_,\n"
       "            getParentForChildren(),\n"
       "            isClean());\n"
@@ -850,12 +850,12 @@ void RepeatedImmutableMessageFieldGenerator::GenerateInterfaceMembers(
 
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-                 "$deprecation$java.util.List<? extends $type$OrBuilder> \n"
-                 "    get$capitalized_name$OrBuilderList();\n");
+                 "$deprecation$java.util.List<? extends $type$Interface> \n"
+                 "    get$capitalized_name$InterfaceList();\n");
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(
       variables_,
-      "$deprecation$$type$OrBuilder get$capitalized_name$OrBuilder(\n"
+      "$deprecation$$type$Interface get$capitalized_name$Interface(\n"
       "    int index);\n");
 }
 
@@ -873,8 +873,8 @@ void RepeatedImmutableMessageFieldGenerator::GenerateMembers(
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(
       variables_,
-      "$deprecation$public java.util.List<? extends $type$OrBuilder> \n"
-      "    ${$get$capitalized_name$OrBuilderList$}$() {\n"
+      "$deprecation$public java.util.List<? extends $type$Interface> \n"
+      "    ${$get$capitalized_name$InterfaceList$}$() {\n"
       "  return $name$_;\n"
       "}\n");
   printer->Annotate("{", "}", descriptor_);
@@ -894,8 +894,8 @@ void RepeatedImmutableMessageFieldGenerator::GenerateMembers(
   printer->Annotate("{", "}", descriptor_);
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-                 "$deprecation$public $type$OrBuilder "
-                 "${$get$capitalized_name$OrBuilder$}$(\n"
+                 "$deprecation$public $type$Interface "
+                 "${$get$capitalized_name$Interface$}$(\n"
                  "    int index) {\n"
                  "  return $name$_.get(index);\n"
                  "}\n");
@@ -966,7 +966,7 @@ void RepeatedImmutableMessageFieldGenerator::GenerateBuilderMembers(
       // If this builder is non-null, it is used and the other fields are
       // ignored.
       "private com.google.protobuf.RepeatedFieldBuilder$ver$<\n"
-      "    $type$, $type$.Builder, $type$OrBuilder> $name$Builder_;\n"
+      "    $type$, $type$.Builder, $type$Interface> $name$Builder_;\n"
       "\n");
 
   // The comments above the methods below are based on a hypothetical
@@ -1154,8 +1154,8 @@ void RepeatedImmutableMessageFieldGenerator::GenerateBuilderMembers(
 
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-                 "$deprecation$public $type$OrBuilder "
-                 "${$get$capitalized_name$OrBuilder$}$(\n"
+                 "$deprecation$public $type$Interface "
+                 "${$get$capitalized_name$Interface$}$(\n"
                  "    int index) {\n"
                  "  if ($name$Builder_ == null) {\n"
                  "    return $name$_.get(index);"
@@ -1168,8 +1168,8 @@ void RepeatedImmutableMessageFieldGenerator::GenerateBuilderMembers(
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(
       variables_,
-      "$deprecation$public java.util.List<? extends $type$OrBuilder> \n"
-      "     ${$get$capitalized_name$OrBuilderList$}$() {\n"
+      "$deprecation$public java.util.List<? extends $type$Interface> \n"
+      "     ${$get$capitalized_name$InterfaceList$}$() {\n"
       "  if ($name$Builder_ != null) {\n"
       "    return $name$Builder_.getMessageOrBuilderList();\n"
       "  } else {\n"
@@ -1203,12 +1203,12 @@ void RepeatedImmutableMessageFieldGenerator::GenerateBuilderMembers(
       "  return get$capitalized_name$FieldBuilder().getBuilderList();\n"
       "}\n"
       "private com.google.protobuf.RepeatedFieldBuilder$ver$<\n"
-      "    $type$, $type$.Builder, $type$OrBuilder> \n"
+      "    $type$, $type$.Builder, $type$Interface> \n"
       "    get$capitalized_name$FieldBuilder() {\n"
       "  if ($name$Builder_ == null) {\n"
       "    $name$Builder_ = new "
       "com.google.protobuf.RepeatedFieldBuilder$ver$<\n"
-      "        $type$, $type$.Builder, $type$OrBuilder>(\n"
+      "        $type$, $type$.Builder, $type$Interface>(\n"
       "            $name$_,\n"
       "            $get_mutable_bit_builder$,\n"
       "            getParentForChildren(),\n"

@@ -87,7 +87,7 @@ void MessageBuilderGenerator::Generate(io::Printer* printer) {
         "    com.google.protobuf.GeneratedMessage$ver$.ExtendableBuilder<\n"
         "      $classname$, Builder> implements\n"
         "    $extra_interfaces$\n"
-        "    $classname$OrBuilder {\n",
+        "    $classname$Interface {\n",
         "classname", name_resolver_->GetImmutableClassName(descriptor_),
         "extra_interfaces", ExtraBuilderInterfaces(descriptor_), "ver",
         GeneratedCodeVersionSuffix());

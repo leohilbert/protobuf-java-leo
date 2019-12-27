@@ -637,7 +637,7 @@ void FileGenerator::GenerateSiblings(
       if (immutable_api_) {
         GenerateSibling<MessageGenerator>(
             package_dir, java_package_, file_->message_type(i), context,
-            file_list, options_.annotate_code, annotation_list, "OrBuilder",
+            file_list, options_.annotate_code, annotation_list, "Interface",
             message_generators_[i].get(), &MessageGenerator::GenerateInterface);
       }
       GenerateSibling<MessageGenerator>(
