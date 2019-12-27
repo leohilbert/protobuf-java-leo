@@ -48,6 +48,7 @@
 #include <google/protobuf/io/printer.h>
 #include <google/protobuf/wire_format.h>
 #include <google/protobuf/stubs/strutil.h>
+#include <javaleo/proto/options.pb.h>
 
 namespace google {
 namespace protobuf {
@@ -284,6 +285,7 @@ void ImmutableMessageGenerator::GenerateInterface(io::Printer* printer) {
 void ImmutableMessageGenerator::Generate(io::Printer* printer) {
   bool is_own_file = IsOwnFile(descriptor_, /* immutable = */ true);
 
+  bool customSuperclass = descriptor_->file()->options().GetExtension(javaleo::proto::use_custom_superclass);
   std::map<std::string, std::string> variables;
   variables["static"] = is_own_file ? " " : " static ";
   variables["classname"] = descriptor_->name();
@@ -317,10 +319,14 @@ void ImmutableMessageGenerator::Generate(io::Printer* printer) {
         variables,
         "$deprecation$public $static$final class $classname$ extends\n");
     printer->Annotate("classname", descriptor_);
-    printer->Print(variables,
-                   "    $classname$Custom implements\n"
-                   "    $extra_interfaces$\n"
-                   "    $classname$Interface<$classname$> {\n");
+    if (customSuperclass) {
+      printer->Print(variables, "    $classname$Custom");
+    } else {
+      printer->Print(variables, "    de.leohilbert.GeneratedMessageLeo");
+    }
+    printer->Print(variables, " implements\n"
+                              "    $extra_interfaces$\n"
+                              "    $classname$Interface<$classname$> {\n");
     builder_type =
         "com.google.protobuf.GeneratedMessage" + GeneratedCodeVersionSuffix() + ".Builder<?>";
   }
@@ -1283,28 +1289,9 @@ void ImmutableMessageGenerator::GenerateParser(io::Printer* printer) {
       "    com.google.protobuf.ExtensionRegistryLite extensionRegistry)\n"
       "    throws com.google.protobuf.InvalidProtocolBufferException {\n",
       "classname", descriptor_->name());
-  if (context_->HasGeneratedMethods(descriptor_)) {
-    printer->Print("  return new $classname$(input, extensionRegistry);\n",
-                   "classname", descriptor_->name());
-  } else {
-    // When parsing constructor isn't generated, use builder to parse
-    // messages. Note, will fallback to use reflection based mergeFieldFrom()
-    // in AbstractMessage.Builder.
-    printer->Indent();
-    printer->Print(
-        "Builder builder = newBuilder();\n"
-        "try {\n"
-        "  builder.mergeFrom(input, extensionRegistry);\n"
-        "} catch (com.google.protobuf.InvalidProtocolBufferException e) {\n"
-        "  throw e.setUnfinishedMessage(builder.buildPartial());\n"
-        "} catch (java.io.IOException e) {\n"
-        "  throw new com.google.protobuf.InvalidProtocolBufferException(\n"
-        "      e.getMessage()).setUnfinishedMessage(\n"
-        "          builder.buildPartial());\n"
-        "}\n"
-        "return builder.buildPartial();\n");
-    printer->Outdent();
-  }
+  printer->Print("  return new $classname$(input, extensionRegistry);\n",
+                 "classname", descriptor_->name());
+
   printer->Print("}\n");
   printer->Outdent();
   printer->Print(

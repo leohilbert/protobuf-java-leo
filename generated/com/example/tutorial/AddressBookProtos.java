@@ -50,8 +50,8 @@ public final class AddressBookProtos {
       "orial.PhoneTypeR\004type\"7\n\013AddressBook\022(\n\006" +
       "people\030\001 \003(\0132\020.tutorial.PersonR\006people*+" +
       "\n\tPhoneType\022\n\n\006MOBILE\020\000\022\010\n\004HOME\020\001\022\010\n\004WOR" +
-      "K\020\002B+\n\024com.example.tutorialB\021AddressBook" +
-      "ProtosP\001b\006proto3"
+      "K\020\002B/\n\024com.example.tutorialB\021AddressBook" +
+      "ProtosP\001\230\202\031\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -80,6 +80,7 @@ public final class AddressBookProtos {
     com.google.protobuf.ExtensionRegistry registry =
         com.google.protobuf.ExtensionRegistry.newInstance();
     registry.add(javaleo.proto.Options.javatype);
+    registry.add(javaleo.proto.Options.useCustomSuperclass);
     com.google.protobuf.Descriptors.FileDescriptor
         .internalUpdateFileDescriptor(descriptor, registry);
     com.google.protobuf.TimestampProto.getDescriptor();

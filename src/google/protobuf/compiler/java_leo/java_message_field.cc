@@ -259,12 +259,6 @@ void ImmutableMessageFieldGenerator::GenerateMergingCode(
 
 void ImmutableMessageFieldGenerator::GenerateParsingCode(
     io::Printer* printer) const {
-  printer->Print(variables_,
-                 "$type$.Builder subBuilder = null;\n"
-                 "if ($is_field_present_message$) {\n"
-                 "  subBuilder = $name$_.toBuilder();\n"
-                 "}\n");
-
   if (GetType(descriptor_) == FieldDescriptor::TYPE_GROUP) {
     printer->Print(variables_,
                    "$name$_ = input.readGroup($number$, $type$.$get_parser$,\n"
@@ -274,13 +268,6 @@ void ImmutableMessageFieldGenerator::GenerateParsingCode(
                    "$name$_ = input.readMessage($type$.$get_parser$, "
                    "extensionRegistry);\n");
   }
-
-  printer->Print(variables_,
-                 "if (subBuilder != null) {\n"
-                 "  subBuilder.mergeFrom($name$_);\n"
-                 "  $name$_ = subBuilder.buildPartial();\n"
-                 "}\n"
-                 "$set_has_field_bit_message$\n");
 }
 
 void ImmutableMessageFieldGenerator::GenerateParsingDoneCode(
@@ -367,12 +354,6 @@ void ImmutableMessageOneofFieldGenerator::GenerateMergingCode(
 
 void ImmutableMessageOneofFieldGenerator::GenerateParsingCode(
     io::Printer* printer) const {
-  printer->Print(variables_,
-                 "$type$.Builder subBuilder = null;\n"
-                 "if ($has_oneof_case_message$) {\n"
-                 "  subBuilder = (($type$) $oneof_name$_).toBuilder();\n"
-                 "}\n");
-
   if (GetType(descriptor_) == FieldDescriptor::TYPE_GROUP) {
     printer->Print(
         variables_,
@@ -384,12 +365,6 @@ void ImmutableMessageOneofFieldGenerator::GenerateParsingCode(
         "$oneof_name$_ =\n"
         "    input.readMessage($type$.$get_parser$, extensionRegistry);\n");
   }
-
-  printer->Print(variables_,
-                 "if (subBuilder != null) {\n"
-                 "  subBuilder.mergeFrom(($type$) $oneof_name$_);\n"
-                 "  $oneof_name$_ = subBuilder.buildPartial();\n"
-                 "}\n");
   printer->Print(variables_, "$set_oneof_case_message$;\n");
 }
 

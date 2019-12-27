@@ -6,7 +6,7 @@ set(LIB_PATH protoc/bin protoc/lib)
 
 file(GLOB SRC "src/javaleo/proto/*" "src/google/protobuf/compiler/java_leo/*.cc")
 
-add_executable(${CMAKE_PROJECT_NAME} ${SRC} main.cpp)
+add_executable(${CMAKE_PROJECT_NAME} ${SRC} ${CMAKE_SOURCE_DIR}/src/main.cpp)
 if (APPLE)
     target_link_libraries(${CMAKE_PROJECT_NAME} ${CMAKE_SOURCE_DIR}/protoc/lib/libprotobuf.dylib)
     target_link_libraries(${CMAKE_PROJECT_NAME} ${CMAKE_SOURCE_DIR}/protoc/lib/libprotoc.dylib)

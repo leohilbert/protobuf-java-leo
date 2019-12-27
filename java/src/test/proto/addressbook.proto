@@ -1,10 +1,11 @@
 syntax = "proto3";
-package tutorial;
-option java_multiple_files = true;
 
 import "google/protobuf/timestamp.proto";
 import "options.proto";
 
+package tutorial;
+option (javaleo.proto.use_custom_superclass) = true;
+option java_multiple_files = true;
 option java_package = "com.example.tutorial";
 option java_outer_classname = "AddressBookProtos";
 

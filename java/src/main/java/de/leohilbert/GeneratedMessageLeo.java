@@ -4,12 +4,16 @@ import com.google.protobuf.GeneratedMessageV3;
 import com.google.protobuf.Message;
 
 public abstract class GeneratedMessageLeo extends GeneratedMessageV3 {
+    public transient Runnable updateReceiver = null;
+
     public GeneratedMessageLeo() {
         super();
     }
 
     public void onChanged() {
-
+        if (updateReceiver != null) {
+            updateReceiver.run();
+        }
     }
 
     @Override

@@ -67,6 +67,10 @@ static const int kJavatypeFieldNumber = 51234;
 extern ::PROTOBUF_NAMESPACE_ID::internal::ExtensionIdentifier< ::google::protobuf::FieldOptions,
     ::PROTOBUF_NAMESPACE_ID::internal::StringTypeTraits, 9, false >
   javatype;
+static const int kUseCustomSuperclassFieldNumber = 51235;
+extern ::PROTOBUF_NAMESPACE_ID::internal::ExtensionIdentifier< ::google::protobuf::FileOptions,
+    ::PROTOBUF_NAMESPACE_ID::internal::PrimitiveTypeTraits< bool >, 8, false >
+  use_custom_superclass;
 
 // ===================================================================
 

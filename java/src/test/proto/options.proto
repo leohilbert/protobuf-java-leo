@@ -6,3 +6,7 @@ package javaleo.proto;
 extend google.protobuf.FieldOptions {
     string javatype = 51234;
 }
+
+extend google.protobuf.FileOptions {
+    bool use_custom_superclass = 51235;
+}

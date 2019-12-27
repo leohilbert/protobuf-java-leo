@@ -87,16 +87,7 @@ private static final long serialVersionUID = 0L;
             break;
           }
           case 50: {
-            com.google.protobuf.Timestamp.Builder subBuilder = null;
-            if (lastUpdated_ != null) {
-              subBuilder = lastUpdated_.toBuilder();
-            }
             lastUpdated_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
-            if (subBuilder != null) {
-              subBuilder.mergeFrom(lastUpdated_);
-              lastUpdated_ = subBuilder.buildPartial();
-            }
-
             break;
           }
           default: {
