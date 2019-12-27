@@ -48,7 +48,6 @@
 #include <google/protobuf/io/printer.h>
 #include <google/protobuf/stubs/strutil.h>
 
-#include "javaleo/proto/options.pb.h"
 
 namespace google {
 namespace protobuf {

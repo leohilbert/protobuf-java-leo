@@ -15,7 +15,7 @@ public class ProtoLeoTest {
     public void test() throws IOException {
         UUID TEST_UUID1 = UUID.randomUUID();
         UUID TEST_UUID2 = UUID.randomUUID();
-        Person person = Person.newBuilder().setId(TEST_UUID1).setEmail("hans@wurst.de").build();
+        Person person = new Person().setId(TEST_UUID1).setEmail("hans@wurst.de");
         assertEquals(person.getId(), TEST_UUID1);
         assertEquals(person.getEmail(), "hans@wurst.de");
 

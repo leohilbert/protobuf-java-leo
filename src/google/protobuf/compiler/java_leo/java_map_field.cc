@@ -317,160 +317,6 @@ void ImmutableMapFieldGenerator::GenerateMembers(io::Printer* printer) const {
   GenerateMapGetters(printer);
 }
 
-void ImmutableMapFieldGenerator::GenerateBuilderMembers(
-    io::Printer* printer) const {
-  printer->Print(variables_,
-                 "private com.google.protobuf.MapField<\n"
-                 "    $type_parameters$> $name$_;\n"
-                 "private com.google.protobuf.MapField<$type_parameters$>\n"
-                 "internalGet$capitalized_name$() {\n"
-                 "  if ($name$_ == null) {\n"
-                 "    return com.google.protobuf.MapField.emptyMapField(\n"
-                 "        $map_field_parameter$);\n"
-                 "  }\n"
-                 "  return $name$_;\n"
-                 "}\n"
-                 "private com.google.protobuf.MapField<$type_parameters$>\n"
-                 "internalGetMutable$capitalized_name$() {\n"
-                 "  $on_changed$;\n"
-                 "  if ($name$_ == null) {\n"
-                 "    $name$_ = com.google.protobuf.MapField.newMapField(\n"
-                 "        $map_field_parameter$);\n"
-                 "  }\n"
-                 "  if (!$name$_.isMutable()) {\n"
-                 "    $name$_ = $name$_.copy();\n"
-                 "  }\n"
-                 "  return $name$_;\n"
-                 "}\n");
-  GenerateMapGetters(printer);
-  printer->Print(variables_,
-                 "$deprecation$\n"
-                 "public Builder ${$clear$capitalized_name$$}$() {\n"
-                 "  internalGetMutable$capitalized_name$().getMutableMap()\n"
-                 "      .clear();\n"
-                 "  return this;\n"
-                 "}\n");
-  printer->Annotate("{", "}", descriptor_);
-  WriteFieldDocComment(printer, descriptor_);
-  printer->Print(variables_,
-                 "$deprecation$\n"
-                 "public Builder ${$remove$capitalized_name$$}$(\n"
-                 "    $key_type$ key) {\n"
-                 "  $key_null_check$\n"
-                 "  internalGetMutable$capitalized_name$().getMutableMap()\n"
-                 "      .remove(key);\n"
-                 "  return this;\n"
-                 "}\n");
-  printer->Annotate("{", "}", descriptor_);
-  if (GetJavaType(ValueField(descriptor_)) == JAVATYPE_ENUM) {
-    printer->Print(
-        variables_,
-        "/**\n"
-        " * Use alternate mutation accessors instead.\n"
-        " */\n"
-        "@java.lang.Deprecated\n"
-        "public java.util.Map<$boxed_key_type$, $value_enum_type$>\n"
-        "${$getMutable$capitalized_name$$}$() {\n"
-        "  return internalGetAdapted$capitalized_name$Map(\n"
-        "       internalGetMutable$capitalized_name$().getMutableMap());\n"
-        "}\n");
-    printer->Annotate("{", "}", descriptor_);
-    WriteFieldDocComment(printer, descriptor_);
-    printer->Print(variables_,
-                   "$deprecation$public Builder ${$put$capitalized_name$$}$(\n"
-                   "    $key_type$ key,\n"
-                   "    $value_enum_type$ value) {\n"
-                   "  $key_null_check$\n"
-                   "  $value_null_check$\n"
-                   "  internalGetMutable$capitalized_name$().getMutableMap()\n"
-                   "      .put(key, $name$ValueConverter.doBackward(value));\n"
-                   "  return this;\n"
-                   "}\n");
-    printer->Annotate("{", "}", descriptor_);
-    WriteFieldDocComment(printer, descriptor_);
-    printer->Print(
-        variables_,
-        "$deprecation$public Builder ${$putAll$capitalized_name$$}$(\n"
-        "    java.util.Map<$boxed_key_type$, $value_enum_type$> values) {\n"
-        "  internalGetAdapted$capitalized_name$Map(\n"
-        "      internalGetMutable$capitalized_name$().getMutableMap())\n"
-        "          .putAll(values);\n"
-        "  return this;\n"
-        "}\n");
-    printer->Annotate("{", "}", descriptor_);
-    if (SupportUnknownEnumValue(descriptor_->file())) {
-      printer->Print(
-          variables_,
-          "/**\n"
-          " * Use alternate mutation accessors instead.\n"
-          " */\n"
-          "@java.lang.Deprecated\n"
-          "public java.util.Map<$boxed_key_type$, $boxed_value_type$>\n"
-          "${$getMutable$capitalized_name$Value$}$() {\n"
-          "  return internalGetMutable$capitalized_name$().getMutableMap();\n"
-          "}\n");
-      printer->Annotate("{", "}", descriptor_);
-      WriteFieldDocComment(printer, descriptor_);
-      printer->Print(
-          variables_,
-          "$deprecation$public Builder ${$put$capitalized_name$Value$}$(\n"
-          "    $key_type$ key,\n"
-          "    $value_type$ value) {\n"
-          "  $key_null_check$\n"
-          "  internalGetMutable$capitalized_name$().getMutableMap()\n"
-          "      .put(key, value);\n"
-          "  return this;\n"
-          "}\n");
-      printer->Annotate("{", "}", descriptor_);
-      WriteFieldDocComment(printer, descriptor_);
-      printer->Print(
-          variables_,
-          "$deprecation$public Builder ${$putAll$capitalized_name$Value$}$(\n"
-          "    java.util.Map<$boxed_key_type$, $boxed_value_type$> values) {\n"
-          "  internalGetMutable$capitalized_name$().getMutableMap()\n"
-          "      .putAll(values);\n"
-          "  return this;\n"
-          "}\n");
-      printer->Annotate("{", "}", descriptor_);
-    }
-  } else {
-    printer->Print(
-        variables_,
-        "/**\n"
-        " * Use alternate mutation accessors instead.\n"
-        " */\n"
-        "@java.lang.Deprecated\n"
-        "public java.util.Map<$type_parameters$>\n"
-        "${$getMutable$capitalized_name$$}$() {\n"
-        "  return internalGetMutable$capitalized_name$().getMutableMap();\n"
-        "}\n");
-    printer->Annotate("{", "}", descriptor_);
-    WriteFieldDocComment(printer, descriptor_);
-    printer->Print(variables_,
-                   "$deprecation$"
-                   "public Builder ${$put$capitalized_name$$}$(\n"
-                   "    $key_type$ key,\n"
-                   "    $value_type$ value) {\n"
-                   "  $key_null_check$\n"
-                   "  $value_null_check$\n"
-                   "  internalGetMutable$capitalized_name$().getMutableMap()\n"
-                   "      .put(key, value);\n"
-                   "  return this;\n"
-                   "}\n");
-    printer->Annotate("{", "}", descriptor_);
-    WriteFieldDocComment(printer, descriptor_);
-    printer->Print(variables_,
-                   "$deprecation$\n"
-                   "public Builder ${$putAll$capitalized_name$$}$(\n"
-                   "    java.util.Map<$type_parameters$> values) {\n"
-                   "  internalGetMutable$capitalized_name$().getMutableMap()\n"
-                   "      .putAll(values);\n"
-                   "  return this;\n"
-                   "}\n");
-    printer->Annotate("{", "}", descriptor_);
-  }
-}
-
 void ImmutableMapFieldGenerator::GenerateMapGetters(
     io::Printer* printer) const {
   printer->Print(variables_,
@@ -638,20 +484,9 @@ void ImmutableMapFieldGenerator::GenerateMapGetters(
   }
 }
 
-void ImmutableMapFieldGenerator::GenerateFieldBuilderInitializationCode(
-    io::Printer* printer) const {
-  // Nothing to initialize.
-}
-
 void ImmutableMapFieldGenerator::GenerateInitializationCode(
     io::Printer* printer) const {
   // Nothing to initialize.
-}
-
-void ImmutableMapFieldGenerator::GenerateBuilderClearCode(
-    io::Printer* printer) const {
-  printer->Print(variables_,
-                 "internalGetMutable$capitalized_name$().clear();\n");
 }
 
 void ImmutableMapFieldGenerator::GenerateMergingCode(
@@ -659,13 +494,6 @@ void ImmutableMapFieldGenerator::GenerateMergingCode(
   printer->Print(variables_,
                  "internalGetMutable$capitalized_name$().mergeFrom(\n"
                  "    other.internalGet$capitalized_name$());\n");
-}
-
-void ImmutableMapFieldGenerator::GenerateBuildingCode(
-    io::Printer* printer) const {
-  printer->Print(variables_,
-                 "result.$name$_ = internalGet$capitalized_name$();\n"
-                 "result.$name$_.makeImmutable();\n");
 }
 
 void ImmutableMapFieldGenerator::GenerateParsingCode(

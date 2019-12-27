@@ -68,16 +68,12 @@ class ImmutableEnumFieldGenerator : public ImmutableFieldGenerator {
   int GetNumBitsForBuilder() const;
   void GenerateInterfaceMembers(io::Printer* printer) const;
   void GenerateMembers(io::Printer* printer) const;
-  void GenerateBuilderMembers(io::Printer* printer) const;
   void GenerateInitializationCode(io::Printer* printer) const;
-  void GenerateBuilderClearCode(io::Printer* printer) const;
   void GenerateMergingCode(io::Printer* printer) const;
-  void GenerateBuildingCode(io::Printer* printer) const;
   void GenerateParsingCode(io::Printer* printer) const;
   void GenerateParsingDoneCode(io::Printer* printer) const;
   void GenerateSerializationCode(io::Printer* printer) const;
   void GenerateSerializedSizeCode(io::Printer* printer) const;
-  void GenerateFieldBuilderInitializationCode(io::Printer* printer) const;
   void GenerateEqualsCode(io::Printer* printer) const;
   void GenerateHashCode(io::Printer* printer) const;
 
@@ -100,9 +96,7 @@ class ImmutableEnumOneofFieldGenerator : public ImmutableEnumFieldGenerator {
   ~ImmutableEnumOneofFieldGenerator();
 
   void GenerateMembers(io::Printer* printer) const;
-  void GenerateBuilderMembers(io::Printer* printer) const;
   void GenerateMergingCode(io::Printer* printer) const;
-  void GenerateBuildingCode(io::Printer* printer) const;
   void GenerateParsingCode(io::Printer* printer) const;
   void GenerateSerializationCode(io::Printer* printer) const;
   void GenerateSerializedSizeCode(io::Printer* printer) const;
@@ -125,17 +119,13 @@ class RepeatedImmutableEnumFieldGenerator : public ImmutableFieldGenerator {
   int GetNumBitsForBuilder() const;
   void GenerateInterfaceMembers(io::Printer* printer) const;
   void GenerateMembers(io::Printer* printer) const;
-  void GenerateBuilderMembers(io::Printer* printer) const;
   void GenerateInitializationCode(io::Printer* printer) const;
-  void GenerateBuilderClearCode(io::Printer* printer) const;
   void GenerateMergingCode(io::Printer* printer) const;
-  void GenerateBuildingCode(io::Printer* printer) const;
   void GenerateParsingCode(io::Printer* printer) const;
   void GenerateParsingCodeFromPacked(io::Printer* printer) const;
   void GenerateParsingDoneCode(io::Printer* printer) const;
   void GenerateSerializationCode(io::Printer* printer) const;
   void GenerateSerializedSizeCode(io::Printer* printer) const;
-  void GenerateFieldBuilderInitializationCode(io::Printer* printer) const;
   void GenerateEqualsCode(io::Printer* printer) const;
   void GenerateHashCode(io::Printer* printer) const;
 

@@ -3,7 +3,7 @@
 
 package com.example.tutorial;
 
-public interface PersonInterface extends
+public interface PersonInterface<SELF> extends
     // @@protoc_insertion_point(interface_extends:tutorial.Person)
     com.google.protobuf.MessageOrBuilder {
 
@@ -16,7 +16,7 @@ public interface PersonInterface extends
    * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "java.util.UUID"];</code>
    * @param value The id to set.
    */
-  void setId(java.util.UUID value);
+  SELF setId(java.util.UUID value);
 
   /**
    * <code>string name = 2[json_name = "name"];</code>
@@ -33,7 +33,7 @@ public interface PersonInterface extends
    * <code>string name = 2[json_name = "name"];</code>
    * @param value The name to set.
    */
-  void setName(java.lang.String value);
+  SELF setName(java.lang.String value);
 
   /**
    * <code>int32 age = 3[json_name = "age"];</code>
@@ -44,7 +44,7 @@ public interface PersonInterface extends
    * <code>int32 age = 3[json_name = "age"];</code>
    * @param value The age to set.
    */
-  void setAge(int value);
+  SELF setAge(int value);
 
   /**
    * <code>string email = 4[json_name = "email"];</code>
@@ -61,7 +61,7 @@ public interface PersonInterface extends
    * <code>string email = 4[json_name = "email"];</code>
    * @param value The email to set.
    */
-  void setEmail(java.lang.String value);
+  SELF setEmail(java.lang.String value);
 
   /**
    * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
@@ -76,16 +76,6 @@ public interface PersonInterface extends
    * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
    */
   int getPhonesCount();
-  /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-   */
-  java.util.List<? extends com.example.tutorial.Person.PhoneNumberInterface> 
-      getPhonesInterfaceList();
-  /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-   */
-  com.example.tutorial.Person.PhoneNumberInterface getPhonesInterface(
-      int index);
 
   /**
    * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
@@ -99,11 +89,7 @@ public interface PersonInterface extends
   com.google.protobuf.Timestamp getLastUpdated();
   /**
    * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
-   */
-  com.google.protobuf.TimestampInterface getLastUpdatedInterface();
-  /**
-   * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
    * @param value The lastUpdated to set.
    */
-  void setLastUpdated(com.google.protobuf.Timestamp value);
+  SELF setLastUpdated(com.google.protobuf.Timestamp value);
 }

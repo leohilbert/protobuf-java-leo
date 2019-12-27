@@ -9,9 +9,9 @@ package com.example.tutorial;
 public  final class Person extends
     PersonCustom implements
     // @@protoc_insertion_point(message_implements:tutorial.Person)
-    PersonInterface {
+    PersonInterface<Person> {
 private static final long serialVersionUID = 0L;
-  private Person() {
+  public Person() {
     id_ = null;
     name_ = "";
     email_ = "";
@@ -134,7 +134,7 @@ private static final long serialVersionUID = 0L;
             com.example.tutorial.Person.class, com.example.tutorial.Person.Builder.class);
   }
 
-  public interface PhoneNumberInterface extends
+  public interface PhoneNumberInterface<SELF> extends
       // @@protoc_insertion_point(interface_extends:tutorial.Person.PhoneNumber)
       com.google.protobuf.MessageOrBuilder {
 
@@ -153,7 +153,7 @@ private static final long serialVersionUID = 0L;
      * <code>string number = 1[json_name = "number"];</code>
      * @param value The number to set.
      */
-    void setNumber(java.lang.String value);
+    SELF setNumber(java.lang.String value);
 
     /**
      * <code>.tutorial.PhoneType type = 2[json_name = "type"];</code>
@@ -169,7 +169,7 @@ private static final long serialVersionUID = 0L;
      * <code>.tutorial.PhoneType type = 2[json_name = "type"];</code>
      * @param value The type to set.
      */
-    void setType(com.example.tutorial.PhoneType value);
+    SELF setType(com.example.tutorial.PhoneType value);
   }
   /**
    * Protobuf type {@code tutorial.Person.PhoneNumber}
@@ -177,9 +177,9 @@ private static final long serialVersionUID = 0L;
   public  static final class PhoneNumber extends
       PhoneNumberCustom implements
       // @@protoc_insertion_point(message_implements:tutorial.Person.PhoneNumber)
-      PhoneNumberInterface {
+      PhoneNumberInterface<PhoneNumber> {
   private static final long serialVersionUID = 0L;
-    private PhoneNumber() {
+    public PhoneNumber() {
       number_ = "";
       type_ = 0;
     }
@@ -303,7 +303,7 @@ private static final long serialVersionUID = 0L;
      * <code>string number = 1[json_name = "number"];</code>
      * @param value The number to set.
      */
-    public void setNumber(
+    public PhoneNumber setNumber(
         java.lang.String value) {
       if (value == null) {
         throw new NullPointerException();
@@ -313,6 +313,7 @@ private static final long serialVersionUID = 0L;
         number_ = value;
         onChanged();
       }
+      return this;
     }
 
     public static final int TYPE_FIELD_NUMBER = 2;
@@ -337,7 +338,7 @@ private static final long serialVersionUID = 0L;
      * <code>.tutorial.PhoneType type = 2[json_name = "type"];</code>
      * @param value The type to set.
      */
-    public void setType(com.example.tutorial.PhoneType value) {
+    public PhoneNumber setType(com.example.tutorial.PhoneType value) {
       if (value == null) {
         throw new NullPointerException();
       }
@@ -346,6 +347,7 @@ private static final long serialVersionUID = 0L;
         type_ = valueNumber;
         onChanged();
       }
+      return this;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -492,320 +494,6 @@ private static final long serialVersionUID = 0L;
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(com.example.tutorial.Person.PhoneNumber prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code tutorial.Person.PhoneNumber}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.example.tutorial.AddressBookProtos.internal_static_tutorial_Person_PhoneNumber_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.example.tutorial.AddressBookProtos.internal_static_tutorial_Person_PhoneNumber_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.example.tutorial.Person.PhoneNumber.class, com.example.tutorial.Person.PhoneNumber.Builder.class);
-      }
-
-      // Construct using com.example.tutorial.Person.PhoneNumber.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        number_ = "";
-
-        type_ = 0;
-
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.example.tutorial.AddressBookProtos.internal_static_tutorial_Person_PhoneNumber_descriptor;
-      }
-
-      @java.lang.Override
-      public com.example.tutorial.Person.PhoneNumber getDefaultInstanceForType() {
-        return com.example.tutorial.Person.PhoneNumber.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public com.example.tutorial.Person.PhoneNumber build() {
-        com.example.tutorial.Person.PhoneNumber result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public com.example.tutorial.Person.PhoneNumber buildPartial() {
-        com.example.tutorial.Person.PhoneNumber result = new com.example.tutorial.Person.PhoneNumber(this);
-        result.number_ = number_;
-        result.type_ = type_;
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.example.tutorial.Person.PhoneNumber) {
-          return mergeFrom((com.example.tutorial.Person.PhoneNumber)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.example.tutorial.Person.PhoneNumber other) {
-        if (other == com.example.tutorial.Person.PhoneNumber.getDefaultInstance()) return this;
-        if (!other.getNumber().isEmpty()) {
-          number_ = other.number_;
-          onChanged();
-        }
-        if (other.type_ != 0) {
-          setTypeValue(other.getTypeValue());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.example.tutorial.Person.PhoneNumber parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.example.tutorial.Person.PhoneNumber) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private java.lang.Object number_ = "";
-      /**
-       * <code>string number = 1[json_name = "number"];</code>
-       * @return The number.
-       */
-      public java.lang.String getNumber() {
-        java.lang.Object ref = number_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          number_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string number = 1[json_name = "number"];</code>
-       * @return The bytes for number.
-       */
-      public com.google.protobuf.ByteString
-          getNumberBytes() {
-        java.lang.Object ref = number_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          number_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string number = 1[json_name = "number"];</code>
-       * @param value The number to set.
-       * @return This builder for chaining.
-       */
-      public Builder setNumber(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        number_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string number = 1[json_name = "number"];</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearNumber() {
-        
-        number_ = getDefaultInstance().getNumber();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string number = 1[json_name = "number"];</code>
-       * @param value The bytes for number to set.
-       * @return This builder for chaining.
-       */
-      public Builder setNumberBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        number_ = value;
-        onChanged();
-        return this;
-      }
-
-      private int type_ = 0;
-      /**
-       * <code>.tutorial.PhoneType type = 2[json_name = "type"];</code>
-       * @return The enum numeric value on the wire for type.
-       */
-      public int getTypeValue() {
-        return type_;
-      }
-      /**
-       * <code>.tutorial.PhoneType type = 2[json_name = "type"];</code>
-       * @param value The enum numeric value on the wire for type to set.
-       * @return This builder for chaining.
-       */
-      public Builder setTypeValue(int value) {
-        type_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.tutorial.PhoneType type = 2[json_name = "type"];</code>
-       * @return The type.
-       */
-      public com.example.tutorial.PhoneType getType() {
-        @SuppressWarnings("deprecation")
-        com.example.tutorial.PhoneType result = com.example.tutorial.PhoneType.valueOf(type_);
-        return result == null ? com.example.tutorial.PhoneType.UNRECOGNIZED : result;
-      }
-      /**
-       * <code>.tutorial.PhoneType type = 2[json_name = "type"];</code>
-       * @param value The type to set.
-       * @return This builder for chaining.
-       */
-      public Builder setType(com.example.tutorial.PhoneType value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        
-        type_ = value.getNumber();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.tutorial.PhoneType type = 2[json_name = "type"];</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearType() {
-        
-        type_ = 0;
-        onChanged();
-        return this;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:tutorial.Person.PhoneNumber)
-    }
 
     // @@protoc_insertion_point(class_scope:tutorial.Person.PhoneNumber)
     private static final com.example.tutorial.Person.PhoneNumber DEFAULT_INSTANCE;
@@ -857,7 +545,7 @@ private static final long serialVersionUID = 0L;
    * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "java.util.UUID"];</code>
    * @param value The id to set.
    */
-  public void setId(java.util.UUID value) {
+  public Person setId(java.util.UUID value) {
     if (value == null) {
     throw new NullPointerException();
   }
@@ -865,6 +553,7 @@ private static final long serialVersionUID = 0L;
       id_ = value;
       onChanged();
     }
+    return this;
   }
 
   public static final int NAME_FIELD_NUMBER = 2;
@@ -906,7 +595,7 @@ private static final long serialVersionUID = 0L;
    * <code>string name = 2[json_name = "name"];</code>
    * @param value The name to set.
    */
-  public void setName(
+  public Person setName(
       java.lang.String value) {
     if (value == null) {
       throw new NullPointerException();
@@ -916,6 +605,7 @@ private static final long serialVersionUID = 0L;
       name_ = value;
       onChanged();
     }
+    return this;
   }
 
   public static final int AGE_FIELD_NUMBER = 3;
@@ -931,11 +621,12 @@ private static final long serialVersionUID = 0L;
    * <code>int32 age = 3[json_name = "age"];</code>
    * @param value The age to set.
    */
-  public void setAge(int value) {
+  public Person setAge(int value) {
     if(age_ != value) {    
       age_ = value;
       onChanged();
     }
+    return this;
   }
 
   public static final int EMAIL_FIELD_NUMBER = 4;
@@ -977,7 +668,7 @@ private static final long serialVersionUID = 0L;
    * <code>string email = 4[json_name = "email"];</code>
    * @param value The email to set.
    */
-  public void setEmail(
+  public Person setEmail(
       java.lang.String value) {
     if (value == null) {
       throw new NullPointerException();
@@ -987,6 +678,7 @@ private static final long serialVersionUID = 0L;
       email_ = value;
       onChanged();
     }
+    return this;
   }
 
   public static final int PHONES_FIELD_NUMBER = 5;
@@ -1016,13 +708,6 @@ private static final long serialVersionUID = 0L;
   public com.example.tutorial.Person.PhoneNumber getPhones(int index) {
     return phones_.get(index);
   }
-  /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-   */
-  public com.example.tutorial.Person.PhoneNumberInterface getPhonesInterface(
-      int index) {
-    return phones_.get(index);
-  }
 
   public static final int LAST_UPDATED_FIELD_NUMBER = 6;
   private com.google.protobuf.Timestamp lastUpdated_;
@@ -1042,15 +727,9 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
-   */
-  public com.google.protobuf.TimestampInterface getLastUpdatedInterface() {
-    return getLastUpdated();
-  }
-  /**
-   * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
    * @param value The lastUpdated to set.
    */
-  public void setLastUpdated(com.google.protobuf.Timestamp value) {
+  public Person setLastUpdated(com.google.protobuf.Timestamp value) {
     if (value == null) {
       throw new NullPointerException();
     }
@@ -1058,6 +737,7 @@ private static final long serialVersionUID = 0L;
       lastUpdated_ = value;
       onChanged();
     }
+    return this;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -1255,837 +935,6 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
-  @java.lang.Override
-  public Builder newBuilderForType() { return newBuilder(); }
-  public static Builder newBuilder() {
-    return DEFAULT_INSTANCE.toBuilder();
-  }
-  public static Builder newBuilder(com.example.tutorial.Person prototype) {
-    return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-  }
-  @java.lang.Override
-  public Builder toBuilder() {
-    return this == DEFAULT_INSTANCE
-        ? new Builder() : new Builder().mergeFrom(this);
-  }
-
-  @java.lang.Override
-  protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-    Builder builder = new Builder(parent);
-    return builder;
-  }
-  /**
-   * Protobuf type {@code tutorial.Person}
-   */
-  public static final class Builder extends
-      com.google.protobuf.GeneratedMessageV3.Builder<Builder> {
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.example.tutorial.AddressBookProtos.internal_static_tutorial_Person_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.example.tutorial.AddressBookProtos.internal_static_tutorial_Person_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.example.tutorial.Person.class, com.example.tutorial.Person.Builder.class);
-    }
-
-    // Construct using com.example.tutorial.Person.newBuilder()
-    private Builder() {
-      maybeForceBuilderInitialization();
-    }
-
-    private Builder(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      super(parent);
-      maybeForceBuilderInitialization();
-    }
-    private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessageV3
-              .alwaysUseFieldBuilders) {
-        getPhonesFieldBuilder();
-      }
-    }
-    @java.lang.Override
-    public Builder clear() {
-      super.clear();
-      id_ = null;
-
-      name_ = "";
-
-      age_ = 0;
-
-      email_ = "";
-
-      if (phonesBuilder_ == null) {
-        phones_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000001);
-      } else {
-        phonesBuilder_.clear();
-      }
-      if (lastUpdatedBuilder_ == null) {
-        lastUpdated_ = null;
-      } else {
-        lastUpdated_ = null;
-        lastUpdatedBuilder_ = null;
-      }
-      return this;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Descriptors.Descriptor
-        getDescriptorForType() {
-      return com.example.tutorial.AddressBookProtos.internal_static_tutorial_Person_descriptor;
-    }
-
-    @java.lang.Override
-    public com.example.tutorial.Person getDefaultInstanceForType() {
-      return com.example.tutorial.Person.getDefaultInstance();
-    }
-
-    @java.lang.Override
-    public com.example.tutorial.Person build() {
-      com.example.tutorial.Person result = buildPartial();
-      if (!result.isInitialized()) {
-        throw newUninitializedMessageException(result);
-      }
-      return result;
-    }
-
-    @java.lang.Override
-    public com.example.tutorial.Person buildPartial() {
-      com.example.tutorial.Person result = new com.example.tutorial.Person(this);
-      int from_bitField0_ = bitField0_;
-      result.id_ = id_;
-      result.name_ = name_;
-      result.age_ = age_;
-      result.email_ = email_;
-      if (phonesBuilder_ == null) {
-        if (((bitField0_ & 0x00000001) != 0)) {
-          phones_ = java.util.Collections.unmodifiableList(phones_);
-          bitField0_ = (bitField0_ & ~0x00000001);
-        }
-        result.phones_ = phones_;
-      } else {
-        result.phones_ = phonesBuilder_.build();
-      }
-      if (lastUpdatedBuilder_ == null) {
-        result.lastUpdated_ = lastUpdated_;
-      } else {
-        result.lastUpdated_ = lastUpdatedBuilder_.build();
-      }
-      onBuilt();
-      return result;
-    }
-
-    @java.lang.Override
-    public Builder clone() {
-      return super.clone();
-    }
-    @java.lang.Override
-    public Builder setField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        java.lang.Object value) {
-      return super.setField(field, value);
-    }
-    @java.lang.Override
-    public Builder clearField(
-        com.google.protobuf.Descriptors.FieldDescriptor field) {
-      return super.clearField(field);
-    }
-    @java.lang.Override
-    public Builder clearOneof(
-        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-      return super.clearOneof(oneof);
-    }
-    @java.lang.Override
-    public Builder setRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        int index, java.lang.Object value) {
-      return super.setRepeatedField(field, index, value);
-    }
-    @java.lang.Override
-    public Builder addRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        java.lang.Object value) {
-      return super.addRepeatedField(field, value);
-    }
-    @java.lang.Override
-    public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof com.example.tutorial.Person) {
-        return mergeFrom((com.example.tutorial.Person)other);
-      } else {
-        super.mergeFrom(other);
-        return this;
-      }
-    }
-
-    public Builder mergeFrom(com.example.tutorial.Person other) {
-      if (other == com.example.tutorial.Person.getDefaultInstance()) return this;
-      if (other.getId() != null) {
-        setId(other.getId());
-      }
-      if (!other.getName().isEmpty()) {
-        name_ = other.name_;
-        onChanged();
-      }
-      if (other.getAge() != 0) {
-        setAge(other.getAge());
-      }
-      if (!other.getEmail().isEmpty()) {
-        email_ = other.email_;
-        onChanged();
-      }
-      if (phonesBuilder_ == null) {
-        if (!other.phones_.isEmpty()) {
-          if (phones_.isEmpty()) {
-            phones_ = other.phones_;
-            bitField0_ = (bitField0_ & ~0x00000001);
-          } else {
-            ensurePhonesIsMutable();
-            phones_.addAll(other.phones_);
-          }
-          onChanged();
-        }
-      } else {
-        if (!other.phones_.isEmpty()) {
-          if (phonesBuilder_.isEmpty()) {
-            phonesBuilder_.dispose();
-            phonesBuilder_ = null;
-            phones_ = other.phones_;
-            bitField0_ = (bitField0_ & ~0x00000001);
-            phonesBuilder_ = 
-              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                 getPhonesFieldBuilder() : null;
-          } else {
-            phonesBuilder_.addAllMessages(other.phones_);
-          }
-        }
-      }
-      if (other.hasLastUpdated()) {
-        mergeLastUpdated(other.getLastUpdated());
-      }
-      this.mergeUnknownFields(other.unknownFields);
-      onChanged();
-      return this;
-    }
-
-    @java.lang.Override
-    public final boolean isInitialized() {
-      return true;
-    }
-
-    @java.lang.Override
-    public Builder mergeFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      com.example.tutorial.Person parsedMessage = null;
-      try {
-        parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (com.example.tutorial.Person) e.getUnfinishedMessage();
-        throw e.unwrapIOException();
-      } finally {
-        if (parsedMessage != null) {
-          mergeFrom(parsedMessage);
-        }
-      }
-      return this;
-    }
-    private int bitField0_;
-
-    private java.util.UUID id_ ;
-    /**
-     * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "java.util.UUID"];</code>
-     * @return The id.
-     */
-    public java.util.UUID getId() {
-      return id_;
-    }
-    /**
-     * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "java.util.UUID"];</code>
-     * @param value The id to set.
-     * @return This builder for chaining.
-     */
-    public Builder setId(java.util.UUID value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      id_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "java.util.UUID"];</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearId() {
-      
-      id_ = null;
-      onChanged();
-      return this;
-    }
-
-    private java.lang.Object name_ = "";
-    /**
-     * <code>string name = 2[json_name = "name"];</code>
-     * @return The name.
-     */
-    public java.lang.String getName() {
-      java.lang.Object ref = name_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        name_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
-    }
-    /**
-     * <code>string name = 2[json_name = "name"];</code>
-     * @return The bytes for name.
-     */
-    public com.google.protobuf.ByteString
-        getNameBytes() {
-      java.lang.Object ref = name_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        name_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    /**
-     * <code>string name = 2[json_name = "name"];</code>
-     * @param value The name to set.
-     * @return This builder for chaining.
-     */
-    public Builder setName(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      name_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string name = 2[json_name = "name"];</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearName() {
-      
-      name_ = getDefaultInstance().getName();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string name = 2[json_name = "name"];</code>
-     * @param value The bytes for name to set.
-     * @return This builder for chaining.
-     */
-    public Builder setNameBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      name_ = value;
-      onChanged();
-      return this;
-    }
-
-    private int age_ ;
-    /**
-     * <code>int32 age = 3[json_name = "age"];</code>
-     * @return The age.
-     */
-    public int getAge() {
-      return age_;
-    }
-    /**
-     * <code>int32 age = 3[json_name = "age"];</code>
-     * @param value The age to set.
-     * @return This builder for chaining.
-     */
-    public Builder setAge(int value) {
-      
-      age_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>int32 age = 3[json_name = "age"];</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearAge() {
-      
-      age_ = 0;
-      onChanged();
-      return this;
-    }
-
-    private java.lang.Object email_ = "";
-    /**
-     * <code>string email = 4[json_name = "email"];</code>
-     * @return The email.
-     */
-    public java.lang.String getEmail() {
-      java.lang.Object ref = email_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        email_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
-    }
-    /**
-     * <code>string email = 4[json_name = "email"];</code>
-     * @return The bytes for email.
-     */
-    public com.google.protobuf.ByteString
-        getEmailBytes() {
-      java.lang.Object ref = email_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        email_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    /**
-     * <code>string email = 4[json_name = "email"];</code>
-     * @param value The email to set.
-     * @return This builder for chaining.
-     */
-    public Builder setEmail(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      email_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string email = 4[json_name = "email"];</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearEmail() {
-      
-      email_ = getDefaultInstance().getEmail();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string email = 4[json_name = "email"];</code>
-     * @param value The bytes for email to set.
-     * @return This builder for chaining.
-     */
-    public Builder setEmailBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      email_ = value;
-      onChanged();
-      return this;
-    }
-
-    private java.util.List<com.example.tutorial.Person.PhoneNumber> phones_ =
-      java.util.Collections.emptyList();
-    private void ensurePhonesIsMutable() {
-      if (!((bitField0_ & 0x00000001) != 0)) {
-        phones_ = new java.util.ArrayList<com.example.tutorial.Person.PhoneNumber>(phones_);
-        bitField0_ |= 0x00000001;
-       }
-    }
-
-    private com.google.protobuf.RepeatedFieldBuilderV3<
-        com.example.tutorial.Person.PhoneNumber, com.example.tutorial.Person.PhoneNumber.Builder, com.example.tutorial.Person.PhoneNumberInterface> phonesBuilder_;
-
-    /**
-     * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-     */
-    public java.util.List<com.example.tutorial.Person.PhoneNumber> getPhonesList() {
-      if (phonesBuilder_ == null) {
-        return java.util.Collections.unmodifiableList(phones_);
-      } else {
-        return phonesBuilder_.getMessageList();
-      }
-    }
-    /**
-     * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-     */
-    public int getPhonesCount() {
-      if (phonesBuilder_ == null) {
-        return phones_.size();
-      } else {
-        return phonesBuilder_.getCount();
-      }
-    }
-    /**
-     * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-     */
-    public com.example.tutorial.Person.PhoneNumber getPhones(int index) {
-      if (phonesBuilder_ == null) {
-        return phones_.get(index);
-      } else {
-        return phonesBuilder_.getMessage(index);
-      }
-    }
-    /**
-     * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-     */
-    public Builder setPhones(
-        int index, com.example.tutorial.Person.PhoneNumber value) {
-      if (phonesBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensurePhonesIsMutable();
-        phones_.set(index, value);
-        onChanged();
-      } else {
-        phonesBuilder_.setMessage(index, value);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-     */
-    public Builder setPhones(
-        int index, com.example.tutorial.Person.PhoneNumber.Builder builderForValue) {
-      if (phonesBuilder_ == null) {
-        ensurePhonesIsMutable();
-        phones_.set(index, builderForValue.build());
-        onChanged();
-      } else {
-        phonesBuilder_.setMessage(index, builderForValue.build());
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-     */
-    public Builder addPhones(com.example.tutorial.Person.PhoneNumber value) {
-      if (phonesBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensurePhonesIsMutable();
-        phones_.add(value);
-        onChanged();
-      } else {
-        phonesBuilder_.addMessage(value);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-     */
-    public Builder addPhones(
-        int index, com.example.tutorial.Person.PhoneNumber value) {
-      if (phonesBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensurePhonesIsMutable();
-        phones_.add(index, value);
-        onChanged();
-      } else {
-        phonesBuilder_.addMessage(index, value);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-     */
-    public Builder addPhones(
-        com.example.tutorial.Person.PhoneNumber.Builder builderForValue) {
-      if (phonesBuilder_ == null) {
-        ensurePhonesIsMutable();
-        phones_.add(builderForValue.build());
-        onChanged();
-      } else {
-        phonesBuilder_.addMessage(builderForValue.build());
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-     */
-    public Builder addPhones(
-        int index, com.example.tutorial.Person.PhoneNumber.Builder builderForValue) {
-      if (phonesBuilder_ == null) {
-        ensurePhonesIsMutable();
-        phones_.add(index, builderForValue.build());
-        onChanged();
-      } else {
-        phonesBuilder_.addMessage(index, builderForValue.build());
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-     */
-    public Builder addAllPhones(
-        java.lang.Iterable<? extends com.example.tutorial.Person.PhoneNumber> values) {
-      if (phonesBuilder_ == null) {
-        ensurePhonesIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, phones_);
-        onChanged();
-      } else {
-        phonesBuilder_.addAllMessages(values);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-     */
-    public Builder clearPhones() {
-      if (phonesBuilder_ == null) {
-        phones_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000001);
-        onChanged();
-      } else {
-        phonesBuilder_.clear();
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-     */
-    public Builder removePhones(int index) {
-      if (phonesBuilder_ == null) {
-        ensurePhonesIsMutable();
-        phones_.remove(index);
-        onChanged();
-      } else {
-        phonesBuilder_.remove(index);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-     */
-    public com.example.tutorial.Person.PhoneNumber.Builder getPhonesBuilder(
-        int index) {
-      return getPhonesFieldBuilder().getBuilder(index);
-    }
-    /**
-     * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-     */
-    public com.example.tutorial.Person.PhoneNumberInterface getPhonesInterface(
-        int index) {
-      if (phonesBuilder_ == null) {
-        return phones_.get(index);  } else {
-        return phonesBuilder_.getMessageOrBuilder(index);
-      }
-    }
-    /**
-     * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-     */
-    public java.util.List<? extends com.example.tutorial.Person.PhoneNumberInterface> 
-         getPhonesInterfaceList() {
-      if (phonesBuilder_ != null) {
-        return phonesBuilder_.getMessageOrBuilderList();
-      } else {
-        return java.util.Collections.unmodifiableList(phones_);
-      }
-    }
-    /**
-     * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-     */
-    public com.example.tutorial.Person.PhoneNumber.Builder addPhonesBuilder() {
-      return getPhonesFieldBuilder().addBuilder(
-          com.example.tutorial.Person.PhoneNumber.getDefaultInstance());
-    }
-    /**
-     * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-     */
-    public com.example.tutorial.Person.PhoneNumber.Builder addPhonesBuilder(
-        int index) {
-      return getPhonesFieldBuilder().addBuilder(
-          index, com.example.tutorial.Person.PhoneNumber.getDefaultInstance());
-    }
-    /**
-     * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
-     */
-    public java.util.List<com.example.tutorial.Person.PhoneNumber.Builder> 
-         getPhonesBuilderList() {
-      return getPhonesFieldBuilder().getBuilderList();
-    }
-    private com.google.protobuf.RepeatedFieldBuilderV3<
-        com.example.tutorial.Person.PhoneNumber, com.example.tutorial.Person.PhoneNumber.Builder, com.example.tutorial.Person.PhoneNumberInterface> 
-        getPhonesFieldBuilder() {
-      if (phonesBuilder_ == null) {
-        phonesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-            com.example.tutorial.Person.PhoneNumber, com.example.tutorial.Person.PhoneNumber.Builder, com.example.tutorial.Person.PhoneNumberInterface>(
-                phones_,
-                ((bitField0_ & 0x00000001) != 0),
-                getParentForChildren(),
-                isClean());
-        phones_ = null;
-      }
-      return phonesBuilder_;
-    }
-
-    private com.google.protobuf.Timestamp lastUpdated_;
-    private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampInterface> lastUpdatedBuilder_;
-    /**
-     * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
-     * @return Whether the lastUpdated field is set.
-     */
-    public boolean hasLastUpdated() {
-      return lastUpdatedBuilder_ != null || lastUpdated_ != null;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
-     * @return The lastUpdated.
-     */
-    public com.google.protobuf.Timestamp getLastUpdated() {
-      if (lastUpdatedBuilder_ == null) {
-        return lastUpdated_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : lastUpdated_;
-      } else {
-        return lastUpdatedBuilder_.getMessage();
-      }
-    }
-    /**
-     * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
-     */
-    public Builder setLastUpdated(com.google.protobuf.Timestamp value) {
-      if (lastUpdatedBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        lastUpdated_ = value;
-        onChanged();
-      } else {
-        lastUpdatedBuilder_.setMessage(value);
-      }
-
-      return this;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
-     */
-    public Builder setLastUpdated(
-        com.google.protobuf.Timestamp.Builder builderForValue) {
-      if (lastUpdatedBuilder_ == null) {
-        lastUpdated_ = builderForValue.build();
-        onChanged();
-      } else {
-        lastUpdatedBuilder_.setMessage(builderForValue.build());
-      }
-
-      return this;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
-     */
-    public Builder mergeLastUpdated(com.google.protobuf.Timestamp value) {
-      if (lastUpdatedBuilder_ == null) {
-        if (lastUpdated_ != null) {
-          lastUpdated_ =
-            com.google.protobuf.Timestamp.newBuilder(lastUpdated_).mergeFrom(value).buildPartial();
-        } else {
-          lastUpdated_ = value;
-        }
-        onChanged();
-      } else {
-        lastUpdatedBuilder_.mergeFrom(value);
-      }
-
-      return this;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
-     */
-    public Builder clearLastUpdated() {
-      if (lastUpdatedBuilder_ == null) {
-        lastUpdated_ = null;
-        onChanged();
-      } else {
-        lastUpdated_ = null;
-        lastUpdatedBuilder_ = null;
-      }
-
-      return this;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
-     */
-    public com.google.protobuf.Timestamp.Builder getLastUpdatedBuilder() {
-      
-      onChanged();
-      return getLastUpdatedFieldBuilder().getBuilder();
-    }
-    /**
-     * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
-     */
-    public com.google.protobuf.TimestampInterface getLastUpdatedInterface() {
-      if (lastUpdatedBuilder_ != null) {
-        return lastUpdatedBuilder_.getMessageOrBuilder();
-      } else {
-        return lastUpdated_ == null ?
-            com.google.protobuf.Timestamp.getDefaultInstance() : lastUpdated_;
-      }
-    }
-    /**
-     * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
-     */
-    private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampInterface> 
-        getLastUpdatedFieldBuilder() {
-      if (lastUpdatedBuilder_ == null) {
-        lastUpdatedBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampInterface>(
-                getLastUpdated(),
-                getParentForChildren(),
-                isClean());
-        lastUpdated_ = null;
-      }
-      return lastUpdatedBuilder_;
-    }
-    @java.lang.Override
-    public final Builder setUnknownFields(
-        final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return super.setUnknownFields(unknownFields);
-    }
-
-    @java.lang.Override
-    public final Builder mergeUnknownFields(
-        final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return super.mergeUnknownFields(unknownFields);
-    }
-
-
-    // @@protoc_insertion_point(builder_scope:tutorial.Person)
-  }
 
   // @@protoc_insertion_point(class_scope:tutorial.Person)
   private static final com.example.tutorial.Person DEFAULT_INSTANCE;

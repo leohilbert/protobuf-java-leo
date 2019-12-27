@@ -42,12 +42,10 @@
 #include <google/protobuf/compiler/java_leo/java_helpers.h>
 #include <google/protobuf/compiler/java_leo/java_name_resolver.h>
 #include <google/protobuf/compiler/java_leo/java_options.h>
-#include <google/protobuf/compiler/java_leo/java_shared_code_generator.h>
 #include <google/protobuf/descriptor.pb.h>
 #include <google/protobuf/io/printer.h>
 #include <google/protobuf/io/zero_copy_stream.h>
 
-#include <google/protobuf/stubs/strutil.h>
 
 namespace google {
 namespace protobuf {

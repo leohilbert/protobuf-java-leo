@@ -43,12 +43,8 @@
 #include <google/protobuf/compiler/java_leo/java_doc_comment.h>
 #include <google/protobuf/compiler/java_leo/java_enum.h>
 #include <google/protobuf/compiler/java_leo/java_extension.h>
-#include <google/protobuf/compiler/java_leo/java_generator_factory.h>
 #include <google/protobuf/compiler/java_leo/java_helpers.h>
-#include <google/protobuf/compiler/java_leo/java_message_builder.h>
 #include <google/protobuf/compiler/java_leo/java_name_resolver.h>
-#include <google/protobuf/descriptor.pb.h>
-#include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/io/printer.h>
 #include <google/protobuf/wire_format.h>
 #include <google/protobuf/stubs/strutil.h>
@@ -240,7 +236,7 @@ void ImmutableMessageGenerator::GenerateInterface(io::Printer* printer) {
                                 /* immutable = */ true, "Interface");
   if (descriptor_->extension_range_count() > 0) {
     printer->Print(
-        "$deprecation$public interface ${$$classname$Interface$}$ extends\n"
+        "$deprecation$public interface ${$$classname$Interface$}$<SELF> extends\n"
         "    $extra_interfaces$\n"
         "    com.google.protobuf.GeneratedMessage$ver$.\n"
         "        ExtendableMessageOrBuilder<$classname$> {\n",
@@ -251,7 +247,7 @@ void ImmutableMessageGenerator::GenerateInterface(io::Printer* printer) {
         GeneratedCodeVersionSuffix());
   } else {
     printer->Print(
-        "$deprecation$public interface ${$$classname$Interface$}$ extends\n"
+        "$deprecation$public interface ${$$classname$Interface$}$<SELF> extends\n"
         "    $extra_interfaces$\n"
         "    com.google.protobuf.MessageOrBuilder {\n",
         "deprecation",
@@ -312,7 +308,7 @@ void ImmutableMessageGenerator::Generate(io::Printer* printer) {
         "    com.google.protobuf.GeneratedMessage$ver$.ExtendableMessage<\n"
         "      $classname$> implements\n"
         "    $extra_interfaces$\n"
-        "    $classname$Interface {\n");
+        "    $classname$Interface<$classname$> {\n");
     builder_type =
         "com.google.protobuf.GeneratedMessage" + GeneratedCodeVersionSuffix() +
             ".ExtendableBuilder<" + name_resolver_->GetImmutableClassName(descriptor_) + ", ?>";
@@ -324,13 +320,13 @@ void ImmutableMessageGenerator::Generate(io::Printer* printer) {
     printer->Print(variables,
                    "    $classname$Custom implements\n"
                    "    $extra_interfaces$\n"
-                   "    $classname$Interface {\n");
+                   "    $classname$Interface<$classname$> {\n");
     builder_type =
         "com.google.protobuf.GeneratedMessage" + GeneratedCodeVersionSuffix() + ".Builder<?>";
   }
   printer->Print("private static final long serialVersionUID = 0L;\n");
   printer->Indent();
-  printer->Print("private $classname$() {\n", "classname", descriptor_->name());
+  printer->Print("public $classname$() {\n", "classname", descriptor_->name());
   printer->Indent();
   GenerateInitializers(printer);
   printer->Outdent();
@@ -488,7 +484,6 @@ void ImmutableMessageGenerator::Generate(io::Printer* printer) {
 
 
   GenerateParseFromMethods(printer);
-  GenerateBuilder(printer);
 
   printer->Print(
       "\n"
@@ -748,40 +743,6 @@ void ImmutableMessageGenerator::GenerateSerializeOneExtensionRange(
 }
 
 // ===================================================================
-
-void ImmutableMessageGenerator::GenerateBuilder(io::Printer* printer) {
-  // LITE_RUNTIME implements this at the GeneratedMessageLite level.
-  printer->Print(
-      "@java.lang.Override\n"
-      "public Builder newBuilderForType() { return newBuilder(); }\n");
-
-  printer->Print(
-      "public static Builder newBuilder() {\n"
-      "  return DEFAULT_INSTANCE.toBuilder();\n"
-      "}\n"
-      "public static Builder newBuilder($classname$ prototype) {\n"
-      "  return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);\n"
-      "}\n"
-      "@java.lang.Override\n"
-      "public Builder toBuilder() {\n"
-      "  return this == DEFAULT_INSTANCE\n"
-      "      ? new Builder() : new Builder().mergeFrom(this);\n"
-      "}\n"
-      "\n",
-      "classname", name_resolver_->GetImmutableClassName(descriptor_));
-
-  printer->Print(
-      "@java.lang.Override\n"
-      "protected Builder newBuilderForType(\n"
-      "    com.google.protobuf.GeneratedMessage$ver$.BuilderParent parent) {\n"
-      "  Builder builder = new Builder(parent);\n"
-      "  return builder;\n"
-      "}\n",
-      "ver", GeneratedCodeVersionSuffix());
-
-  MessageBuilderGenerator builderGenerator(descriptor_, context_);
-  builderGenerator.Generate(printer);
-}
 
 void ImmutableMessageGenerator::GenerateDescriptorMethods(
     io::Printer* printer) {

@@ -40,10 +40,9 @@
 #include <vector>
 
 #include <google/protobuf/compiler/java_leo/java_name_resolver.h>
-#include <google/protobuf/descriptor.pb.h>
 #include <google/protobuf/wire_format.h>
 #include <google/protobuf/stubs/strutil.h>
-#include <google/protobuf/stubs/hash.h>  // for hash<T *>
+  // for hash<T *>
 #include <javaleo/proto/options.pb.h>
 
 namespace google {

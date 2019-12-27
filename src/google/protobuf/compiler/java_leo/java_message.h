@@ -120,7 +120,6 @@ class ImmutableMessageGenerator : public MessageGenerator {
   void GenerateSerializeOneExtensionRange(
       io::Printer* printer, const Descriptor::ExtensionRange* range);
 
-  void GenerateBuilder(io::Printer* printer);
   void GenerateIsInitialized(io::Printer* printer);
   void GenerateDescriptorMethods(io::Printer* printer);
   void GenerateInitializers(io::Printer* printer);

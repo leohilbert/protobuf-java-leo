@@ -40,7 +40,6 @@
 #include <google/protobuf/compiler/java_leo/java_enum.h>
 #include <google/protobuf/compiler/java_leo/java_helpers.h>
 #include <google/protobuf/compiler/java_leo/java_name_resolver.h>
-#include <google/protobuf/descriptor.pb.h>
 #include <google/protobuf/io/printer.h>
 #include <google/protobuf/stubs/strutil.h>
 

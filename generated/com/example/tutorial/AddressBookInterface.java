@@ -3,7 +3,7 @@
 
 package com.example.tutorial;
 
-public interface AddressBookInterface extends
+public interface AddressBookInterface<SELF> extends
     // @@protoc_insertion_point(interface_extends:tutorial.AddressBook)
     com.google.protobuf.MessageOrBuilder {
 
@@ -20,14 +20,4 @@ public interface AddressBookInterface extends
    * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
    */
   int getPeopleCount();
-  /**
-   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
-   */
-  java.util.List<? extends com.example.tutorial.PersonInterface> 
-      getPeopleInterfaceList();
-  /**
-   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
-   */
-  com.example.tutorial.PersonInterface getPeopleInterface(
-      int index);
 }

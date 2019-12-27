@@ -33,9 +33,7 @@
 #include <google/protobuf/compiler/java_leo/java_generator_factory.h>
 
 #include <google/protobuf/compiler/java_leo/java_context.h>
-#include <google/protobuf/compiler/java_leo/java_enum_field.h>
 #include <google/protobuf/compiler/java_leo/java_extension.h>
-#include <google/protobuf/compiler/java_leo/java_field.h>
 #include <google/protobuf/compiler/java_leo/java_helpers.h>
 #include <google/protobuf/compiler/java_leo/java_message.h>
 #include <google/protobuf/compiler/java_leo/java_service.h>
