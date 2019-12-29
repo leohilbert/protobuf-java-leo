@@ -78,17 +78,59 @@ public interface PersonInterface<SELF> extends
   int getPhonesCount();
 
   /**
-   * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
+   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * @return A list containing the friendIds.
+   */
+  java.util.List<java.lang.String>
+      getFriendIdsList();
+  /**
+   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * @return The count of friendIds.
+   */
+  int getFriendIdsCount();
+  /**
+   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * @param index The index of the element to return.
+   * @return The friendIds at the given index.
+   */
+  java.lang.String getFriendIds(int index);
+  /**
+   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * @param index The index of the value to return.
+   * @return The bytes of the friendIds at the given index.
+   */
+  com.google.protobuf.ByteString
+      getFriendIdsBytes(int index);
+
+  /**
+   * <code>repeated int32 favoriteNrs = 7[json_name = "favoriteNrs"];</code>
+   * @return A list containing the favoriteNrs.
+   */
+  java.util.List<java.lang.Integer> getFavoriteNrsList();
+  /**
+   * <code>repeated int32 favoriteNrs = 7[json_name = "favoriteNrs"];</code>
+   * @return The count of favoriteNrs.
+   */
+  int getFavoriteNrsCount();
+  /**
+   * <code>repeated int32 favoriteNrs = 7[json_name = "favoriteNrs"];</code>
+   * @param index The index of the element to return.
+   * @return The favoriteNrs at the given index.
+   */
+  int getFavoriteNrs(int index);
+
+  /**
+   * <code>.google.protobuf.Timestamp last_updated = 8[json_name = "lastUpdated"];</code>
    * @return Whether the lastUpdated field is set.
    */
   boolean hasLastUpdated();
   /**
-   * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
+   * <code>.google.protobuf.Timestamp last_updated = 8[json_name = "lastUpdated"];</code>
    * @return The lastUpdated.
    */
   com.google.protobuf.Timestamp getLastUpdated();
   /**
-   * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
+   * <code>.google.protobuf.Timestamp last_updated = 8[json_name = "lastUpdated"];</code>
    * @param value The lastUpdated to set.
    */
   SELF setLastUpdated(com.google.protobuf.Timestamp value);

@@ -96,7 +96,7 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
         PrimitiveTypeName(javaType), /*cap_first_letter=*/true);
     (*variables)["field_list_type"] =
         "com.google.protobuf.Internal." + capitalized_type + "List";
-    (*variables)["empty_list"] = "empty" + capitalized_type + "List()";
+    (*variables)["empty_list"] = "new" + capitalized_type + "List()";
     (*variables)["create_list"] = "new" + capitalized_type + "List()";
     (*variables)["mutable_copy_list"] =
         "mutableCopy(" + (*variables)["name"] + "_)";
@@ -116,7 +116,7 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
     (*variables)["mutable_copy_list"] = "new java.util.ArrayList<" +
                                         (*variables)["boxed_type"] + ">(" +
                                         (*variables)["name"] + "_)";
-    (*variables)["empty_list"] = "java.util.Collections.emptyList()";
+    (*variables)["empty_list"] = (*variables)["mutable_copy_list"];
     (*variables)["name_make_immutable"] =
         (*variables)["name"] + "_ = java.util.Collections.unmodifiableList(" +
         (*variables)["name"] + "_)";
@@ -582,6 +582,50 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateMembers(
     printer->Print(variables_,
                    "private int $name$MemoizedSerializedSize = -1;\n");
   }
+
+  printer->Annotate("{", "}", descriptor_);
+  WriteFieldAccessorDocComment(printer, descriptor_, LIST_INDEXED_SETTER,
+      /* builder */ true);
+  printer->Print(variables_,
+                 "$deprecation$public $classname$ ${$set$capitalized_name$$}$(\n"
+                 "    int index, $boxed_type$ value) {\n"
+                 "$null_check$"
+                 "  $name$_.set(index, value);\n"
+                 "  $on_changed$\n"
+                 "  return this;\n"
+                 "}\n");
+  printer->Annotate("{", "}", descriptor_);
+  WriteFieldAccessorDocComment(printer, descriptor_, LIST_ADDER,
+      /* builder */ true);
+  printer->Print(variables_,
+                 "$deprecation$public $classname$ ${$add$capitalized_name$$}$(\n"
+                 "    $boxed_type$ value) {\n"
+                 "$null_check$"
+                 "  $name$_.add(value);\n"
+                 "  $on_changed$\n"
+                 "  return this;\n"
+                 "}\n");
+  printer->Annotate("{", "}", descriptor_);
+  WriteFieldAccessorDocComment(printer, descriptor_, LIST_MULTI_ADDER,
+      /* builder */ true);
+  printer->Print(variables_,
+                 "$deprecation$public $classname$ ${$addAll$capitalized_name$$}$(\n"
+                 "    java.util.Collection<$boxed_type$> values) {\n"
+                 "  $name$_.addAll(values);\n"
+                 "  $on_changed$\n"
+                 "  return this;\n"
+                 "}\n");
+  printer->Annotate("{", "}", descriptor_);
+  WriteFieldAccessorDocComment(printer, descriptor_, CLEARER,
+      /* builder */ true);
+  printer->Print(
+      variables_,
+      "$deprecation$public $classname$ ${$clear$capitalized_name$$}$() {\n"
+      "  $name$_ = $empty_list$;\n"
+      "  $on_changed$\n"
+      "  return this;\n"
+      "}\n");
+  printer->Annotate("{", "}", descriptor_);
 }
 
 void RepeatedImmutablePrimitiveFieldGenerator::GenerateInitializationCode(

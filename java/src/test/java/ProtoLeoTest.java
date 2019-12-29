@@ -1,4 +1,5 @@
 import static com.google.protobuf.ExtensionRegistryLite.getEmptyRegistry;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.example.tutorial.Person;
@@ -15,7 +16,11 @@ public class ProtoLeoTest {
     public void test() throws IOException {
         UUID TEST_UUID1 = UUID.randomUUID();
         UUID TEST_UUID2 = UUID.randomUUID();
-        Person person = new Person().setId(TEST_UUID1).setEmail("hans@wurst.de");
+        Person person = new Person()
+                .setId(TEST_UUID1)
+                .setEmail("hans@wurst.de")
+                .addFriendIds("Dieter").addFriendIds("Horst")
+                .addFavoriteNrs(14).addFavoriteNrs(15);
         assertEquals(person.getId(), TEST_UUID1);
         assertEquals(person.getEmail(), "hans@wurst.de");
 
@@ -32,6 +37,8 @@ public class ProtoLeoTest {
         person.updateFrom(CodedInputStream.newInstance(getByteArray(person2)), getEmptyRegistry());
         assertEquals(person.getEmail(), "horst@wurst.de");
         assertEquals(person.getId(), TEST_UUID1);
+        assertThat(person.getFriendIdsList()).containsExactly("Dieter", "Horst");
+        assertThat(person.getFavoriteNrsList()).containsExactly(14, 15);
     }
 
     private byte[] getByteArray(final MessageLite message) throws IOException {

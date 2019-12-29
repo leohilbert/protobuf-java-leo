@@ -63,7 +63,7 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
                            std::map<std::string, std::string>* variables) {
   SetCommonFieldVariables(descriptor, info, variables);
 
-  (*variables)["empty_list"] = "com.google.protobuf.LazyStringArrayList.EMPTY";
+  (*variables)["empty_list"] = "new com.google.protobuf.LazyStringArrayList()";
 
   (*variables)["default"] = ImmutableDefaultValue(descriptor, name_resolver);
   (*variables)["default_init"] =
@@ -111,11 +111,6 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
     (*variables)["is_field_present_message"] =
         "!get" + (*variables)["capitalized_name"] + "Bytes().isEmpty()";
   }
-
-  // For repeated builders, one bit is used for whether the array is immutable.
-  (*variables)["get_mutable_bit_builder"] = GenerateGetBit(builderBitIndex);
-  (*variables)["set_mutable_bit_builder"] = GenerateSetBit(builderBitIndex);
-  (*variables)["clear_mutable_bit_builder"] = GenerateClearBit(builderBitIndex);
 
   // For repeated fields, one bit is used for whether the array is immutable
   // in the parsing constructor.
@@ -564,6 +559,67 @@ void RepeatedImmutableStringFieldGenerator::GenerateMembers(
                  "  return $name$_.getByteString(index);\n"
                  "}\n");
   printer->Annotate("{", "}", descriptor_);
+
+  printer->Annotate("{", "}", descriptor_);
+  WriteFieldAccessorDocComment(printer, descriptor_, LIST_INDEXED_SETTER,
+      /* builder */ true);
+  printer->Print(variables_,
+                 "$deprecation$public $classname$ ${$set$capitalized_name$$}$(\n"
+                 "    int index, java.lang.String value) {\n"
+                 "$null_check$"
+                 "  $name$_.set(index, value);\n"
+                 "  $on_changed$\n"
+                 "  return this;\n"
+                 "}\n");
+  printer->Annotate("{", "}", descriptor_);
+  WriteFieldAccessorDocComment(printer, descriptor_, LIST_ADDER,
+      /* builder */ true);
+  printer->Print(variables_,
+                 "$deprecation$public $classname$ ${$add$capitalized_name$$}$(\n"
+                 "    java.lang.String value) {\n"
+                 "$null_check$"
+                 "  $name$_.add(value);\n"
+                 "  $on_changed$\n"
+                 "  return this;\n"
+                 "}\n");
+  printer->Annotate("{", "}", descriptor_);
+  WriteFieldAccessorDocComment(printer, descriptor_, LIST_MULTI_ADDER,
+      /* builder */ true);
+  printer->Print(variables_,
+                 "$deprecation$public $classname$ ${$addAll$capitalized_name$$}$(\n"
+                 "    java.util.Collection<java.lang.String> values) {\n"
+                 "  $name$_.addAll(values);\n"
+                 "  $on_changed$\n"
+                 "  return this;\n"
+                 "}\n");
+  printer->Annotate("{", "}", descriptor_);
+  WriteFieldAccessorDocComment(printer, descriptor_, CLEARER,
+      /* builder */ true);
+  printer->Print(
+      variables_,
+      "$deprecation$public $classname$ ${$clear$capitalized_name$$}$() {\n"
+      "  $name$_ = $empty_list$;\n"
+      "  $on_changed$\n"
+      "  return this;\n"
+      "}\n");
+  printer->Annotate("{", "}", descriptor_);
+
+  WriteFieldStringBytesAccessorDocComment(printer, descriptor_, LIST_ADDER,
+      /* builder */ true);
+  printer->Print(
+      variables_,
+      "$deprecation$public $classname$ ${$add$capitalized_name$Bytes$}$(\n"
+      "    com.google.protobuf.ByteString value) {\n"
+      "$null_check$");
+  printer->Annotate("{", "}", descriptor_);
+  if (CheckUtf8(descriptor_)) {
+    printer->Print(variables_, "  checkByteStringIsUtf8(value);\n");
+  }
+  printer->Print(variables_,
+                 "  $name$_.add(value);\n"
+                 "  $on_changed$\n"
+                 "  return this;\n"
+                 "}\n");
 }
 
 void RepeatedImmutableStringFieldGenerator::GenerateInitializationCode(
@@ -582,9 +638,7 @@ void RepeatedImmutableStringFieldGenerator::GenerateMergingCode(
                  "if (!other.$name$_.isEmpty()) {\n"
                  "  if ($name$_.isEmpty()) {\n"
                  "    $name$_ = other.$name$_;\n"
-                 "    $clear_mutable_bit_builder$;\n"
                  "  } else {\n"
-                 "    ensure$capitalized_name$IsMutable();\n"
                  "    $name$_.addAll(other.$name$_);\n"
                  "  }\n"
                  "  $on_changed$\n"

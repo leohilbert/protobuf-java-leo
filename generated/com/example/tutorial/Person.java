@@ -16,6 +16,8 @@ private static final long serialVersionUID = 0L;
     name_ = "";
     email_ = "";
     phones_ = java.util.Collections.emptyList();
+    friendIds_ = new com.google.protobuf.LazyStringArrayList();
+    favoriteNrs_ = newIntList();
   }
 
   @java.lang.Override
@@ -87,6 +89,36 @@ private static final long serialVersionUID = 0L;
             break;
           }
           case 50: {
+            java.lang.String s = input.readStringRequireUtf8();
+            if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              friendIds_ = new com.google.protobuf.LazyStringArrayList();
+              mutable_bitField0_ |= 0x00000002;
+            }
+            friendIds_.add(s);
+            break;
+          }
+          case 56: {
+            if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+              favoriteNrs_ = newIntList();
+              mutable_bitField0_ |= 0x00000004;
+            }
+            favoriteNrs_.addInt(input.readInt32());
+            break;
+          }
+          case 58: {
+            int length = input.readRawVarint32();
+            int limit = input.pushLimit(length);
+            if (!((mutable_bitField0_ & 0x00000004) != 0) && input.getBytesUntilLimit() > 0) {
+              favoriteNrs_ = newIntList();
+              mutable_bitField0_ |= 0x00000004;
+            }
+            while (input.getBytesUntilLimit() > 0) {
+              favoriteNrs_.addInt(input.readInt32());
+            }
+            input.popLimit(limit);
+            break;
+          }
+          case 66: {
             lastUpdated_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
             break;
           }
@@ -107,6 +139,12 @@ private static final long serialVersionUID = 0L;
     } finally {
       if (((mutable_bitField0_ & 0x00000001) != 0)) {
         phones_ = java.util.Collections.unmodifiableList(phones_);
+      }
+      if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        friendIds_ = friendIds_.getUnmodifiableView();
+      }
+      if (((mutable_bitField0_ & 0x00000004) != 0)) {
+        favoriteNrs_.makeImmutable(); // C
       }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
@@ -700,24 +738,193 @@ private static final long serialVersionUID = 0L;
     return phones_.get(index);
   }
 
-  public static final int LAST_UPDATED_FIELD_NUMBER = 6;
+  public static final int FRIENDIDS_FIELD_NUMBER = 6;
+  private com.google.protobuf.LazyStringList friendIds_;
+  /**
+   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * @return A list containing the friendIds.
+   */
+  public com.google.protobuf.ProtocolStringList
+      getFriendIdsList() {
+    return friendIds_;
+  }
+  /**
+   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * @return The count of friendIds.
+   */
+  public int getFriendIdsCount() {
+    return friendIds_.size();
+  }
+  /**
+   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * @param index The index of the element to return.
+   * @return The friendIds at the given index.
+   */
+  public java.lang.String getFriendIds(int index) {
+    return friendIds_.get(index);
+  }
+  /**
+   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * @param index The index of the value to return.
+   * @return The bytes of the friendIds at the given index.
+   */
+  public com.google.protobuf.ByteString
+      getFriendIdsBytes(int index) {
+    return friendIds_.getByteString(index);
+  }
+  /**
+   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * @param index The index to set the value at.
+   * @param value The friendIds to set.
+   * @return This builder for chaining.
+   */
+  public Person setFriendIds(
+      int index, java.lang.String value) {
+    if (value == null) {
+    throw new NullPointerException();
+  }
+  friendIds_.set(index, value);
+    onChanged();
+    return this;
+  }
+  /**
+   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * @param value The friendIds to add.
+   * @return This builder for chaining.
+   */
+  public Person addFriendIds(
+      java.lang.String value) {
+    if (value == null) {
+    throw new NullPointerException();
+  }
+  friendIds_.add(value);
+    onChanged();
+    return this;
+  }
+  /**
+   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * @param values The friendIds to add.
+   * @return This builder for chaining.
+   */
+  public Person addAllFriendIds(
+      java.util.Collection<java.lang.String> values) {
+    friendIds_.addAll(values);
+    onChanged();
+    return this;
+  }
+  /**
+   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * @return This builder for chaining.
+   */
+  public Person clearFriendIds() {
+    friendIds_ = new com.google.protobuf.LazyStringArrayList();
+    onChanged();
+    return this;
+  }
+  /**
+   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * @param value The bytes of the friendIds to add.
+   * @return This builder for chaining.
+   */
+  public Person addFriendIdsBytes(
+      com.google.protobuf.ByteString value) {
+    if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+    friendIds_.add(value);
+    onChanged();
+    return this;
+  }
+
+  public static final int FAVORITENRS_FIELD_NUMBER = 7;
+  private com.google.protobuf.Internal.IntList favoriteNrs_;
+  /**
+   * <code>repeated int32 favoriteNrs = 7[json_name = "favoriteNrs"];</code>
+   * @return A list containing the favoriteNrs.
+   */
+  public java.util.List<java.lang.Integer>
+      getFavoriteNrsList() {
+    return favoriteNrs_;
+  }
+  /**
+   * <code>repeated int32 favoriteNrs = 7[json_name = "favoriteNrs"];</code>
+   * @return The count of favoriteNrs.
+   */
+  public int getFavoriteNrsCount() {
+    return favoriteNrs_.size();
+  }
+  /**
+   * <code>repeated int32 favoriteNrs = 7[json_name = "favoriteNrs"];</code>
+   * @param index The index of the element to return.
+   * @return The favoriteNrs at the given index.
+   */
+  public int getFavoriteNrs(int index) {
+    return favoriteNrs_.getInt(index);
+  }
+  private int favoriteNrsMemoizedSerializedSize = -1;
+  /**
+   * <code>repeated int32 favoriteNrs = 7[json_name = "favoriteNrs"];</code>
+   * @param index The index to set the value at.
+   * @param value The favoriteNrs to set.
+   * @return This builder for chaining.
+   */
+  public Person setFavoriteNrs(
+      int index, java.lang.Integer value) {
+    favoriteNrs_.set(index, value);
+    onChanged();
+    return this;
+  }
+  /**
+   * <code>repeated int32 favoriteNrs = 7[json_name = "favoriteNrs"];</code>
+   * @param value The favoriteNrs to add.
+   * @return This builder for chaining.
+   */
+  public Person addFavoriteNrs(
+      java.lang.Integer value) {
+    favoriteNrs_.add(value);
+    onChanged();
+    return this;
+  }
+  /**
+   * <code>repeated int32 favoriteNrs = 7[json_name = "favoriteNrs"];</code>
+   * @param values The favoriteNrs to add.
+   * @return This builder for chaining.
+   */
+  public Person addAllFavoriteNrs(
+      java.util.Collection<java.lang.Integer> values) {
+    favoriteNrs_.addAll(values);
+    onChanged();
+    return this;
+  }
+  /**
+   * <code>repeated int32 favoriteNrs = 7[json_name = "favoriteNrs"];</code>
+   * @return This builder for chaining.
+   */
+  public Person clearFavoriteNrs() {
+    favoriteNrs_ = newIntList();
+    onChanged();
+    return this;
+  }
+
+  public static final int LAST_UPDATED_FIELD_NUMBER = 8;
   private com.google.protobuf.Timestamp lastUpdated_;
   /**
-   * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
+   * <code>.google.protobuf.Timestamp last_updated = 8[json_name = "lastUpdated"];</code>
    * @return Whether the lastUpdated field is set.
    */
   public boolean hasLastUpdated() {
     return lastUpdated_ != null;
   }
   /**
-   * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
+   * <code>.google.protobuf.Timestamp last_updated = 8[json_name = "lastUpdated"];</code>
    * @return The lastUpdated.
    */
   public com.google.protobuf.Timestamp getLastUpdated() {
     return lastUpdated_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : lastUpdated_;
   }
   /**
-   * <code>.google.protobuf.Timestamp last_updated = 6[json_name = "lastUpdated"];</code>
+   * <code>.google.protobuf.Timestamp last_updated = 8[json_name = "lastUpdated"];</code>
    * @param value The lastUpdated to set.
    */
   public Person setLastUpdated(com.google.protobuf.Timestamp value) {
@@ -745,6 +952,7 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
+    getSerializedSize();
     if (id_ != null) {
       output.writeString(1, de.leohilbert.protoconverter.ProtoConverter_JAVA_UTIL_UUID.toProto(id_));
     }
@@ -760,8 +968,18 @@ private static final long serialVersionUID = 0L;
     for (int i = 0; i < phones_.size(); i++) {
       output.writeMessage(5, phones_.get(i));
     }
+    for (int i = 0; i < friendIds_.size(); i++) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 6, friendIds_.getRaw(i));
+    }
+    if (getFavoriteNrsList().size() > 0) {
+      output.writeUInt32NoTag(58);
+      output.writeUInt32NoTag(favoriteNrsMemoizedSerializedSize);
+    }
+    for (int i = 0; i < favoriteNrs_.size(); i++) {
+      output.writeInt32NoTag(favoriteNrs_.getInt(i));
+    }
     if (lastUpdated_ != null) {
-      output.writeMessage(6, getLastUpdated());
+      output.writeMessage(8, getLastUpdated());
     }
     unknownFields.writeTo(output);
   }
@@ -790,9 +1008,31 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(5, phones_.get(i));
     }
+    {
+      int dataSize = 0;
+      for (int i = 0; i < friendIds_.size(); i++) {
+        dataSize += computeStringSizeNoTag(friendIds_.getRaw(i));
+      }
+      size += dataSize;
+      size += 1 * getFriendIdsList().size();
+    }
+    {
+      int dataSize = 0;
+      for (int i = 0; i < favoriteNrs_.size(); i++) {
+        dataSize += com.google.protobuf.CodedOutputStream
+          .computeInt32SizeNoTag(favoriteNrs_.getInt(i));
+      }
+      size += dataSize;
+      if (!getFavoriteNrsList().isEmpty()) {
+        size += 1;
+        size += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(dataSize);
+      }
+      favoriteNrsMemoizedSerializedSize = dataSize;
+    }
     if (lastUpdated_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(6, getLastUpdated());
+        .computeMessageSize(8, getLastUpdated());
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -819,6 +1059,10 @@ private static final long serialVersionUID = 0L;
         .equals(other.getEmail())) return false;
     if (!getPhonesList()
         .equals(other.getPhonesList())) return false;
+    if (!getFriendIdsList()
+        .equals(other.getFriendIdsList())) return false;
+    if (!getFavoriteNrsList()
+        .equals(other.getFavoriteNrsList())) return false;
     if (hasLastUpdated() != other.hasLastUpdated()) return false;
     if (hasLastUpdated()) {
       if (!getLastUpdated()
@@ -846,6 +1090,14 @@ private static final long serialVersionUID = 0L;
     if (getPhonesCount() > 0) {
       hash = (37 * hash) + PHONES_FIELD_NUMBER;
       hash = (53 * hash) + getPhonesList().hashCode();
+    }
+    if (getFriendIdsCount() > 0) {
+      hash = (37 * hash) + FRIENDIDS_FIELD_NUMBER;
+      hash = (53 * hash) + getFriendIdsList().hashCode();
+    }
+    if (getFavoriteNrsCount() > 0) {
+      hash = (37 * hash) + FAVORITENRS_FIELD_NUMBER;
+      hash = (53 * hash) + getFavoriteNrsList().hashCode();
     }
     if (hasLastUpdated()) {
       hash = (37 * hash) + LAST_UPDATED_FIELD_NUMBER;
