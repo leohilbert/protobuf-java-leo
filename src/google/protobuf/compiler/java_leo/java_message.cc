@@ -48,7 +48,7 @@
 #include <google/protobuf/io/printer.h>
 #include <google/protobuf/wire_format.h>
 #include <google/protobuf/stubs/strutil.h>
-#include <javaleo/proto/options.pb.h>
+#include <javaleo/proto/leo_options.pb.h>
 
 namespace google {
 namespace protobuf {

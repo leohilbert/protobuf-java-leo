@@ -39,27 +39,27 @@ public final class AddressBookProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n\021addressbook.proto\022\010tutorial\032\037google/pr" +
-      "otobuf/timestamp.proto\032\roptions.proto\"\355\002" +
-      "\n\006Person\022\"\n\002id\030\001 \001(\tB\022\222\202\031\016java.util.UUID" +
-      "R\002id\022\022\n\004name\030\002 \001(\tR\004name\022\020\n\003age\030\003 \001(\005R\003a" +
-      "ge\022\024\n\005email\030\004 \001(\tR\005email\0224\n\006phones\030\005 \003(\013" +
-      "2\034.tutorial.Person.PhoneNumberR\006phones\022\034" +
-      "\n\tfriendIds\030\006 \003(\tR\tfriendIds\022 \n\013favorite" +
-      "Nrs\030\007 \003(\005R\013favoriteNrs\022=\n\014last_updated\030\010" +
-      " \001(\0132\032.google.protobuf.TimestampR\013lastUp" +
-      "dated\032N\n\013PhoneNumber\022\026\n\006number\030\001 \001(\tR\006nu" +
-      "mber\022\'\n\004type\030\002 \001(\0162\023.tutorial.PhoneTypeR" +
-      "\004type\"7\n\013AddressBook\022(\n\006people\030\001 \003(\0132\020.t" +
-      "utorial.PersonR\006people*+\n\tPhoneType\022\n\n\006M" +
-      "OBILE\020\000\022\010\n\004HOME\020\001\022\010\n\004WORK\020\002B/\n\024com.examp" +
-      "le.tutorialB\021AddressBookProtosP\001\230\202\031\001b\006pr" +
-      "oto3"
+      "otobuf/timestamp.proto\032\021leo_options.prot" +
+      "o\"\355\002\n\006Person\022\"\n\002id\030\001 \001(\tB\022\222\202\031\016java.util." +
+      "UUIDR\002id\022\022\n\004name\030\002 \001(\tR\004name\022\020\n\003age\030\003 \001(" +
+      "\005R\003age\022\024\n\005email\030\004 \001(\tR\005email\0224\n\006phones\030\005" +
+      " \003(\0132\034.tutorial.Person.PhoneNumberR\006phon" +
+      "es\022\034\n\tfriendIds\030\006 \003(\tR\tfriendIds\022 \n\013favo" +
+      "riteNrs\030\007 \003(\005R\013favoriteNrs\022=\n\014last_updat" +
+      "ed\030\010 \001(\0132\032.google.protobuf.TimestampR\013la" +
+      "stUpdated\032N\n\013PhoneNumber\022\026\n\006number\030\001 \001(\t" +
+      "R\006number\022\'\n\004type\030\002 \001(\0162\023.tutorial.PhoneT" +
+      "ypeR\004type\"7\n\013AddressBook\022(\n\006people\030\001 \003(\013" +
+      "2\020.tutorial.PersonR\006people*+\n\tPhoneType\022" +
+      "\n\n\006MOBILE\020\000\022\010\n\004HOME\020\001\022\010\n\004WORK\020\002B/\n\024com.e" +
+      "xample.tutorialB\021AddressBookProtosP\001\230\202\031\001" +
+      "b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.google.protobuf.TimestampProto.getDescriptor(),
-          javaleo.proto.Options.getDescriptor(),
+          javaleo.proto.LeoOptions.getDescriptor(),
         });
     internal_static_tutorial_Person_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -81,12 +81,12 @@ public final class AddressBookProtos {
         new java.lang.String[] { "People", });
     com.google.protobuf.ExtensionRegistry registry =
         com.google.protobuf.ExtensionRegistry.newInstance();
-    registry.add(javaleo.proto.Options.javatype);
-    registry.add(javaleo.proto.Options.useCustomSuperclass);
+    registry.add(javaleo.proto.LeoOptions.javatype);
+    registry.add(javaleo.proto.LeoOptions.useCustomSuperclass);
     com.google.protobuf.Descriptors.FileDescriptor
         .internalUpdateFileDescriptor(descriptor, registry);
     com.google.protobuf.TimestampProto.getDescriptor();
-    javaleo.proto.Options.getDescriptor();
+    javaleo.proto.LeoOptions.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -43,7 +43,7 @@
 #include <google/protobuf/wire_format.h>
 #include <google/protobuf/stubs/strutil.h>
   // for hash<T *>
-#include <javaleo/proto/options.pb.h>
+#include <javaleo/proto/leo_options.pb.h>
 
 namespace google {
 namespace protobuf {

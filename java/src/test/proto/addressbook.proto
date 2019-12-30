@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
-import "options.proto";
+import "leo_options.proto";
 
 package tutorial;
 option (javaleo.proto.use_custom_superclass) = true;
