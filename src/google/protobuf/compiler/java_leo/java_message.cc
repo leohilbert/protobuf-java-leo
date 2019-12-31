@@ -285,7 +285,12 @@ void ImmutableMessageGenerator::GenerateInterface(io::Printer* printer) {
 void ImmutableMessageGenerator::Generate(io::Printer* printer) {
   bool is_own_file = IsOwnFile(descriptor_, /* immutable = */ true);
 
-  bool customSuperclass = descriptor_->file()->options().GetExtension(leo::proto::use_custom_superclass);
+  bool customSuperclass;
+  if (descriptor_->options().HasExtension(leo::proto::msg_use_custom_superclass)) {
+    customSuperclass = descriptor_->options().GetExtension(leo::proto::msg_use_custom_superclass);
+  } else {
+    customSuperclass = descriptor_->file()->options().GetExtension(leo::proto::use_custom_superclass);
+  }
   std::map<std::string, std::string> variables;
   variables["static"] = is_own_file ? " " : " static ";
   variables["classname"] = descriptor_->name();
@@ -322,7 +327,7 @@ void ImmutableMessageGenerator::Generate(io::Printer* printer) {
     if (customSuperclass) {
       printer->Print(variables, "    $classname$Custom");
     } else {
-      printer->Print(variables, "    de.leohilbert.GeneratedMessageLeo");
+      printer->Print(variables, "    de.leohilbert.proto.GeneratedMessageLeo");
     }
     printer->Print(variables, " implements\n"
                               "    $extra_interfaces$\n"

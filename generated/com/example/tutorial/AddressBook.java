@@ -7,12 +7,12 @@ package com.example.tutorial;
  * Protobuf type {@code tutorial.AddressBook}
  */
 public  final class AddressBook extends
-    AddressBookCustom implements
+    de.leohilbert.proto.GeneratedMessageLeo implements
     // @@protoc_insertion_point(message_implements:tutorial.AddressBook)
     AddressBookInterface<AddressBook> {
 private static final long serialVersionUID = 0L;
   public AddressBook() {
-    people_ = new java.util.ArrayList<com.example.tutorial.Person>(people_);
+    people_ = new java.util.ArrayList<com.example.tutorial.Person>();
     owner_ = null;
   }
 

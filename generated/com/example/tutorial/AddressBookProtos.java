@@ -49,13 +49,13 @@ public final class AddressBookProtos {
       "_updated\030\010 \001(\0132\032.google.protobuf.Timesta" +
       "mpR\013lastUpdated\032N\n\013PhoneNumber\022\026\n\006number" +
       "\030\001 \001(\tR\006number\022\'\n\004type\030\002 \001(\0162\023.tutorial." +
-      "PhoneTypeR\004type\"\210\001\n\013AddressBook\022(\n\006peopl" +
+      "PhoneTypeR\004type\"\216\001\n\013AddressBook\022(\n\006peopl" +
       "e\030\001 \003(\0132\020.tutorial.PersonR\006people\022O\n\005own" +
       "er\030\002 \001(\0132\020.tutorial.PersonB\'\222\202\031#com.exam" +
-      "ple.custom.CustomOwnerClassR\005owner*+\n\tPh" +
-      "oneType\022\n\n\006MOBILE\020\000\022\010\n\004HOME\020\001\022\010\n\004WORK\020\002B" +
-      "/\n\024com.example.tutorialB\021AddressBookProt" +
-      "osP\001\230\202\031\001b\006proto3"
+      "ple.custom.CustomOwnerClassR\005owner:\004\240\202\031\000" +
+      "*+\n\tPhoneType\022\n\n\006MOBILE\020\000\022\010\n\004HOME\020\001\022\010\n\004W" +
+      "ORK\020\002B/\n\024com.example.tutorialB\021AddressBo" +
+      "okProtosP\001\230\202\031\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -84,6 +84,7 @@ public final class AddressBookProtos {
     com.google.protobuf.ExtensionRegistry registry =
         com.google.protobuf.ExtensionRegistry.newInstance();
     registry.add(leo.proto.LeoOptions.javatype);
+    registry.add(leo.proto.LeoOptions.msgUseCustomSuperclass);
     registry.add(leo.proto.LeoOptions.useCustomSuperclass);
     com.google.protobuf.Descriptors.FileDescriptor
         .internalUpdateFileDescriptor(descriptor, registry);

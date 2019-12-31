@@ -538,7 +538,7 @@ void RepeatedImmutableMessageFieldGenerator::PrintNestedBuilderFunction(
 
 void RepeatedImmutableMessageFieldGenerator::GenerateInitializationCode(
     io::Printer* printer) const {
-  printer->Print(variables_, "$name$_ = new java.util.ArrayList<$type$>($name$_);\n");
+  printer->Print(variables_, "$name$_ = new java.util.ArrayList<$type$>();\n");
 }
 
 void RepeatedImmutableMessageFieldGenerator::GenerateMergingCode(

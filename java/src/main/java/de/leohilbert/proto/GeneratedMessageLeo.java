@@ -1,4 +1,4 @@
-package de.leohilbert;
+package de.leohilbert.proto;
 
 import com.google.protobuf.GeneratedMessageV3;
 import com.google.protobuf.Message;

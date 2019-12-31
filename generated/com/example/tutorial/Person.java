@@ -15,7 +15,7 @@ private static final long serialVersionUID = 0L;
     id_ = null;
     name_ = "";
     email_ = "";
-    phones_ = new java.util.ArrayList<com.example.tutorial.Person.PhoneNumber>(phones_);
+    phones_ = new java.util.ArrayList<com.example.tutorial.Person.PhoneNumber>();
     friendIds_ = new com.google.protobuf.LazyStringArrayList();
     favoriteNumber_ = newIntList();
   }

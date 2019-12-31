@@ -173,7 +173,7 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
     (*variables)["set_has_field_bit_builder"] = "";
     (*variables)["clear_has_field_bit_builder"] = "";
 
-    if (descriptor->type() == FieldDescriptor::TYPE_BYTES) {
+    if (descriptor->type() == FieldDescriptor::TYPE_BYTES && javaType != JAVATYPE_CUSTOM) {
       (*variables)["is_field_present_message"] =
           "!" + (*variables)["name"] + "_.isEmpty()";
     } else {

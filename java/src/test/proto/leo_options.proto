@@ -10,3 +10,7 @@ extend google.protobuf.FieldOptions {
 extend google.protobuf.FileOptions {
     bool use_custom_superclass = 51235;
 }
+
+extend google.protobuf.MessageOptions {
+    bool msg_use_custom_superclass = 51236;
+}

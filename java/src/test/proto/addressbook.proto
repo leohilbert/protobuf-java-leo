@@ -34,6 +34,7 @@ message Person {
 }
 
 message AddressBook {
+    option (leo.proto.msg_use_custom_superclass) = false;
     repeated Person people = 1;
     Person owner = 2 [(leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];
 }
