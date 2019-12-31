@@ -26,23 +26,29 @@ public class ProtoLeoTest {
         assertEquals(person.getId(), TEST_UUID1);
         assertEquals(person.getEmail(), "hans@wurst.de");
 
-        final Person person2 = new Person(CodedInputStream.newInstance(getByteArray(person)), getEmptyRegistry());
-        assertEquals(person2.getId(), TEST_UUID1);
-        assertEquals(person2.getEmail(), "hans@wurst.de");
+        final Person deserPerson = new Person(CodedInputStream.newInstance(getByteArray(person)), getEmptyRegistry());
+        assertEquals(deserPerson.getId(), TEST_UUID1);
+        assertEquals(deserPerson.getEmail(), "hans@wurst.de");
 
         person.setId(TEST_UUID2);
         assertEquals(person.getId(), TEST_UUID2);
 
-        person2.setEmail("horst@wurst.de");
-        assertEquals(person2.getEmail(), "horst@wurst.de");
+        deserPerson.setEmail("horst@wurst.de");
+        assertEquals(deserPerson.getEmail(), "horst@wurst.de");
 
-        person.updateFrom(CodedInputStream.newInstance(getByteArray(person2)), getEmptyRegistry());
+        person.updateFrom(CodedInputStream.newInstance(getByteArray(deserPerson)), getEmptyRegistry());
         assertEquals(person.getEmail(), "horst@wurst.de");
         assertEquals(person.getId(), TEST_UUID1);
         assertThat(person.getFriendIdsList()).containsExactly("Dieter", "Horst");
         assertThat(person.getFavoriteNumberList()).containsExactly(14, 15);
 
-        new AddressBook().setOwner(new CustomOwnerClass("test@test.de"));
+        AddressBook addressBook = new AddressBook()
+                .addPeople(person)
+                .setOwner(new CustomOwnerClass("owner@test.de"));
+
+        final AddressBook deserAddressbook = new AddressBook(CodedInputStream.newInstance(getByteArray(addressBook)), getEmptyRegistry());
+        assertThat(deserAddressbook.getPeopleList()).containsExactly(person);
+        assertThat(deserAddressbook.getOwner().email).isEqualTo("owner@test.de");
     }
 
     private byte[] getByteArray(final MessageLite message) throws IOException {

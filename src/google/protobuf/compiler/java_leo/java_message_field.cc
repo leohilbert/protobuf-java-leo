@@ -112,6 +112,10 @@ void SetMessageVariables(const FieldDescriptor* descriptor, int messageBitIndex,
       GenerateGetBitFromLocal(builderBitIndex);
   (*variables)["set_has_field_bit_to_local"] =
       GenerateSetBitToLocal(messageBitIndex);
+  (*variables)["null_check"] =
+      "  if (value == null) {\n"
+      "    throw new NullPointerException();\n"
+      "  }\n";
 }
 
 }  // namespace
@@ -460,6 +464,46 @@ void RepeatedImmutableMessageFieldGenerator::GenerateMembers(
       "  return $name$_.get(index);\n"
       "}\n");
   printer->Annotate("{", "}", descriptor_);
+
+  printer->Annotate("{", "}", descriptor_);
+  WriteFieldAccessorDocComment(printer, descriptor_, LIST_INDEXED_SETTER, true);
+  printer->Print(variables_,
+                 "$deprecation$public $classname$ ${$set$capitalized_name$$}$(\n"
+                 "    int index, $type$ value) {\n"
+                 "$null_check$"
+                 "  $name$_.set(index, value);\n"
+                 "  $on_changed$\n"
+                 "  return this;\n"
+                 "}\n");
+  printer->Annotate("{", "}", descriptor_);
+  WriteFieldAccessorDocComment(printer, descriptor_, LIST_ADDER, true);
+  printer->Print(variables_,
+                 "$deprecation$public $classname$ ${$add$capitalized_name$$}$(\n"
+                 "    $type$ value) {\n"
+                 "$null_check$"
+                 "  $name$_.add(value);\n"
+                 "  $on_changed$\n"
+                 "  return this;\n"
+                 "}\n");
+  printer->Annotate("{", "}", descriptor_);
+  WriteFieldAccessorDocComment(printer, descriptor_, LIST_MULTI_ADDER, true);
+  printer->Print(variables_,
+                 "$deprecation$public $classname$ ${$addAll$capitalized_name$$}$(\n"
+                 "    java.util.Collection<$type$> values) {\n"
+                 "  $name$_.addAll(values);\n"
+                 "  $on_changed$\n"
+                 "  return this;\n"
+                 "}\n");
+  printer->Annotate("{", "}", descriptor_);
+  WriteFieldAccessorDocComment(printer, descriptor_, CLEARER, true);
+  printer->Print(
+      variables_,
+      "$deprecation$public $classname$ ${$clear$capitalized_name$$}$() {\n"
+      "  $name$_ = new java.util.ArrayList<$type$>($name$_);\n"
+      "  $on_changed$\n"
+      "  return this;\n"
+      "}\n");
+  printer->Annotate("{", "}", descriptor_);
 }
 
 void RepeatedImmutableMessageFieldGenerator::PrintNestedBuilderCondition(
@@ -494,7 +538,7 @@ void RepeatedImmutableMessageFieldGenerator::PrintNestedBuilderFunction(
 
 void RepeatedImmutableMessageFieldGenerator::GenerateInitializationCode(
     io::Printer* printer) const {
-  printer->Print(variables_, "$name$_ = java.util.Collections.emptyList();\n");
+  printer->Print(variables_, "$name$_ = new java.util.ArrayList<$type$>($name$_);\n");
 }
 
 void RepeatedImmutableMessageFieldGenerator::GenerateMergingCode(

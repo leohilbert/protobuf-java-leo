@@ -239,7 +239,7 @@ void WriteFieldAccessorDocComment(io::Printer* printer,
       break;
   }
   if (builder) {
-    printer->Print(" * @return This builder for chaining.\n");
+    printer->Print(" * @return 'This' for chaining.\n");
   }
   printer->Print(" */\n");
 }

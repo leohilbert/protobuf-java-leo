@@ -15,7 +15,7 @@ private static final long serialVersionUID = 0L;
     id_ = null;
     name_ = "";
     email_ = "";
-    phones_ = java.util.Collections.emptyList();
+    phones_ = new java.util.ArrayList<com.example.tutorial.Person.PhoneNumber>(phones_);
     friendIds_ = new com.google.protobuf.LazyStringArrayList();
     favoriteNumber_ = newIntList();
   }
@@ -737,6 +737,55 @@ private static final long serialVersionUID = 0L;
   public com.example.tutorial.Person.PhoneNumber getPhones(int index) {
     return phones_.get(index);
   }
+  /**
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   * @param index The index to set the value at.
+   * @param value The phones to set.
+   * @return 'This' for chaining.
+   */
+  public Person setPhones(
+      int index, com.example.tutorial.Person.PhoneNumber value) {
+    if (value == null) {
+    throw new NullPointerException();
+  }
+  phones_.set(index, value);
+    onChanged();
+    return this;
+  }
+  /**
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   * @param value The phones to add.
+   * @return 'This' for chaining.
+   */
+  public Person addPhones(
+      com.example.tutorial.Person.PhoneNumber value) {
+    if (value == null) {
+    throw new NullPointerException();
+  }
+  phones_.add(value);
+    onChanged();
+    return this;
+  }
+  /**
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   * @param values The phones to add.
+   * @return 'This' for chaining.
+   */
+  public Person addAllPhones(
+      java.util.Collection<com.example.tutorial.Person.PhoneNumber> values) {
+    phones_.addAll(values);
+    onChanged();
+    return this;
+  }
+  /**
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   * @return 'This' for chaining.
+   */
+  public Person clearPhones() {
+    phones_ = new java.util.ArrayList<com.example.tutorial.Person.PhoneNumber>(phones_);
+    onChanged();
+    return this;
+  }
 
   public static final int FRIENDIDS_FIELD_NUMBER = 6;
   private com.google.protobuf.LazyStringList friendIds_;
@@ -776,7 +825,7 @@ private static final long serialVersionUID = 0L;
    * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
    * @param index The index to set the value at.
    * @param value The friendIds to set.
-   * @return This builder for chaining.
+   * @return 'This' for chaining.
    */
   public Person setFriendIds(
       int index, java.lang.String value) {
@@ -790,7 +839,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
    * @param value The friendIds to add.
-   * @return This builder for chaining.
+   * @return 'This' for chaining.
    */
   public Person addFriendIds(
       java.lang.String value) {
@@ -804,7 +853,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
    * @param values The friendIds to add.
-   * @return This builder for chaining.
+   * @return 'This' for chaining.
    */
   public Person addAllFriendIds(
       java.util.Collection<java.lang.String> values) {
@@ -814,7 +863,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
-   * @return This builder for chaining.
+   * @return 'This' for chaining.
    */
   public Person clearFriendIds() {
     friendIds_ = new com.google.protobuf.LazyStringArrayList();
@@ -867,7 +916,7 @@ private static final long serialVersionUID = 0L;
    * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
    * @param index The index to set the value at.
    * @param value The favoriteNumber to set.
-   * @return This builder for chaining.
+   * @return 'This' for chaining.
    */
   public Person setFavoriteNumber(
       int index, java.lang.Integer value) {
@@ -878,7 +927,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
    * @param value The favoriteNumber to add.
-   * @return This builder for chaining.
+   * @return 'This' for chaining.
    */
   public Person addFavoriteNumber(
       java.lang.Integer value) {
@@ -889,7 +938,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
    * @param values The favoriteNumber to add.
-   * @return This builder for chaining.
+   * @return 'This' for chaining.
    */
   public Person addAllFavoriteNumber(
       java.util.Collection<java.lang.Integer> values) {
@@ -899,7 +948,7 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
-   * @return This builder for chaining.
+   * @return 'This' for chaining.
    */
   public Person clearFavoriteNumber() {
     favoriteNumber_ = newIntList();

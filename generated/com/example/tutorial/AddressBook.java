@@ -12,7 +12,7 @@ public  final class AddressBook extends
     AddressBookInterface<AddressBook> {
 private static final long serialVersionUID = 0L;
   public AddressBook() {
-    people_ = java.util.Collections.emptyList();
+    people_ = new java.util.ArrayList<com.example.tutorial.Person>(people_);
     owner_ = null;
   }
 
@@ -128,6 +128,55 @@ private static final long serialVersionUID = 0L;
    */
   public com.example.tutorial.Person getPeople(int index) {
     return people_.get(index);
+  }
+  /**
+   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   * @param index The index to set the value at.
+   * @param value The people to set.
+   * @return 'This' for chaining.
+   */
+  public AddressBook setPeople(
+      int index, com.example.tutorial.Person value) {
+    if (value == null) {
+    throw new NullPointerException();
+  }
+  people_.set(index, value);
+    onChanged();
+    return this;
+  }
+  /**
+   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   * @param value The people to add.
+   * @return 'This' for chaining.
+   */
+  public AddressBook addPeople(
+      com.example.tutorial.Person value) {
+    if (value == null) {
+    throw new NullPointerException();
+  }
+  people_.add(value);
+    onChanged();
+    return this;
+  }
+  /**
+   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   * @param values The people to add.
+   * @return 'This' for chaining.
+   */
+  public AddressBook addAllPeople(
+      java.util.Collection<com.example.tutorial.Person> values) {
+    people_.addAll(values);
+    onChanged();
+    return this;
+  }
+  /**
+   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   * @return 'This' for chaining.
+   */
+  public AddressBook clearPeople() {
+    people_ = new java.util.ArrayList<com.example.tutorial.Person>(people_);
+    onChanged();
+    return this;
   }
 
   public static final int OWNER_FIELD_NUMBER = 2;
