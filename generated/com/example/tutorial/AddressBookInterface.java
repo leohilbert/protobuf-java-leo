@@ -20,4 +20,15 @@ public interface AddressBookInterface<SELF> extends
    * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
    */
   int getPeopleCount();
+
+  /**
+   * <code>.tutorial.Person owner = 2[json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
+   * @return The owner.
+   */
+  com.example.custom.CustomOwnerClass getOwner();
+  /**
+   * <code>.tutorial.Person owner = 2[json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
+   * @param value The owner to set.
+   */
+  SELF setOwner(com.example.custom.CustomOwnerClass value);
 }

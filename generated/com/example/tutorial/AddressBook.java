@@ -13,6 +13,7 @@ public  final class AddressBook extends
 private static final long serialVersionUID = 0L;
   public AddressBook() {
     people_ = java.util.Collections.emptyList();
+    owner_ = null;
   }
 
   @java.lang.Override
@@ -59,6 +60,11 @@ private static final long serialVersionUID = 0L;
             }
             people_.add(
                 input.readMessage(com.example.tutorial.Person.parser(), extensionRegistry));
+            break;
+          }
+          case 18: {
+
+            owner_ = de.leohilbert.protoconverter.ProtoConverter_COM_EXAMPLE_CUSTOM_CUSTOMOWNERCLASS.fromProto(input.readMessage(com.example.tutorial.Person.parser(), extensionRegistry));
             break;
           }
           default: {
@@ -124,6 +130,30 @@ private static final long serialVersionUID = 0L;
     return people_.get(index);
   }
 
+  public static final int OWNER_FIELD_NUMBER = 2;
+  private com.example.custom.CustomOwnerClass owner_;
+  /**
+   * <code>.tutorial.Person owner = 2[json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
+   * @return The owner.
+   */
+  public com.example.custom.CustomOwnerClass getOwner() {
+    return owner_;
+  }
+  /**
+   * <code>.tutorial.Person owner = 2[json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
+   * @param value The owner to set.
+   */
+  public AddressBook setOwner(com.example.custom.CustomOwnerClass value) {
+    if (value == null) {
+    throw new NullPointerException();
+  }
+  if(owner_ != value) {    
+      owner_ = value;
+      onChanged();
+    }
+    return this;
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -141,6 +171,9 @@ private static final long serialVersionUID = 0L;
     for (int i = 0; i < people_.size(); i++) {
       output.writeMessage(1, people_.get(i));
     }
+    if (owner_ != null) {
+      output.writeMessage(2, de.leohilbert.protoconverter.ProtoConverter_COM_EXAMPLE_CUSTOM_CUSTOMOWNERCLASS.toProto(owner_));
+    }
     unknownFields.writeTo(output);
   }
 
@@ -153,6 +186,10 @@ private static final long serialVersionUID = 0L;
     for (int i = 0; i < people_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(1, people_.get(i));
+    }
+    if (owner_ != null) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(2, de.leohilbert.protoconverter.ProtoConverter_COM_EXAMPLE_CUSTOM_CUSTOMOWNERCLASS.toProto(owner_));
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -171,6 +208,8 @@ private static final long serialVersionUID = 0L;
 
     if (!getPeopleList()
         .equals(other.getPeopleList())) return false;
+    if (!getOwner()
+        .equals(other.getOwner())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -186,6 +225,8 @@ private static final long serialVersionUID = 0L;
       hash = (37 * hash) + PEOPLE_FIELD_NUMBER;
       hash = (53 * hash) + getPeopleList().hashCode();
     }
+    hash = (37 * hash) + OWNER_FIELD_NUMBER;
+    hash = (53 * hash) + getOwner().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;

@@ -4,7 +4,7 @@ import "google/protobuf/timestamp.proto";
 import "leo_options.proto";
 
 package tutorial;
-option (javaleo.proto.use_custom_superclass) = true;
+option (leo.proto.use_custom_superclass) = true;
 option java_multiple_files = true;
 option java_package = "com.example.tutorial";
 option java_outer_classname = "AddressBookProtos";
@@ -16,7 +16,7 @@ enum PhoneType {
 }
 
 message Person {
-    string id = 1 [(javaleo.proto.javatype) = "java.util.UUID"];
+    string id = 1 [(leo.proto.javatype) = "java.util.UUID"];
     string name = 2;
     int32 age = 3;
     string email = 4;
@@ -28,11 +28,12 @@ message Person {
 
     repeated PhoneNumber phones = 5;
     repeated string friendIds = 6;
-    repeated int32 favoriteNrs = 7;
+    repeated int32 favoriteNumber = 7;
 
     google.protobuf.Timestamp last_updated = 8;
 }
 
 message AddressBook {
     repeated Person people = 1;
+    Person owner = 2 [(leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];
 }

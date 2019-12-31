@@ -4,7 +4,7 @@ project(protoc-gen-java-leo)
 set(CMAKE_CXX_STANDARD 17)
 set(LIB_PATH protoc/bin protoc/lib)
 
-file(GLOB SRC "src/javaleo/proto/*" "src/google/protobuf/compiler/java_leo/*.cc")
+file(GLOB SRC "src/leo/proto/*" "src/google/protobuf/compiler/java_leo/*.cc")
 
 add_executable(${CMAKE_PROJECT_NAME} ${SRC} ${CMAKE_SOURCE_DIR}/src/main.cpp)
 if (APPLE)

@@ -55,7 +55,7 @@ struct TableStruct_leo_5foptions_2eproto {
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_leo_5foptions_2eproto;
 PROTOBUF_NAMESPACE_OPEN
 PROTOBUF_NAMESPACE_CLOSE
-namespace javaleo {
+namespace leo {
 namespace proto {
 
 // ===================================================================
@@ -85,7 +85,7 @@ extern ::PROTOBUF_NAMESPACE_ID::internal::ExtensionIdentifier< ::google::protobu
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace proto
-}  // namespace javaleo
+}  // namespace leo
 
 // @@protoc_insertion_point(global_scope)
 

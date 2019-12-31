@@ -43,7 +43,7 @@
 #include <google/protobuf/wire_format.h>
 #include <google/protobuf/stubs/strutil.h>
   // for hash<T *>
-#include <javaleo/proto/leo_options.pb.h>
+#include <leo/proto/leo_options.pb.h>
 
 namespace google {
 namespace protobuf {
@@ -315,7 +315,7 @@ FieldDescriptor::Type GetType(const FieldDescriptor* field) {
 }
 
 std::string GetCustomJavaType(const FieldDescriptor* field) {
-  return field->options().GetExtension(javaleo::proto::javatype);
+  return field->options().GetExtension(leo::proto::javatype);
 }
 
 JavaType GetJavaType(const FieldDescriptor* field) {

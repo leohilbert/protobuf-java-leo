@@ -8,12 +8,12 @@ public interface PersonInterface<SELF> extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>string id = 1[json_name = "id", (.leo.proto.javatype) = "java.util.UUID"];</code>
    * @return The id.
    */
   java.util.UUID getId();
   /**
-   * <code>string id = 1[json_name = "id", (.javaleo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>string id = 1[json_name = "id", (.leo.proto.javatype) = "java.util.UUID"];</code>
    * @param value The id to set.
    */
   SELF setId(java.util.UUID value);
@@ -103,21 +103,21 @@ public interface PersonInterface<SELF> extends
       getFriendIdsBytes(int index);
 
   /**
-   * <code>repeated int32 favoriteNrs = 7[json_name = "favoriteNrs"];</code>
-   * @return A list containing the favoriteNrs.
+   * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
+   * @return A list containing the favoriteNumber.
    */
-  java.util.List<java.lang.Integer> getFavoriteNrsList();
+  java.util.List<java.lang.Integer> getFavoriteNumberList();
   /**
-   * <code>repeated int32 favoriteNrs = 7[json_name = "favoriteNrs"];</code>
-   * @return The count of favoriteNrs.
+   * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
+   * @return The count of favoriteNumber.
    */
-  int getFavoriteNrsCount();
+  int getFavoriteNumberCount();
   /**
-   * <code>repeated int32 favoriteNrs = 7[json_name = "favoriteNrs"];</code>
+   * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
    * @param index The index of the element to return.
-   * @return The favoriteNrs at the given index.
+   * @return The favoriteNumber at the given index.
    */
-  int getFavoriteNrs(int index);
+  int getFavoriteNumber(int index);
 
   /**
    * <code>.google.protobuf.Timestamp last_updated = 8[json_name = "lastUpdated"];</code>

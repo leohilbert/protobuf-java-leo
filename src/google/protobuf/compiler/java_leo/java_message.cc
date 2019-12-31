@@ -48,7 +48,7 @@
 #include <google/protobuf/io/printer.h>
 #include <google/protobuf/wire_format.h>
 #include <google/protobuf/stubs/strutil.h>
-#include <javaleo/proto/leo_options.pb.h>
+#include <leo/proto/leo_options.pb.h>
 
 namespace google {
 namespace protobuf {
@@ -285,7 +285,7 @@ void ImmutableMessageGenerator::GenerateInterface(io::Printer* printer) {
 void ImmutableMessageGenerator::Generate(io::Printer* printer) {
   bool is_own_file = IsOwnFile(descriptor_, /* immutable = */ true);
 
-  bool customSuperclass = descriptor_->file()->options().GetExtension(javaleo::proto::use_custom_superclass);
+  bool customSuperclass = descriptor_->file()->options().GetExtension(leo::proto::use_custom_superclass);
   std::map<std::string, std::string> variables;
   variables["static"] = is_own_file ? " " : " static ";
   variables["classname"] = descriptor_->name();

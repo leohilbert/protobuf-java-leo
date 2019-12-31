@@ -67,6 +67,12 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
   if (javaType == JAVATYPE_CUSTOM) {
     const string &customType = GetCustomJavaType(descriptor);
     (*variables)["type"] = customType;
+    if (descriptor->message_type() != nullptr) {
+      // if it is a "message" and no primitive field, we need to access the parser.
+      // this is necessary, because all leo-customClasses are handeled by this class
+      (*variables)["message_type"] = name_resolver->GetImmutableClassName(descriptor->message_type());
+      (*variables)["get_parser"] = ExposePublicParser(descriptor->message_type()->file()) ? "PARSER" : "parser()";
+    }
     (*variables)["boxed_type"] = customType;
     (*variables)["field_type"] = (*variables)["type"];
     (*variables)["default"] = "null";
@@ -302,7 +308,14 @@ void ImmutablePrimitiveFieldGenerator::GenerateParsingCode(
     io::Printer* printer) const {
   printer->Print(variables_,
                  "$set_has_field_bit_message$\n"
-                 "$name$_ = $customTypeParse$(input.read$capitalized_type$());\n");
+                 "$name$_ = $customTypeParse$(");
+  if (descriptor_->message_type() != nullptr) {
+    printer->Print(variables_,
+                   "input.readMessage($message_type$.$get_parser$, extensionRegistry));\n");
+  } else {
+    printer->Print(variables_,
+                   "input.read$capitalized_type$());\n");
+  }
 }
 
 void ImmutablePrimitiveFieldGenerator::GenerateParsingDoneCode(

@@ -8,7 +8,7 @@ set -e
 mkdir -p build
 
 protoc --proto_path=java/src/test/proto \
-  --cpp_out src/javaleo/proto \
+  --cpp_out src/leo/proto \
   java/src/test/proto/leo_options.proto
 
 cd build || exit

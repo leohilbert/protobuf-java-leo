@@ -2,6 +2,8 @@ import static com.google.protobuf.ExtensionRegistryLite.getEmptyRegistry;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.example.custom.CustomOwnerClass;
+import com.example.tutorial.AddressBook;
 import com.example.tutorial.Person;
 import com.google.protobuf.CodedInputStream;
 import com.google.protobuf.MessageLite;
@@ -20,7 +22,7 @@ public class ProtoLeoTest {
                 .setId(TEST_UUID1)
                 .setEmail("hans@wurst.de")
                 .addFriendIds("Dieter").addFriendIds("Horst")
-                .addFavoriteNrs(14).addFavoriteNrs(15);
+                .addFavoriteNumber(14).addFavoriteNumber(15);
         assertEquals(person.getId(), TEST_UUID1);
         assertEquals(person.getEmail(), "hans@wurst.de");
 
@@ -38,7 +40,9 @@ public class ProtoLeoTest {
         assertEquals(person.getEmail(), "horst@wurst.de");
         assertEquals(person.getId(), TEST_UUID1);
         assertThat(person.getFriendIdsList()).containsExactly("Dieter", "Horst");
-        assertThat(person.getFavoriteNrsList()).containsExactly(14, 15);
+        assertThat(person.getFavoriteNumberList()).containsExactly(14, 15);
+
+        new AddressBook().setOwner(new CustomOwnerClass("test@test.de"));
     }
 
     private byte[] getByteArray(final MessageLite message) throws IOException {
