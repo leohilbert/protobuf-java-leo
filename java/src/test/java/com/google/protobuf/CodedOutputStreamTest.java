@@ -689,7 +689,7 @@ public class CodedOutputStreamTest extends TestCase {
   private static void testEncodingOfString(OutputType outputType, char c, int length)
       throws Exception {
     String fullString = fullString(c, length);
-    TestAllTypes testAllTypes = TestAllTypes.newBuilder().setOptionalString(fullString).build();
+    TestAllTypes testAllTypes = new TestAllTypes().setOptionalString(fullString);
     Coder coder = outputType.newCoder(testAllTypes.getSerializedSize());
     testAllTypes.writeTo(coder.stream());
     coder.stream().flush();

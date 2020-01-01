@@ -216,10 +216,9 @@ public class PackedFieldTest extends TestCase {
   // Make sure we haven't screwed up the code generation for packing fields by default.
   public void testPackedSerialization() throws Exception {
     TestAllTypes message =
-        TestAllTypes.newBuilder()
+        new TestAllTypes()
             .addRepeatedInt32(1234)
-            .addRepeatedNestedEnum(NestedEnum.BAR)
-            .build();
+            .addRepeatedNestedEnum(NestedEnum.BAR);
 
     CodedInputStream in = CodedInputStream.newInstance(message.toByteArray());
 

@@ -588,7 +588,8 @@ private static final long serialVersionUID = 0L;
    * <code>string id = 1[json_name = "id", (.leo.proto.javatype) = "java.util.UUID"];</code>
    * @return 'This' for chaining.
    */
-  public Person clearId() {  id_ = null;
+  public Person clearId() {
+    id_ = null;
     onChanged();
     return this;
   }
@@ -669,7 +670,8 @@ private static final long serialVersionUID = 0L;
    * <code>int32 age = 3[json_name = "age"];</code>
    * @return 'This' for chaining.
    */
-  public Person clearAge() {  age_ = 0;
+  public Person clearAge() {
+    age_ = 0;
     onChanged();
     return this;
   }
@@ -1000,6 +1002,14 @@ private static final long serialVersionUID = 0L;
       lastUpdated_ = value;
       onChanged();
     }
+    return this;
+  }
+  /**
+   * <code>.google.protobuf.Timestamp last_updated = 8[json_name = "lastUpdated"];</code>
+   */
+  public Person clearLastUpdated() {
+    lastUpdated_ = null;
+    onChanged();
     return this;
   }
 

@@ -351,6 +351,34 @@ void ImmutableEnumOneofFieldGenerator::GenerateMembers(
                  "  return $default$;\n"
                  "}\n");
   printer->Annotate("{", "}", descriptor_);
+
+  WriteFieldAccessorDocComment(printer, descriptor_, SETTER,
+      /* builder */ true);
+  printer->Print(variables_,
+                 "$deprecation$public $classname$ "
+                 "${$set$capitalized_name$$}$($type$ value) {\n"
+                 "  if (value == null) {\n"
+                 "    throw new NullPointerException();\n"
+                 "  }\n"
+                 "  $set_oneof_case_message$;\n"
+                 "  $oneof_name$_ = value.getNumber();\n"
+                 "  $on_changed$\n"
+                 "  return this;\n"
+                 "}\n");
+  printer->Annotate("{", "}", descriptor_);
+  WriteFieldAccessorDocComment(printer, descriptor_, CLEARER,
+      /* builder */ true);
+  printer->Print(
+      variables_,
+      "$deprecation$public $classname$ ${$clear$capitalized_name$$}$() {\n"
+      "  if ($has_oneof_case_message$) {\n"
+      "    $clear_oneof_case_message$;\n"
+      "    $oneof_name$_ = null;\n"
+      "    $on_changed$\n"
+      "  }\n"
+      "  return this;\n"
+      "}\n");
+  printer->Annotate("{", "}", descriptor_);
 }
 
 void ImmutableEnumOneofFieldGenerator::GenerateMergingCode(
@@ -535,6 +563,45 @@ void RepeatedImmutableEnumFieldGenerator::GenerateMembers(
                    "  return $name$_.get(index);\n"
                    "}\n");
     printer->Annotate("{", "}", descriptor_);
+
+    printer->Annotate("{", "}", descriptor_);
+    WriteFieldAccessorDocComment(printer, descriptor_, LIST_ADDER,
+        /* builder */ true);
+    printer->Print(variables_,
+                   "$deprecation$public $classname$ "
+                   "${$add$capitalized_name$$}$($type$ value) {\n"
+                   "  if (value == null) {\n"
+                   "    throw new NullPointerException();\n"
+                   "  }\n"
+                   "  $name$_.add(value.getNumber());\n"
+                   "  $on_changed$\n"
+                   "  return this;\n"
+                   "}\n");
+
+    printer->Annotate("{", "}", descriptor_);
+    WriteFieldEnumValueAccessorDocComment(printer, descriptor_, LIST_ADDER,
+        /* builder */ true);
+    printer->Print(variables_,
+                   "$deprecation$public $classname$ "
+                   "${$add$capitalized_name$Value$}$(int value) {\n"
+                   "  $name$_.add(value);\n"
+                   "  $on_changed$\n"
+                   "  return this;\n"
+                   "}\n");
+    printer->Annotate("{", "}", descriptor_);
+    WriteFieldEnumValueAccessorDocComment(printer, descriptor_,
+                                          LIST_MULTI_ADDER, /* builder */ true);
+    printer->Print(
+        variables_,
+        "$deprecation$public $classname$ ${$addAll$capitalized_name$Value$}$(\n"
+        "    java.lang.Iterable<java.lang.Integer> values) {\n"
+        "  for (int value : values) {\n"
+        "    $name$_.add(value);\n"
+        "  }\n"
+        "  $on_changed$\n"
+        "  return this;\n"
+        "}\n");
+    printer->Annotate("{", "}", descriptor_);
   }
 
   if (descriptor_->is_packed()) {
@@ -544,7 +611,7 @@ void RepeatedImmutableEnumFieldGenerator::GenerateMembers(
 
 void RepeatedImmutableEnumFieldGenerator::GenerateInitializationCode(
     io::Printer* printer) const {
-  printer->Print(variables_, "$name$_ = java.util.Collections.emptyList();\n");
+  printer->Print(variables_, "$name$_ = new java.util.ArrayList<java.lang.Integer>();\n");
 }
 
 void RepeatedImmutableEnumFieldGenerator::GenerateMergingCode(

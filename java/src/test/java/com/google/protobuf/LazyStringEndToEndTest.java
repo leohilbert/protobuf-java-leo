@@ -54,11 +54,10 @@ public class LazyStringEndToEndTest extends TestCase {
   protected void setUp() throws Exception {
     super.setUp();
     this.encodedTestAllTypes =
-        UnittestProto.TestAllTypes.newBuilder()
+        new UnittestProto.TestAllTypes()
             .setOptionalString("foo")
             .addRepeatedString("bar")
             .addRepeatedString("baz")
-            .build()
             .toByteString();
   }
 
@@ -89,11 +88,10 @@ public class LazyStringEndToEndTest extends TestCase {
     String b = "b";
     String c = "c";
     UnittestProto.TestAllTypes proto =
-        UnittestProto.TestAllTypes.newBuilder()
+        new UnittestProto.TestAllTypes()
             .setOptionalString(a)
             .addRepeatedString(b)
-            .addRepeatedString(c)
-            .build();
+            .addRepeatedString(c);
 
     // String should be the one we passed it.
     assertSame(a, proto.getOptionalString());
@@ -113,13 +111,10 @@ public class LazyStringEndToEndTest extends TestCase {
     UnittestProto.TestAllTypes proto = UnittestProto.TestAllTypes.parseFrom(encodedTestAllTypes);
     ByteString optional = proto.getOptionalStringBytes();
     assertSame(optional, proto.getOptionalStringBytes());
-    assertSame(optional, proto.toBuilder().getOptionalStringBytes());
 
     ByteString repeated0 = proto.getRepeatedStringBytes(0);
     ByteString repeated1 = proto.getRepeatedStringBytes(1);
     assertSame(repeated0, proto.getRepeatedStringBytes(0));
     assertSame(repeated1, proto.getRepeatedStringBytes(1));
-    assertSame(repeated0, proto.toBuilder().getRepeatedStringBytes(0));
-    assertSame(repeated1, proto.toBuilder().getRepeatedStringBytes(1));
   }
 }

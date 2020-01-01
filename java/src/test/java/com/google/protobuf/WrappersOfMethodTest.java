@@ -36,18 +36,17 @@ import junit.framework.TestCase;
 public class WrappersOfMethodTest extends TestCase {
 
   public void testOf() throws Exception {
-    TopLevelMessage.Builder builder = TopLevelMessage.newBuilder();
-    builder.setFieldDouble(DoubleValue.of(2.333));
-    builder.setFieldFloat(FloatValue.of(2.333f));
-    builder.setFieldInt32(Int32Value.of(2333));
-    builder.setFieldInt64(Int64Value.of(23333333333333L));
-    builder.setFieldUint32(UInt32Value.of(2333));
-    builder.setFieldUint64(UInt64Value.of(23333333333333L));
-    builder.setFieldBool(BoolValue.of(true));
-    builder.setFieldString(StringValue.of("23333"));
-    builder.setFieldBytes(BytesValue.of(ByteString.wrap("233".getBytes(Internal.UTF_8))));
+    TopLevelMessage message = new TopLevelMessage();
+    message.setFieldDouble(DoubleValue.of(2.333));
+    message.setFieldFloat(FloatValue.of(2.333f));
+    message.setFieldInt32(Int32Value.of(2333));
+    message.setFieldInt64(Int64Value.of(23333333333333L));
+    message.setFieldUint32(UInt32Value.of(2333));
+    message.setFieldUint64(UInt64Value.of(23333333333333L));
+    message.setFieldBool(BoolValue.of(true));
+    message.setFieldString(StringValue.of("23333"));
+    message.setFieldBytes(BytesValue.of(ByteString.wrap("233".getBytes(Internal.UTF_8))));
 
-    TopLevelMessage message = builder.build();
     assertTrue(2.333 == message.getFieldDouble().getValue());
     assertTrue(2.333f == message.getFieldFloat().getValue());
     assertTrue(2333 == message.getFieldInt32().getValue());

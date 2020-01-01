@@ -122,7 +122,7 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
     (*variables)["mutable_copy_list"] = "new java.util.ArrayList<" +
                                         (*variables)["boxed_type"] + ">(" +
                                         (*variables)["name"] + "_)";
-    (*variables)["empty_list"] = (*variables)["mutable_copy_list"];
+    (*variables)["empty_list"] = (*variables)["create_list"];
     (*variables)["name_make_immutable"] =
         (*variables)["name"] + "_ = java.util.Collections.unmodifiableList(" +
         (*variables)["name"] + "_)";
@@ -496,6 +496,33 @@ void ImmutablePrimitiveOneofFieldGenerator::GenerateMembers(
                  "  }\n"
                  "  return $default$;\n"
                  "}\n");
+  printer->Annotate("{", "}", descriptor_);
+
+  WriteFieldAccessorDocComment(printer, descriptor_, SETTER,
+      /* builder */ true);
+  printer->Print(variables_,
+                 "$deprecation$public $classname$ "
+                 "${$set$capitalized_name$$}$($type$ value) {\n"
+                 "$null_check$"
+                 "  $set_oneof_case_message$;\n"
+                 "  $oneof_name$_ = value;\n"
+                 "  $on_changed$\n"
+                 "  return this;\n"
+                 "}\n");
+  printer->Annotate("{", "}", descriptor_);
+
+  WriteFieldAccessorDocComment(printer, descriptor_, CLEARER,
+      /* builder */ true);
+  printer->Print(
+      variables_,
+      "$deprecation$public $classname$ ${$clear$capitalized_name$$}$() {\n"
+      "  if ($has_oneof_case_message$) {\n"
+      "    $clear_oneof_case_message$;\n"
+      "    $oneof_name$_ = null;\n"
+      "    $on_changed$\n"
+      "  }\n"
+      "  return this;\n"
+      "}\n");
   printer->Annotate("{", "}", descriptor_);
 }
 

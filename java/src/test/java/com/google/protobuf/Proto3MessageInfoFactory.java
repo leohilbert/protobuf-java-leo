@@ -35,7 +35,6 @@ import static com.google.protobuf.FieldInfo.forMapField;
 import static com.google.protobuf.FieldInfo.forOneofMemberField;
 import static com.google.protobuf.FieldInfo.forRepeatedMessageField;
 
-import com.google.protobuf.testing.Proto2Testing.Proto2MessageWithMaps;
 import com.google.protobuf.testing.Proto3Testing.Proto3Empty;
 import com.google.protobuf.testing.Proto3Testing.Proto3Message;
 import com.google.protobuf.testing.Proto3Testing.Proto3MessageWithMaps;
@@ -473,10 +472,6 @@ public final class Proto3MessageInfoFactory implements MessageInfoFactory {
         mapFieldInfo(Proto3MessageWithMaps.class, "field_map_uint64_sint64_201", 201));
     builder.withField(
         mapFieldInfo(Proto3MessageWithMaps.class, "field_map_uint64_string_202", 202));
-    builder.withField(
-        mapFieldInfo(Proto2MessageWithMaps.class, "field_map_uint64_uint32_203", 203));
-    builder.withField(
-        mapFieldInfo(Proto2MessageWithMaps.class, "field_map_uint64_uint64_204", 204));
     return builder.build();
   }
 

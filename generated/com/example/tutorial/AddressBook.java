@@ -206,7 +206,8 @@ private static final long serialVersionUID = 0L;
    * <code>.tutorial.Person owner = 2[json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
    * @return 'This' for chaining.
    */
-  public AddressBook clearOwner() {  owner_ = null;
+  public AddressBook clearOwner() {
+    owner_ = null;
     onChanged();
     return this;
   }

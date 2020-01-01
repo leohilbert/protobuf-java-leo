@@ -433,6 +433,50 @@ void ImmutableStringOneofFieldGenerator::GenerateMembers(
                  "  }\n"
                  "}\n");
   printer->Annotate("{", "}", descriptor_);
+
+  WriteFieldAccessorDocComment(printer, descriptor_, SETTER,
+      /* builder */ true);
+  printer->Print(variables_,
+                 "$deprecation$public $classname$ ${$set$capitalized_name$$}$(\n"
+                 "    java.lang.String value) {\n"
+                 "$null_check$"
+                 "  $set_oneof_case_message$;\n"
+                 "  $oneof_name$_ = value;\n"
+                 "  $on_changed$\n"
+                 "  return this;\n"
+                 "}\n");
+  printer->Annotate("{", "}", descriptor_);
+  WriteFieldAccessorDocComment(printer, descriptor_, CLEARER,
+      /* builder */ true);
+  printer->Print(
+      variables_,
+      "$deprecation$public $classname$ ${$clear$capitalized_name$$}$() {\n"
+      "  if ($has_oneof_case_message$) {\n"
+      "    $clear_oneof_case_message$;\n"
+      "    $oneof_name$_ = null;\n"
+      "    $on_changed$\n"
+      "  }\n"
+      "  return this;\n"
+      "}\n");
+  printer->Annotate("{", "}", descriptor_);
+
+  WriteFieldStringBytesAccessorDocComment(printer, descriptor_, SETTER,
+      /* builder */ true);
+  printer->Print(
+      variables_,
+      "$deprecation$public $classname$ ${$set$capitalized_name$Bytes$}$(\n"
+      "    com.google.protobuf.ByteString value) {\n"
+      "$null_check$");
+  printer->Annotate("{", "}", descriptor_);
+  if (CheckUtf8(descriptor_)) {
+    printer->Print(variables_, "  checkByteStringIsUtf8(value);\n");
+  }
+  printer->Print(variables_,
+                 "  $set_oneof_case_message$;\n"
+                 "  $oneof_name$_ = value;\n"
+                 "  $on_changed$\n"
+                 "  return this;\n"
+                 "}\n");
 }
 
 void ImmutableStringOneofFieldGenerator::GenerateMergingCode(

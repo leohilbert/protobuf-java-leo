@@ -218,6 +218,14 @@ void ImmutableMessageFieldGenerator::GenerateMembers(
                  "  return this;\n"
                  "}\n");
   printer->Annotate("{", "}", descriptor_);
+
+  // Field.Builder clearField()
+  WriteFieldDocComment(printer, descriptor_);
+  printer->Print(variables_, "$deprecation$public $classname$ ${$clear$capitalized_name$$}$() {\n"
+      "  $name$_ = null;\n"
+      "  $on_changed$\n"
+      "  return this;\n"
+      "}\n");
 }
 
 void ImmutableMessageFieldGenerator::PrintNestedBuilderCondition(
@@ -348,6 +356,18 @@ void ImmutableMessageOneofFieldGenerator::GenerateMembers(
                  "  return $type$.getDefaultInstance();\n"
                  "}\n");
   printer->Annotate("{", "}", descriptor_);
+
+  // Field.Builder setField(Field value)
+  WriteFieldDocComment(printer, descriptor_);
+  printer->Print(variables_,
+      "$deprecation$public $classname$ ${$set$capitalized_name$$}$($type$ value) {\n"
+      "if (value == null) {\n"
+      "  throw new NullPointerException();\n"
+      "}\n"
+      "$oneof_name$_ = value;\n"
+      "$on_changed$\n"
+      "return this;\n"
+      "}\n");
 }
 
 void ImmutableMessageOneofFieldGenerator::GenerateMergingCode(

@@ -40,6 +40,7 @@ import static com.google.protobuf.IsValidUtf8TestUtil.testBytes;
 import com.google.protobuf.IsValidUtf8TestUtil.ByteStringFactory;
 import com.google.protobuf.IsValidUtf8TestUtil.Shard;
 import junit.framework.TestCase;
+import org.junit.Ignore;
 
 /**
  * Tests cases for {@link ByteString#isValidUtf8()}. This includes three brute force tests that
@@ -53,6 +54,7 @@ import junit.framework.TestCase;
  * @author jonp@google.com (Jon Perlow)
  * @author martinrb@google.com (Martin Buchholz)
  */
+@Ignore("Very slow")
 public class IsValidUtf8Test extends TestCase {
   /** Tests that round tripping of all two byte permutations work. */
   public void testIsValidUtf8_1Byte() {

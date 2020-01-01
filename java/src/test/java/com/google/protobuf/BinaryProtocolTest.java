@@ -37,13 +37,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public final class BinaryProtocolTest {
-  @BeforeEach
-  public void setup() {
-    TestSchemas.registerGenericProto2Schemas();
-
-    Protobuf.getInstance()
-        .registerSchemaOverride(Proto3Message.class, TestSchemas.genericProto3Schema);
-  }
+//  @BeforeEach
+//  public void setup() {
+//    TestSchemas.registerGenericProto2Schemas();
+//
+//    Protobuf.getInstance()
+//        .registerSchemaOverride(Proto3Message.class, TestSchemas.genericProto3Schema);
+//  }
 
   @Test
   public void proto3Roundtrip() throws Exception {

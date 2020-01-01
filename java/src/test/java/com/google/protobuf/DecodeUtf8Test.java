@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import junit.framework.TestCase;
 import org.junit.Ignore;
 
-@Ignore
+@Ignore("Very slow")
 public class DecodeUtf8Test extends TestCase {
   private static Logger logger = Logger.getLogger(DecodeUtf8Test.class.getName());
 

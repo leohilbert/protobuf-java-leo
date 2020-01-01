@@ -73,7 +73,7 @@ public final class Proto3MessageFactory implements ExperimentalMessageFactory<Pr
 
   @Override
   public Proto3Message newMessage() {
-    Proto3Message.Builder builder = Proto3Message.newBuilder();
+    Proto3Message builder = new Proto3Message();
     builder.setFieldDouble1(data.getDouble());
     builder.setFieldFloat2(data.getFloat());
     builder.setFieldInt643(data.getLong());
@@ -87,7 +87,6 @@ public final class Proto3MessageFactory implements ExperimentalMessageFactory<Pr
     // repeated message field below.
     builder.setFieldBytes11(data.getBytes());
     builder.setFieldUint3212(data.getInt());
-    builder.setFieldEnum13Value(data.getEnum());
     builder.setFieldSfixed3214(data.getInt());
     builder.setFieldSfixed6415(data.getLong());
     builder.setFieldSint3216(data.getInt());
@@ -135,7 +134,7 @@ public final class Proto3MessageFactory implements ExperimentalMessageFactory<Pr
       }
     }
 
-    return builder.build();
+    return builder;
   }
 
   private interface MapValueProvider<T> {
