@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
+import org.junit.Ignore;
 
+@Ignore
 public class DecodeUtf8Test extends TestCase {
   private static Logger logger = Logger.getLogger(DecodeUtf8Test.class.getName());
 

@@ -31,10 +31,7 @@
 package com.google.protobuf;
 
 import com.google.protobuf.CodedOutputStream.OutOfSpaceException;
-import protobuf_unittest.UnittestProto.SparseEnumMessage;
 import protobuf_unittest.UnittestProto.TestAllTypes;
-import protobuf_unittest.UnittestProto.TestPackedTypes;
-import protobuf_unittest.UnittestProto.TestSparseEnum;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
@@ -334,63 +331,63 @@ public class CodedOutputStreamTest extends TestCase {
         -75123905439571256L,
         CodedOutputStream.encodeZigZag64(CodedInputStream.decodeZigZag64(-75123905439571256L)));
   }
-
-  /** Tests writing a whole message with every field type. */
-  public void testWriteWholeMessage() throws Exception {
-    final byte[] expectedBytes = TestUtil.getGoldenMessage().toByteArray();
-    TestAllTypes message = TestUtil.getAllSet();
-
-    for (OutputType outputType : OutputType.values()) {
-      Coder coder = outputType.newCoder(message.getSerializedSize());
-      message.writeTo(coder.stream());
-      coder.stream().flush();
-      byte[] rawBytes = coder.toByteArray();
-      assertEqualBytes(outputType, expectedBytes, rawBytes);
-    }
-
-    // Try different block sizes.
-    for (int blockSize = 1; blockSize < 256; blockSize *= 2) {
-      Coder coder = OutputType.STREAM.newCoder(blockSize);
-      message.writeTo(coder.stream());
-      coder.stream().flush();
-      assertEqualBytes(OutputType.STREAM, expectedBytes, coder.toByteArray());
-    }
-  }
-
-  /**
-   * Tests writing a whole message with every packed field type. Ensures the wire format of packed
-   * fields is compatible with C++.
-   */
-  public void testWriteWholePackedFieldsMessage() throws Exception {
-    byte[] expectedBytes = TestUtil.getGoldenPackedFieldsMessage().toByteArray();
-    TestPackedTypes message = TestUtil.getPackedSet();
-
-    for (OutputType outputType : OutputType.values()) {
-      Coder coder = outputType.newCoder(message.getSerializedSize());
-      message.writeTo(coder.stream());
-      coder.stream().flush();
-      byte[] rawBytes = coder.toByteArray();
-      assertEqualBytes(outputType, expectedBytes, rawBytes);
-    }
-  }
-
-  /**
-   * Test writing a message containing a negative enum value. This used to fail because the size was
-   * not properly computed as a sign-extended varint.
-   */
-  public void testWriteMessageWithNegativeEnumValue() throws Exception {
-    SparseEnumMessage message =
-        SparseEnumMessage.newBuilder().setSparseEnum(TestSparseEnum.SPARSE_E).build();
-    assertTrue(message.getSparseEnum().getNumber() < 0);
-    for (OutputType outputType : OutputType.values()) {
-      Coder coder = outputType.newCoder(message.getSerializedSize());
-      message.writeTo(coder.stream());
-      coder.stream().flush();
-      byte[] rawBytes = coder.toByteArray();
-      SparseEnumMessage message2 = SparseEnumMessage.parseFrom(rawBytes);
-      assertEquals(TestSparseEnum.SPARSE_E, message2.getSparseEnum());
-    }
-  }
+//
+//  /** Tests writing a whole message with every field type. */
+//  public void testWriteWholeMessage() throws Exception {
+//    final byte[] expectedBytes = TestUtil.getGoldenMessage().toByteArray();
+//    TestAllTypes message = TestUtil.getAllSet();
+//
+//    for (OutputType outputType : OutputType.values()) {
+//      Coder coder = outputType.newCoder(message.getSerializedSize());
+//      message.writeTo(coder.stream());
+//      coder.stream().flush();
+//      byte[] rawBytes = coder.toByteArray();
+//      assertEqualBytes(outputType, expectedBytes, rawBytes);
+//    }
+//
+//    // Try different block sizes.
+//    for (int blockSize = 1; blockSize < 256; blockSize *= 2) {
+//      Coder coder = OutputType.STREAM.newCoder(blockSize);
+//      message.writeTo(coder.stream());
+//      coder.stream().flush();
+//      assertEqualBytes(OutputType.STREAM, expectedBytes, coder.toByteArray());
+//    }
+//  }
+//
+//  /**
+//   * Tests writing a whole message with every packed field type. Ensures the wire format of packed
+//   * fields is compatible with C++.
+//   */
+//  public void testWriteWholePackedFieldsMessage() throws Exception {
+//    byte[] expectedBytes = TestUtil.getGoldenPackedFieldsMessage().toByteArray();
+//    TestPackedTypes message = TestUtil.getPackedSet();
+//
+//    for (OutputType outputType : OutputType.values()) {
+//      Coder coder = outputType.newCoder(message.getSerializedSize());
+//      message.writeTo(coder.stream());
+//      coder.stream().flush();
+//      byte[] rawBytes = coder.toByteArray();
+//      assertEqualBytes(outputType, expectedBytes, rawBytes);
+//    }
+//  }
+//
+//  /**
+//   * Test writing a message containing a negative enum value. This used to fail because the size was
+//   * not properly computed as a sign-extended varint.
+//   */
+//  public void testWriteMessageWithNegativeEnumValue() throws Exception {
+//    SparseEnumMessage message =
+//        SparseEnumMessage.newBuilder().setSparseEnum(TestSparseEnum.SPARSE_E).build();
+//    assertTrue(message.getSparseEnum().getNumber() < 0);
+//    for (OutputType outputType : OutputType.values()) {
+//      Coder coder = outputType.newCoder(message.getSerializedSize());
+//      message.writeTo(coder.stream());
+//      coder.stream().flush();
+//      byte[] rawBytes = coder.toByteArray();
+//      SparseEnumMessage message2 = SparseEnumMessage.parseFrom(rawBytes);
+//      assertEquals(TestSparseEnum.SPARSE_E, message2.getSparseEnum());
+//    }
+//  }
 
   /** Test getTotalBytesWritten() */
   public void testGetTotalBytesWritten() throws Exception {

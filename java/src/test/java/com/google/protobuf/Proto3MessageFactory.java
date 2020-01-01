@@ -236,9 +236,9 @@ public final class Proto3MessageFactory implements ExperimentalMessageFactory<Pr
     map.put(true, provider.getValue());
     return map;
   }
-
+/*
   public Proto3MessageWithMaps newMessageWithMaps() {
-    Proto3MessageWithMaps.Builder builder = Proto3MessageWithMaps.newBuilder();
+    Proto3MessageWithMaps builder = new Proto3MessageWithMaps();
 
     builder.putAllFieldMapBoolBool1(populateBooleanMap(booleanProvider));
     builder.putAllFieldMapBoolBytes2(populateBooleanMap(bytesProvider));
@@ -445,6 +445,6 @@ public final class Proto3MessageFactory implements ExperimentalMessageFactory<Pr
     builder.putAllFieldMapUint64Uint32203(populateLongMap(integerProvider));
     builder.putAllFieldMapUint64Uint64204(populateLongMap(longProvider));
 
-    return builder.build();
-  }
+    return builder;
+  }*/
 }
