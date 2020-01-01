@@ -202,6 +202,14 @@ private static final long serialVersionUID = 0L;
     }
     return this;
   }
+  /**
+   * <code>.tutorial.Person owner = 2[json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
+   * @return 'This' for chaining.
+   */
+  public AddressBook clearOwner() {  owner_ = null;
+    onChanged();
+    return this;
+  }
 
   private byte memoizedIsInitialized = -1;
   @java.lang.Override

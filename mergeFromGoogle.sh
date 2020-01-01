@@ -31,19 +31,21 @@ latestRelease=$(curl --silent "https://api.github.com/repos/protocolbuffers/prot
 git checkout $latestRelease
 newCommitId=$(git rev-list -n 1 HEAD)
 
-sourcePath="src/google/protobuf/compiler/java"
-targetPath="src/google/protobuf/compiler/java_leo"
-patchTempDir="/tmp/leoProtobufPatch.patch"
+C_SourcePath="src/google/protobuf/compiler/java"
+C_TargetPath="src/google/protobuf/compiler/java_leo"
+C_PatchTempDir="/tmp/leoProtobufPatch.patch"
+Java_PatchTempDir="/tmp/leoProtobufPatch.patch"
 
 echo "merging changes from google-repo ($newCommitId)"
-git diff -R HEAD $previousCommit -- $sourcePath |
-  sed "s~$sourcePath~$targetPath~g" \
-    >$patchTempDir
-
-#code $patchTempDir
+git diff -R HEAD $previousCommit -- $C_SourcePath |
+  sed "s~$C_SourcePath~$C_TargetPath~g" \
+    >$C_PatchTempDir
+git diff -R HEAD $previousCommit -- "java/core/src" \
+  >$Java_PatchTempDir
 
 cd $leoDir || exit 3
-if [ -s $patchTempDir ]; then git apply -3 <$patchTempDir; fi
+if [ -s $C_PatchTempDir ]; then git apply -3 <$C_PatchTempDir; fi
+if [ -s $Java_PatchTempDir ]; then git apply -3 <$Java_PatchTempDir; fi
 
 echo "$newCommitId" >fetch/protoc_commit.txt
 echo "$latestRelease" >fetch/protoc_release.txt

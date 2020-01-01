@@ -584,6 +584,14 @@ private static final long serialVersionUID = 0L;
     }
     return this;
   }
+  /**
+   * <code>string id = 1[json_name = "id", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * @return 'This' for chaining.
+   */
+  public Person clearId() {  id_ = null;
+    onChanged();
+    return this;
+  }
 
   public static final int NAME_FIELD_NUMBER = 2;
   private volatile java.lang.Object name_;
@@ -655,6 +663,14 @@ private static final long serialVersionUID = 0L;
       age_ = value;
       onChanged();
     }
+    return this;
+  }
+  /**
+   * <code>int32 age = 3[json_name = "age"];</code>
+   * @return 'This' for chaining.
+   */
+  public Person clearAge() {  age_ = 0;
+    onChanged();
     return this;
   }
 

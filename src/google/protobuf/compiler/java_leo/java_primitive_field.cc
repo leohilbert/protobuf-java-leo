@@ -280,6 +280,26 @@ void ImmutablePrimitiveFieldGenerator::GenerateMembers(
                  "  return this;\n"
                  "}\n");
   printer->Annotate("{", "}", descriptor_);
+
+  WriteFieldAccessorDocComment(printer, descriptor_, CLEARER, true);
+  printer->Print(
+      variables_,
+      "$deprecation$public $classname$ ${$clear$capitalized_name$$}$() {\n");
+  printer->Annotate("{", "}", descriptor_);
+  JavaType type = GetJavaType(descriptor_);
+  if (type == JAVATYPE_STRING || type == JAVATYPE_BYTES) {
+    // The default value is not a simple literal so we want to avoid executing
+    // it multiple times.  Instead, get the default out of the default instance.
+    printer->Print(
+        variables_,
+        "  $name$_ = getDefaultInstance().get$capitalized_name$();\n");
+  } else {
+    printer->Print(variables_, "  $name$_ = $default$;\n");
+  }
+  printer->Print(variables_,
+                 "  $on_changed$\n"
+                 "  return this;\n"
+                 "}\n");
 }
 
 void ImmutablePrimitiveFieldGenerator::GenerateInitializationCode(
