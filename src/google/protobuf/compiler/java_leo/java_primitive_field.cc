@@ -648,7 +648,7 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateMembers(
       /* builder */ true);
   printer->Print(variables_,
                  "$deprecation$public $classname$ ${$set$capitalized_name$$}$(\n"
-                 "    int index, $boxed_type$ value) {\n"
+                 "    int index, $type$ value) {\n"
                  "$null_check$"
                  "  $name$_.set(index, value);\n"
                  "  $on_changed$\n"
@@ -659,7 +659,7 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateMembers(
       /* builder */ true);
   printer->Print(variables_,
                  "$deprecation$public $classname$ ${$add$capitalized_name$$}$(\n"
-                 "    $boxed_type$ value) {\n"
+                 "    $type$ value) {\n"
                  "$null_check$"
                  "  $name$_.add(value);\n"
                  "  $on_changed$\n"

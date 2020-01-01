@@ -30,6 +30,7 @@
 
 package com.google.protobuf;
 
+import static com.google.protobuf.ExtensionRegistryLite.getEmptyRegistry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -151,72 +152,6 @@ public class ParseExceptionsTest {
   }
 
   @Test
-  public void messageBuilder_mergeFrom_InputStream() {
-    setup();
-    verifyExceptions(
-        new ParseTester() {
-          @Override
-          public DescriptorProto parse(InputStream in) throws IOException {
-            return DescriptorProto.newBuilder().mergeFrom(in).build();
-          }
-        });
-  }
-
-  @Test
-  public void messageBuilder_mergeFrom_InputStreamAndExtensionRegistry() {
-    setup();
-    verifyExceptions(
-        new ParseTester() {
-          @Override
-          public DescriptorProto parse(InputStream in) throws IOException {
-            return DescriptorProto.newBuilder()
-                .mergeFrom(in, ExtensionRegistry.newInstance())
-                .build();
-          }
-        });
-  }
-
-  @Test
-  public void messageBuilder_mergeFrom_CodedInputStream() {
-    setup();
-    verifyExceptions(
-        new ParseTester() {
-          @Override
-          public DescriptorProto parse(InputStream in) throws IOException {
-            return DescriptorProto.newBuilder().mergeFrom(CodedInputStream.newInstance(in)).build();
-          }
-        });
-  }
-
-  @Test
-  public void messageBuilder_mergeFrom_CodedInputStreamAndExtensionRegistry() {
-    setup();
-    verifyExceptions(
-        new ParseTester() {
-          @Override
-          public DescriptorProto parse(InputStream in) throws IOException {
-            return DescriptorProto.newBuilder()
-                .mergeFrom(CodedInputStream.newInstance(in), ExtensionRegistry.newInstance())
-                .build();
-          }
-        });
-  }
-
-  @Test
-  public void messageBuilder_mergeDelimitedFrom_InputStream() {
-    setupDelimited();
-    verifyExceptions(
-        new ParseTester() {
-          @Override
-          public DescriptorProto parse(InputStream in) throws IOException {
-            DescriptorProto.Builder builder = DescriptorProto.newBuilder();
-            builder.mergeDelimitedFrom(in);
-            return builder.build();
-          }
-        });
-  }
-
-  @Test
   public void messageBuilder_mergeDelimitedFrom_InputStream_malformed() throws Exception {
     byte[] body = new byte[80];
     CodedOutputStream cos = CodedOutputStream.newInstance(body);
@@ -231,20 +166,6 @@ public class ParseExceptionsTest {
       fail();
     } catch (InvalidProtocolBufferException expected) {
     }
-  }
-
-  @Test
-  public void messageBuilder_mergeDelimitedFrom_InputStreamAndExtensionRegistry() {
-    setupDelimited();
-    verifyExceptions(
-        new ParseTester() {
-          @Override
-          public DescriptorProto parse(InputStream in) throws IOException {
-            DescriptorProto.Builder builder = DescriptorProto.newBuilder();
-            builder.mergeDelimitedFrom(in, ExtensionRegistry.newInstance());
-            return builder.build();
-          }
-        });
   }
 
   private void verifyExceptions(ParseTester parseTester) {

@@ -99,7 +99,7 @@ private static final long serialVersionUID = 0L;
       internalGetFieldAccessorTable() {
     return com.example.tutorial.AddressBookProtos.internal_static_tutorial_AddressBook_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            com.example.tutorial.AddressBook.class, com.example.tutorial.AddressBook.Builder.class);
+            com.example.tutorial.AddressBook.class);
   }
 
   public static final int PEOPLE_FIELD_NUMBER = 1;

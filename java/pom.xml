@@ -53,7 +53,7 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>compile</goal>
+                            <goal>compile-custom</goal>
                             <goal>test-compile-custom</goal>
                         </goals>
                     </execution>

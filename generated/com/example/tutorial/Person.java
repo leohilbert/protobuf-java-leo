@@ -160,7 +160,7 @@ private static final long serialVersionUID = 0L;
       internalGetFieldAccessorTable() {
     return com.example.tutorial.AddressBookProtos.internal_static_tutorial_Person_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            com.example.tutorial.Person.class, com.example.tutorial.Person.Builder.class);
+            com.example.tutorial.Person.class);
   }
 
   public interface PhoneNumberInterface<SELF> extends
@@ -290,7 +290,7 @@ private static final long serialVersionUID = 0L;
         internalGetFieldAccessorTable() {
       return com.example.tutorial.AddressBookProtos.internal_static_tutorial_Person_PhoneNumber_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.example.tutorial.Person.PhoneNumber.class, com.example.tutorial.Person.PhoneNumber.Builder.class);
+              com.example.tutorial.Person.PhoneNumber.class);
     }
 
     public static final int NUMBER_FIELD_NUMBER = 1;
@@ -948,7 +948,7 @@ private static final long serialVersionUID = 0L;
    * @return 'This' for chaining.
    */
   public Person addFavoriteNumber(
-      java.lang.Integer value) {
+      int value) {
     favoriteNumber_.add(value);
     onChanged();
     return this;

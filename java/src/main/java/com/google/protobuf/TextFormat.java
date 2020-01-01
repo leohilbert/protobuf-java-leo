@@ -30,10 +30,21 @@
 
 package com.google.protobuf;
 
+import static com.google.protobuf.Descriptors.FieldDescriptor.Type.BYTES;
+import static com.google.protobuf.Descriptors.FieldDescriptor.Type.ENUM;
+import static com.google.protobuf.Descriptors.FieldDescriptor.Type.FIXED32;
+import static com.google.protobuf.Descriptors.FieldDescriptor.Type.FIXED64;
+import static com.google.protobuf.Descriptors.FieldDescriptor.Type.GROUP;
+import static com.google.protobuf.Descriptors.FieldDescriptor.Type.MESSAGE;
+import static com.google.protobuf.Descriptors.FieldDescriptor.Type.STRING;
+import static com.google.protobuf.Descriptors.FieldDescriptor.Type.UINT32;
+import static com.google.protobuf.Descriptors.FieldDescriptor.Type.UINT64;
+
 import com.google.protobuf.Descriptors.Descriptor;
 import com.google.protobuf.Descriptors.EnumDescriptor;
 import com.google.protobuf.Descriptors.EnumValueDescriptor;
 import com.google.protobuf.Descriptors.FieldDescriptor;
+
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.CharBuffer;
@@ -359,9 +370,9 @@ public final class TextFormat {
       FieldDescriptor typeUrlField = messageType.findFieldByNumber(1);
       FieldDescriptor valueField = messageType.findFieldByNumber(2);
       if (typeUrlField == null
-          || typeUrlField.getType() != FieldDescriptor.Type.STRING
+          || typeUrlField.getType() != STRING
           || valueField == null
-          || valueField.getType() != FieldDescriptor.Type.BYTES) {
+          || valueField.getType() != BYTES) {
         // The message may look like an Any but isn't actually an Any message (might happen if the
         // user tries to use DynamicMessage to construct an Any from incomplete Descriptor).
         return false;
@@ -445,71 +456,51 @@ public final class TextFormat {
     }
 
     private void printFieldValue(
-        final FieldDescriptor field, final Object value, final TextGenerator generator)
-        throws IOException {
-      switch (field.getType()) {
-        case INT32:
-        case SINT32:
-        case SFIXED32:
-          generator.print(((Integer) value).toString());
-          break;
-
-        case INT64:
-        case SINT64:
-        case SFIXED64:
-          generator.print(((Long) value).toString());
-          break;
-
-        case BOOL:
-          generator.print(((Boolean) value).toString());
-          break;
-
-        case FLOAT:
-          generator.print(((Float) value).toString());
-          break;
-
-        case DOUBLE:
-          generator.print(((Double) value).toString());
-          break;
-
-        case UINT32:
-        case FIXED32:
-          generator.print(unsignedToString((Integer) value));
-          break;
-
-        case UINT64:
-        case FIXED64:
-          generator.print(unsignedToString((Long) value));
-          break;
-
-        case STRING:
-          generator.print("\"");
-          generator.print(
-              escapeNonAscii
-                  ? TextFormatEscaper.escapeText((String) value)
-                  : escapeDoubleQuotesAndBackslashes((String) value).replace("\n", "\\n"));
-          generator.print("\"");
-          break;
-
-        case BYTES:
-          generator.print("\"");
-          if (value instanceof ByteString) {
-            generator.print(escapeBytes((ByteString) value));
-          } else {
-            generator.print(escapeBytes((byte[]) value));
-          }
-          generator.print("\"");
-          break;
-
-        case ENUM:
-          generator.print(((EnumValueDescriptor) value).getName());
-          break;
-
-        case MESSAGE:
-        case GROUP:
-          print((Message) value, generator);
-          break;
+            final FieldDescriptor field, final Object value, final TextGenerator generator)
+            throws IOException {
+      if (!printValue(field, value, generator)) {
+        generator.print(value.toString());
       }
+    }
+
+    private boolean printValue(final FieldDescriptor field, final Object value, final TextGenerator generator) throws IOException {
+      if ((field.getType() == UINT32 || field.getType() == FIXED32) && value instanceof Integer) {
+        generator.print(unsignedToString((Integer) value));
+        return true;
+      }
+      if ((field.getType() == UINT64 || field.getType() == FIXED64) && value instanceof Long) {
+        generator.print(unsignedToString((Long) value));
+        return true;
+      }
+      if (field.getType() == STRING && value instanceof String) {
+        generator.print("\"");
+        generator.print(
+                escapeNonAscii
+                        ? TextFormatEscaper.escapeText((String) value)
+                        : escapeDoubleQuotesAndBackslashes((String) value).replace("\n", "\\n"));
+        generator.print("\"");
+        return true;
+      }
+      if (field.getType() == BYTES) {
+        generator.print("\"");
+        if (value instanceof ByteString) {
+          generator.print(escapeBytes((ByteString) value));
+        } else if (value instanceof byte[]) {
+          generator.print(escapeBytes((byte[]) value));
+        } else {
+          generator.print(value.toString());
+        }
+        generator.print("\"");
+        return true;
+      }
+      if (field.getType() == ENUM && value instanceof EnumValueDescriptor) {
+        generator.print(((EnumValueDescriptor) value).getName());
+        return true;
+      } else if ((field.getType() == MESSAGE || field.getType() == GROUP) && value instanceof Message) {
+        print((Message) value, generator);
+        return true;
+      }
+      return false;
     }
 
     /** Like {@code print()}, but writes directly to a {@code String} and returns it. */
@@ -627,7 +618,7 @@ public final class TextFormat {
         generator.print("[");
         // We special-case MessageSet elements for compatibility with proto1.
         if (field.getContainingType().getOptions().getMessageSetWireFormat()
-            && (field.getType() == FieldDescriptor.Type.MESSAGE)
+            && (field.getType() == MESSAGE)
             && (field.isOptional())
             // object equality
             && (field.getExtensionScope() == field.getMessageType())) {
@@ -637,7 +628,7 @@ public final class TextFormat {
         }
         generator.print("]");
       } else {
-        if (field.getType() == FieldDescriptor.Type.GROUP) {
+        if (field.getType() == GROUP) {
           // Groups must be serialized with their original capitalization.
           generator.print(field.getMessageType().getName());
         } else {
@@ -1755,13 +1746,13 @@ public final class TextFormat {
           final String lowerName = name.toLowerCase(Locale.US);
           field = type.findFieldByName(lowerName);
           // If the case-insensitive match worked but the field is NOT a group,
-          if (field != null && field.getType() != FieldDescriptor.Type.GROUP) {
+          if (field != null && field.getType() != GROUP) {
             field = null;
           }
         }
         // Again, special-case group names as described above.
         if (field != null
-            && field.getType() == FieldDescriptor.Type.GROUP
+            && field.getType() == GROUP
             && !field.getMessageType().getName().equals(name)) {
           field = null;
         }

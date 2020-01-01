@@ -524,7 +524,7 @@ void ImmutableMessageGenerator::Generate(io::Printer* printer) {
   if (IsWrappersProtoFile(descriptor_->file())) {
     printer->Print(
         "public static $classname$ of($field_type$ value) {\n"
-        "  return newBuilder().setValue(value).build();\n"
+        "  return new $classname$().setValue(value);\n"
         "}\n"
         "\n",
         "classname", name_resolver_->GetImmutableClassName(descriptor_),
@@ -809,7 +809,7 @@ void ImmutableMessageGenerator::GenerateDescriptorMethods(
       "    internalGetFieldAccessorTable() {\n"
       "  return $fileclass$.internal_$identifier$_fieldAccessorTable\n"
       "      .ensureFieldAccessorsInitialized(\n"
-      "          $classname$.class, $classname$.Builder.class);\n"
+      "          $classname$.class);\n"
       "}\n"
       "\n",
       "classname", name_resolver_->GetImmutableClassName(descriptor_),
@@ -1345,11 +1345,10 @@ void ImmutableMessageGenerator::GenerateAnyMethods(io::Printer* printer) {
       "\n"
       "public static <T extends com.google.protobuf.Message> Any pack(\n"
       "    T message) {\n"
-      "  return Any.newBuilder()\n"
+      "  return new Any()\n"
       "      .setTypeUrl(getTypeUrl(\"type.googleapis.com\",\n"
       "                             message.getDescriptorForType()))\n"
-      "      .setValue(message.toByteString())\n"
-      "      .build();\n"
+      "      .setValue(message.toByteString());\n"
       "}\n"
       "\n"
       "/**\n"
@@ -1360,11 +1359,10 @@ void ImmutableMessageGenerator::GenerateAnyMethods(io::Printer* printer) {
       " */\n"
       "public static <T extends com.google.protobuf.Message> Any pack(\n"
       "    T message, java.lang.String typeUrlPrefix) {\n"
-      "  return Any.newBuilder()\n"
+      "  return new Any()\n"
       "      .setTypeUrl(getTypeUrl(typeUrlPrefix,\n"
       "                             message.getDescriptorForType()))\n"
-      "      .setValue(message.toByteString())\n"
-      "      .build();\n"
+      "      .setValue(message.toByteString());\n"
       "}\n"
       "\n"
       "public <T extends com.google.protobuf.Message> boolean is(\n"

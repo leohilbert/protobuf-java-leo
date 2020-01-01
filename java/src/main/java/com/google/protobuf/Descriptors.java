@@ -558,11 +558,10 @@ public final class Descriptors {
     FileDescriptor(String packageName, Descriptor message) throws DescriptorValidationException {
       this.pool = new DescriptorPool(new FileDescriptor[0], true);
       this.proto =
-          FileDescriptorProto.newBuilder()
+          new FileDescriptorProto()
               .setName(message.getFullName() + ".placeholder.proto")
               .setPackage(packageName)
-              .addMessageType(message.toProto())
-              .build();
+              .addMessageType(message.toProto());
       this.dependencies = new FileDescriptor[0];
       this.publicDependencies = new FileDescriptor[0];
 
@@ -833,11 +832,10 @@ public final class Descriptors {
       }
       this.index = 0;
       this.proto =
-          DescriptorProto.newBuilder()
+          new DescriptorProto()
               .setName(name)
               .addExtensionRange(
-                  DescriptorProto.ExtensionRange.newBuilder().setStart(1).setEnd(536870912).build())
-              .build();
+                  new DescriptorProto.ExtensionRange().setStart(1).setEnd(536870912));
       this.fullName = fullname;
       this.containingType = null;
 
@@ -1859,7 +1857,7 @@ public final class Descriptors {
         final FileDescriptor file, final EnumDescriptor parent, final Integer number) {
       String name = "UNKNOWN_ENUM_VALUE_" + parent.getName() + "_" + number;
       EnumValueDescriptorProto proto =
-          EnumValueDescriptorProto.newBuilder().setName(name).setNumber(number).build();
+          new EnumValueDescriptorProto().setName(name).setNumber(number);
       this.index = -1;
       this.proto = proto;
       this.file = file;

@@ -30,14 +30,13 @@
 
 package com.google.protobuf;
 
-import static com.google.protobuf.Internal.checkNotNull;
-
 import com.google.protobuf.Descriptors.Descriptor;
 import com.google.protobuf.Descriptors.EnumDescriptor;
 import com.google.protobuf.Descriptors.EnumValueDescriptor;
 import com.google.protobuf.Descriptors.FieldDescriptor;
 import com.google.protobuf.Descriptors.FileDescriptor;
 import com.google.protobuf.Descriptors.OneofDescriptor;
+import com.google.protobuf.GeneratedMessage.GeneratedExtension;
 import com.google.protobuf.Internal.BooleanList;
 import com.google.protobuf.Internal.DoubleList;
 import com.google.protobuf.Internal.FloatList;
@@ -518,11 +517,6 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
    * fixed we can exlude this from google3.
    */
   protected interface BuilderParent extends AbstractMessage.BuilderParent {}
-
-  /**
-   * TODO(xiaofeng): remove this together with GeneratedMessageV3.BuilderParent.
-   */
-  protected abstract Message.Builder newBuilderForType(BuilderParent parent);
 
   @Override
   protected Message.Builder newBuilderForType(final AbstractMessage.BuilderParent parent) {
@@ -1849,6 +1843,15 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
     }
   }
 
+  private static Method getMethodOrNull(
+      final Class clazz, final String name, final Class... params) {
+    try {
+      return clazz.getMethod(name, params);
+    } catch (NoSuchMethodException e) {
+      return null;
+    }
+  }
+
   /** Calls invoke and throws a RuntimeException if it fails. */
   private static Object invokeOrDie(
       final Method method, final Object object, final Object... params) {
@@ -1910,7 +1913,7 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
         final Class<? extends GeneratedMessageV3> messageClass,
         final Class<? extends Builder> builderClass) {
       this(descriptor, camelCaseNames);
-      ensureFieldAccessorsInitialized(messageClass, builderClass);
+      ensureFieldAccessorsInitialized(messageClass);
     }
 
     /**
@@ -1931,12 +1934,10 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
      * Ensures the field accessors are initialized. This method is thread-safe.
      *
      * @param messageClass   The message type.
-     * @param builderClass   The builder type.
      * @return this
      */
     public FieldAccessorTable ensureFieldAccessorsInitialized(
-        Class<? extends GeneratedMessageV3> messageClass,
-        Class<? extends Builder> builderClass) {
+            Class<? extends GeneratedMessageV3> messageClass) {
       if (initialized) { return this; }
       synchronized (this) {
         if (initialized) { return this; }
@@ -1952,35 +1953,35 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
             if (field.getJavaType() == FieldDescriptor.JavaType.MESSAGE) {
               if (field.isMapField()) {
                 fields[i] = new MapFieldAccessor(
-                    field, camelCaseNames[i], messageClass, builderClass);
+                    field, camelCaseNames[i], messageClass);
               } else {
                 fields[i] = new RepeatedMessageFieldAccessor(
-                    field, camelCaseNames[i], messageClass, builderClass);
+                    field, camelCaseNames[i], messageClass);
               }
             } else if (field.getJavaType() == FieldDescriptor.JavaType.ENUM) {
               fields[i] = new RepeatedEnumFieldAccessor(
-                  field, camelCaseNames[i], messageClass, builderClass);
+                  field, camelCaseNames[i], messageClass);
             } else {
               fields[i] = new RepeatedFieldAccessor(
-                  field, camelCaseNames[i], messageClass, builderClass);
+                  field, camelCaseNames[i], messageClass);
             }
           } else {
             if (field.getJavaType() == FieldDescriptor.JavaType.MESSAGE) {
               fields[i] = new SingularMessageFieldAccessor(
-                  field, camelCaseNames[i], messageClass, builderClass,
-                  containingOneofCamelCaseName);
+                  field, camelCaseNames[i], messageClass,
+                      containingOneofCamelCaseName);
             } else if (field.getJavaType() == FieldDescriptor.JavaType.ENUM) {
               fields[i] = new SingularEnumFieldAccessor(
-                  field, camelCaseNames[i], messageClass, builderClass,
-                  containingOneofCamelCaseName);
+                  field, camelCaseNames[i], messageClass,
+                      containingOneofCamelCaseName);
             } else if (field.getJavaType() == FieldDescriptor.JavaType.STRING) {
               fields[i] = new SingularStringFieldAccessor(
-                  field, camelCaseNames[i], messageClass, builderClass,
-                  containingOneofCamelCaseName);
+                  field, camelCaseNames[i], messageClass,
+                      containingOneofCamelCaseName);
             } else {
               fields[i] = new SingularFieldAccessor(
-                  field, camelCaseNames[i], messageClass, builderClass,
-                  containingOneofCamelCaseName);
+                  field, camelCaseNames[i], messageClass,
+                      containingOneofCamelCaseName);
             }
           }
         }
@@ -1989,7 +1990,7 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
         for (int i = 0; i < oneofsSize; i++) {
           oneofs[i] = new OneofAccessor(
               descriptor, camelCaseNames[i + fieldsSize],
-              messageClass, builderClass);
+              messageClass);
         }
         initialized = true;
         camelCaseNames = null;
@@ -2057,15 +2058,14 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
     /** OneofAccessor provides access to a single oneof. */
     private static class OneofAccessor {
       OneofAccessor(
-          final Descriptor descriptor, final String camelCaseName,
-          final Class<? extends GeneratedMessageV3> messageClass,
-          final Class<? extends Builder> builderClass) {
+              final Descriptor descriptor, final String camelCaseName,
+              final Class<? extends GeneratedMessageV3> messageClass) {
         this.descriptor = descriptor;
         caseMethod =
             getMethodOrDie(messageClass, "get" + camelCaseName + "Case");
         caseMethodBuilder =
-            getMethodOrDie(builderClass, "get" + camelCaseName + "Case");
-        clearMethod = getMethodOrDie(builderClass, "clear" + camelCaseName);
+            getMethodOrDie(messageClass, "get" + camelCaseName + "Case");
+        clearMethod = getMethodOrDie(messageClass, "clear" + camelCaseName);
       }
 
       private final Descriptor descriptor;
@@ -2138,8 +2138,7 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
         protected final Method getMethodBuilder;
         protected final Method setMethod;
         protected final Method hasMethod;
-        protected final Method hasMethodBuilder;
-        protected final Method clearMethod;
+//        protected final Method clearMethod;
         protected final Method caseMethod;
         protected final Method caseMethodBuilder;
 
@@ -2147,25 +2146,22 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
             final FieldDescriptor descriptor,
             final String camelCaseName,
             final Class<? extends GeneratedMessageV3> messageClass,
-            final Class<? extends Builder> builderClass,
             final String containingOneofCamelCaseName,
             boolean isOneofField,
             boolean hasHasMethod) {
           getMethod = getMethodOrDie(messageClass, "get" + camelCaseName);
-          getMethodBuilder = getMethodOrDie(builderClass, "get" + camelCaseName);
+          getMethodBuilder = getMethodOrDie(messageClass, "get" + camelCaseName);
           Class<?> type = getMethod.getReturnType();
-          setMethod = getMethodOrDie(builderClass, "set" + camelCaseName, type);
-          hasMethod = hasHasMethod ? getMethodOrDie(messageClass, "has" + camelCaseName) : null;
-          hasMethodBuilder =
-              hasHasMethod ? getMethodOrDie(builderClass, "has" + camelCaseName) : null;
-          clearMethod = getMethodOrDie(builderClass, "clear" + camelCaseName);
+          setMethod = getMethodOrDie(messageClass, "set" + camelCaseName, type);
+          hasMethod = hasHasMethod ? getMethodOrNull(messageClass, "has" + camelCaseName) : null;
+//          clearMethod = getMethodOrDie(messageClass, "clear" + camelCaseName);
           caseMethod =
               isOneofField
                   ? getMethodOrDie(messageClass, "get" + containingOneofCamelCaseName + "Case")
                   : null;
           caseMethodBuilder =
               isOneofField
-                  ? getMethodOrDie(builderClass, "get" + containingOneofCamelCaseName + "Case")
+                  ? getMethodOrDie(messageClass, "get" + containingOneofCamelCaseName + "Case")
                   : null;
         }
 
@@ -2196,26 +2192,29 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
 
         @Override
         public boolean has(final GeneratedMessageV3 message) {
+            if(hasMethod == null){
+                return true;
+            }
           return (Boolean) invokeOrDie(hasMethod, message);
         }
 
         @Override
         public boolean has(GeneratedMessageV3.Builder<?> builder) {
-          return (Boolean) invokeOrDie(hasMethodBuilder, builder);
+            throw new UnsupportedOperationException("leo: not implemented.");
         }
 
         @Override
         public void clear(final GeneratedMessageV3.Builder<?> builder) {
-          invokeOrDie(clearMethod, builder);
+            throw new UnsupportedOperationException("leo: not implemented.");
+//          invokeOrDie(clearMethod, builder);
         }
       }
 
       SingularFieldAccessor(
-          final FieldDescriptor descriptor,
-          final String camelCaseName,
-          final Class<? extends GeneratedMessageV3> messageClass,
-          final Class<? extends Builder> builderClass,
-          final String containingOneofCamelCaseName) {
+              final FieldDescriptor descriptor,
+              final String camelCaseName,
+              final Class<? extends GeneratedMessageV3> messageClass,
+              final String containingOneofCamelCaseName) {
         isOneofField = descriptor.getContainingOneof() != null;
         hasHasMethod = supportFieldPresence(descriptor.getFile())
             || (!isOneofField && descriptor.getJavaType() == FieldDescriptor.JavaType.MESSAGE);
@@ -2224,7 +2223,6 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
                 descriptor,
                 camelCaseName,
                 messageClass,
-                builderClass,
                 containingOneofCamelCaseName,
                 isOneofField,
                 hasHasMethod);
@@ -2369,29 +2367,28 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
         protected final Method getMethodBuilder;
         protected final Method getRepeatedMethod;
         protected final Method getRepeatedMethodBuilder;
-        protected final Method setRepeatedMethod;
+//        protected final Method setRepeatedMethod;
         protected final Method addRepeatedMethod;
         protected final Method getCountMethod;
         protected final Method getCountMethodBuilder;
         protected final Method clearMethod;
 
         ReflectionInvoker(
-            final FieldDescriptor descriptor,
-            final String camelCaseName,
-            final Class<? extends GeneratedMessageV3> messageClass,
-            final Class<? extends Builder> builderClass) {
+                final FieldDescriptor descriptor,
+                final String camelCaseName,
+                final Class<? extends GeneratedMessageV3> messageClass) {
           getMethod = getMethodOrDie(messageClass, "get" + camelCaseName + "List");
-          getMethodBuilder = getMethodOrDie(builderClass, "get" + camelCaseName + "List");
+          getMethodBuilder = getMethodOrDie(messageClass, "get" + camelCaseName + "List");
           getRepeatedMethod = getMethodOrDie(messageClass, "get" + camelCaseName, Integer.TYPE);
           getRepeatedMethodBuilder =
-              getMethodOrDie(builderClass, "get" + camelCaseName, Integer.TYPE);
+              getMethodOrDie(messageClass, "get" + camelCaseName, Integer.TYPE);
           Class<?> type = getRepeatedMethod.getReturnType();
-          setRepeatedMethod =
-              getMethodOrDie(builderClass, "set" + camelCaseName, Integer.TYPE, type);
-          addRepeatedMethod = getMethodOrDie(builderClass, "add" + camelCaseName, type);
+//          setRepeatedMethod =
+//              getMethodOrDie(messageClass, "set" + camelCaseName, Integer.TYPE, type);
+          addRepeatedMethod = getMethodOrDie(messageClass, "add" + camelCaseName, type);
           getCountMethod = getMethodOrDie(messageClass, "get" + camelCaseName + "Count");
-          getCountMethodBuilder = getMethodOrDie(builderClass, "get" + camelCaseName + "Count");
-          clearMethod = getMethodOrDie(builderClass, "clear" + camelCaseName);
+          getCountMethodBuilder = getMethodOrDie(messageClass, "get" + camelCaseName + "Count");
+          clearMethod = getMethodOrDie(messageClass, "clear" + camelCaseName);
         }
 
         @Override
@@ -2418,7 +2415,8 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
         @Override
         public void setRepeated(
             final GeneratedMessageV3.Builder<?> builder, final int index, final Object value) {
-          invokeOrDie(setRepeatedMethod, builder, index, value);
+            throw new UnsupportedOperationException("leo: not implemented.");
+//          invokeOrDie(setRepeatedMethod, builder, index, value);
         }
 
         @Override
@@ -2447,11 +2445,10 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
       protected final MethodInvoker invoker;
 
       RepeatedFieldAccessor(
-          final FieldDescriptor descriptor, final String camelCaseName,
-          final Class<? extends GeneratedMessageV3> messageClass,
-          final Class<? extends Builder> builderClass) {
+              final FieldDescriptor descriptor, final String camelCaseName,
+              final Class<? extends GeneratedMessageV3> messageClass) {
         ReflectionInvoker reflectionInvoker =
-            new ReflectionInvoker(descriptor, camelCaseName, messageClass, builderClass);
+            new ReflectionInvoker(descriptor, camelCaseName, messageClass);
         type = reflectionInvoker.getRepeatedMethod.getReturnType();
         invoker = getMethodInvoker(reflectionInvoker);
       }
@@ -2549,9 +2546,8 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
 
     private static class MapFieldAccessor implements FieldAccessor {
       MapFieldAccessor(
-          final FieldDescriptor descriptor, final String camelCaseName,
-          final Class<? extends GeneratedMessageV3> messageClass,
-          final Class<? extends Builder> builderClass) {
+              final FieldDescriptor descriptor, final String camelCaseName,
+              final Class<? extends GeneratedMessageV3> messageClass) {
         field = descriptor;
         Method getDefaultInstanceMethod =
             getMethodOrDie(messageClass, "getDefaultInstance");
@@ -2710,11 +2706,10 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
     private static final class SingularEnumFieldAccessor
         extends SingularFieldAccessor {
       SingularEnumFieldAccessor(
-          final FieldDescriptor descriptor, final String camelCaseName,
-          final Class<? extends GeneratedMessageV3> messageClass,
-          final Class<? extends Builder> builderClass,
-          final String containingOneofCamelCaseName) {
-        super(descriptor, camelCaseName, messageClass, builderClass, containingOneofCamelCaseName);
+              final FieldDescriptor descriptor, final String camelCaseName,
+              final Class<? extends GeneratedMessageV3> messageClass,
+              final String containingOneofCamelCaseName) {
+        super(descriptor, camelCaseName, messageClass, containingOneofCamelCaseName);
 
         enumDescriptor = descriptor.getEnumType();
 
@@ -2726,9 +2721,9 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
           getValueMethod =
               getMethodOrDie(messageClass, "get" + camelCaseName + "Value");
           getValueMethodBuilder =
-              getMethodOrDie(builderClass, "get" + camelCaseName + "Value");
+              getMethodOrDie(messageClass, "get" + camelCaseName + "Value");
           setValueMethod =
-              getMethodOrDie(builderClass, "set" + camelCaseName + "Value", int.class);
+              getMethodOrDie(messageClass, "set" + camelCaseName + "Value", int.class);
         }
       }
 
@@ -2774,10 +2769,9 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
     private static final class RepeatedEnumFieldAccessor
         extends RepeatedFieldAccessor {
       RepeatedEnumFieldAccessor(
-          final FieldDescriptor descriptor, final String camelCaseName,
-          final Class<? extends GeneratedMessageV3> messageClass,
-          final Class<? extends Builder> builderClass) {
-        super(descriptor, camelCaseName, messageClass, builderClass);
+              final FieldDescriptor descriptor, final String camelCaseName,
+              final Class<? extends GeneratedMessageV3> messageClass) {
+        super(descriptor, camelCaseName, messageClass);
 
         enumDescriptor = descriptor.getEnumType();
 
@@ -2789,11 +2783,11 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
           getRepeatedValueMethod =
               getMethodOrDie(messageClass, "get" + camelCaseName + "Value", int.class);
           getRepeatedValueMethodBuilder =
-              getMethodOrDie(builderClass, "get" + camelCaseName + "Value", int.class);
+              getMethodOrDie(messageClass, "get" + camelCaseName + "Value", int.class);
           setRepeatedValueMethod =
-              getMethodOrDie(builderClass, "set" + camelCaseName + "Value", int.class, int.class);
+              getMethodOrDie(messageClass, "set" + camelCaseName + "Value", int.class, int.class);
           addRepeatedValueMethod =
-              getMethodOrDie(builderClass, "add" + camelCaseName + "Value", int.class);
+              getMethodOrDie(messageClass, "add" + camelCaseName + "Value", int.class);
         }
       }
       private EnumDescriptor enumDescriptor;
@@ -2883,41 +2877,33 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
     private static final class SingularStringFieldAccessor
         extends SingularFieldAccessor {
       SingularStringFieldAccessor(
-          final FieldDescriptor descriptor, final String camelCaseName,
-          final Class<? extends GeneratedMessageV3> messageClass,
-          final Class<? extends Builder> builderClass,
-          final String containingOneofCamelCaseName) {
-        super(descriptor, camelCaseName, messageClass, builderClass,
-            containingOneofCamelCaseName);
-        getBytesMethod = getMethodOrDie(messageClass,
-            "get" + camelCaseName + "Bytes");
-        getBytesMethodBuilder = getMethodOrDie(builderClass,
-            "get" + camelCaseName + "Bytes");
-        setBytesMethodBuilder = getMethodOrDie(builderClass,
-            "set" + camelCaseName + "Bytes", ByteString.class);
+              final FieldDescriptor descriptor, final String camelCaseName,
+              final Class<? extends GeneratedMessageV3> messageClass,
+              final String containingOneofCamelCaseName) {
+        super(descriptor, camelCaseName, messageClass,
+                containingOneofCamelCaseName);
+//        getBytesMethod = getMethodOrDie(messageClass,
+//            "get" + camelCaseName + "Bytes");
+//        setBytesMethodBuilder = getMethodOrDie(messageClass,
+//            "set" + camelCaseName + "Bytes", ByteString.class);
       }
 
-      private final Method getBytesMethod;
-      private final Method getBytesMethodBuilder;
-      private final Method setBytesMethodBuilder;
+//      private final Method getBytesMethod;
+//      private final Method setBytesMethodBuilder;
 
       @Override
       public Object getRaw(final GeneratedMessageV3 message) {
-        return invokeOrDie(getBytesMethod, message);
-      }
-
-      @Override
-      public Object getRaw(GeneratedMessageV3.Builder builder) {
-        return invokeOrDie(getBytesMethodBuilder, builder);
+          throw new UnsupportedOperationException("leo: not implemented.");
+//        return invokeOrDie(getBytesMethod, message);
       }
 
       @Override
       public void set(GeneratedMessageV3.Builder builder, Object value) {
-        if (value instanceof ByteString) {
-          invokeOrDie(setBytesMethodBuilder, builder, value);
-        } else {
+//        if (value instanceof ByteString) {
+//          invokeOrDie(setBytesMethodBuilder, builder, value);
+//        } else {
           super.set(builder, value);
-        }
+//        }
       }
     }
 
@@ -2926,33 +2912,16 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
     private static final class SingularMessageFieldAccessor
         extends SingularFieldAccessor {
       SingularMessageFieldAccessor(
-          final FieldDescriptor descriptor, final String camelCaseName,
-          final Class<? extends GeneratedMessageV3> messageClass,
-          final Class<? extends Builder> builderClass,
-          final String containingOneofCamelCaseName) {
-        super(descriptor, camelCaseName, messageClass, builderClass,
-            containingOneofCamelCaseName);
+              final FieldDescriptor descriptor, final String camelCaseName,
+              final Class<? extends GeneratedMessageV3> messageClass,
+              final String containingOneofCamelCaseName) {
+        super(descriptor, camelCaseName, messageClass,
+                containingOneofCamelCaseName);
 
-        newBuilderMethod = getMethodOrDie(type, "newBuilder");
-        getBuilderMethodBuilder =
-            getMethodOrDie(builderClass, "get" + camelCaseName + "Builder");
       }
 
-      private final Method newBuilderMethod;
-      private final Method getBuilderMethodBuilder;
-
       private Object coerceType(final Object value) {
-        if (type.isInstance(value)) {
           return value;
-        } else {
-          // The value is not the exact right message type.  However, if it
-          // is an alternative implementation of the same type -- e.g. a
-          // DynamicMessage -- we should accept it.  In this case we can make
-          // a copy of the message.
-          return ((Message.Builder) invokeOrDie(newBuilderMethod, null))
-              .mergeFrom((Message) value)
-              .buildPartial();
-        }
       }
 
       @Override
@@ -2961,41 +2930,27 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
       }
       @Override
       public Message.Builder newBuilder() {
-        return (Message.Builder) invokeOrDie(newBuilderMethod, null);
+          throw new UnsupportedOperationException("leo: not implemented.");
       }
       @Override
       public Message.Builder getBuilder(GeneratedMessageV3.Builder builder) {
-        return (Message.Builder) invokeOrDie(getBuilderMethodBuilder, builder);
+          throw new UnsupportedOperationException("leo: not implemented.");
       }
     }
 
     private static final class RepeatedMessageFieldAccessor
         extends RepeatedFieldAccessor {
       RepeatedMessageFieldAccessor(
-          final FieldDescriptor descriptor, final String camelCaseName,
-          final Class<? extends GeneratedMessageV3> messageClass,
-          final Class<? extends Builder> builderClass) {
-        super(descriptor, camelCaseName, messageClass, builderClass);
-
-        newBuilderMethod = getMethodOrDie(type, "newBuilder");
-        getBuilderMethodBuilder = getMethodOrDie(builderClass,
-            "get" + camelCaseName + "Builder", Integer.TYPE);
+              final FieldDescriptor descriptor, final String camelCaseName,
+              final Class<? extends GeneratedMessageV3> messageClass) {
+        super(descriptor, camelCaseName, messageClass);
       }
-
-      private final Method newBuilderMethod;
-      private final Method getBuilderMethodBuilder;
 
       private Object coerceType(final Object value) {
         if (type.isInstance(value)) {
           return value;
         } else {
-          // The value is not the exact right message type.  However, if it
-          // is an alternative implementation of the same type -- e.g. a
-          // DynamicMessage -- we should accept it.  In this case we can make
-          // a copy of the message.
-          return ((Message.Builder) invokeOrDie(newBuilderMethod, null))
-              .mergeFrom((Message) value)
-              .build();
+          throw new UnsupportedOperationException("leo: not implemented.");
         }
       }
 
@@ -3009,13 +2964,12 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
       }
       @Override
       public Message.Builder newBuilder() {
-        return (Message.Builder) invokeOrDie(newBuilderMethod, null);
+          throw new UnsupportedOperationException("leo: not implemented.");
       }
       @Override
       public Message.Builder getRepeatedBuilder(
           final GeneratedMessageV3.Builder builder, final int index) {
-        return (Message.Builder) invokeOrDie(
-            getBuilderMethodBuilder, builder, index);
+          throw new UnsupportedOperationException("leo: not implemented.");
       }
     }
   }
@@ -3202,5 +3156,24 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
               .build());
     }
   }
+
+  // LEOS STUFF
+  public transient Runnable updateReceiver = null;
+
+  public void onChanged() {
+      if (updateReceiver != null) {
+          updateReceiver.run();
+      }
+  }
+
+  @Override
+  public Message.Builder toBuilder() {
+        throw new UnsupportedOperationException("builders are not implemented");
+    }
+
+  @Override
+  public Message.Builder newBuilderForType() {
+        throw new UnsupportedOperationException("builders are not implemented");
+    }
 }
 

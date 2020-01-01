@@ -25,6 +25,7 @@ public class ProtoLeoTest {
                 .addFavoriteNumber(14).addFavoriteNumber(15);
         assertEquals(person.getId(), TEST_UUID1);
         assertEquals(person.getEmail(), "hans@wurst.de");
+        assertThat(person.toString()).isNotNull();
 
         final Person deserPerson = new Person(CodedInputStream.newInstance(getByteArray(person)), getEmptyRegistry());
         assertEquals(deserPerson.getId(), TEST_UUID1);
@@ -45,6 +46,7 @@ public class ProtoLeoTest {
         AddressBook addressBook = new AddressBook()
                 .addPeople(person)
                 .setOwner(new CustomOwnerClass("owner@test.de"));
+        assertThat(addressBook.toString()).isNotNull();
 
         final AddressBook deserAddressbook = new AddressBook(CodedInputStream.newInstance(getByteArray(addressBook)), getEmptyRegistry());
         assertThat(deserAddressbook.getPeopleList()).containsExactly(person);
