@@ -126,6 +126,12 @@ void SetEnumVariables(const FieldDescriptor* descriptor, int messageBitIndex,
   } else {
     (*variables)["unknown"] = (*variables)["default"];
   }
+
+  if (descriptor->is_packed()) {
+    (*variables)["resetMemoized"] = "  " + (*variables)["name"] + "MemoizedSerializedSize = -1;\n";
+  } else {
+    (*variables)["resetMemoized"] = "";
+  }
 }
 
 }  // namespace
@@ -574,6 +580,7 @@ void RepeatedImmutableEnumFieldGenerator::GenerateMembers(
                    "    throw new NullPointerException();\n"
                    "  }\n"
                    "  $name$_.add(value.getNumber());\n"
+                   "$resetMemoized$"
                    "  $on_changed$\n"
                    "  return this;\n"
                    "}\n");
@@ -585,6 +592,7 @@ void RepeatedImmutableEnumFieldGenerator::GenerateMembers(
                    "$deprecation$public $classname$ "
                    "${$add$capitalized_name$Value$}$(int value) {\n"
                    "  $name$_.add(value);\n"
+                   "$resetMemoized$"
                    "  $on_changed$\n"
                    "  return this;\n"
                    "}\n");
@@ -598,6 +606,7 @@ void RepeatedImmutableEnumFieldGenerator::GenerateMembers(
         "  for (int value : values) {\n"
         "    $name$_.add(value);\n"
         "  }\n"
+        "$resetMemoized$"
         "  $on_changed$\n"
         "  return this;\n"
         "}\n");

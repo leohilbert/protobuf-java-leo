@@ -937,9 +937,10 @@ private static final long serialVersionUID = 0L;
    * @return 'This' for chaining.
    */
   public Person setFavoriteNumber(
-      int index, java.lang.Integer value) {
+      int index, int value) {
     favoriteNumber_.set(index, value);
-    onChanged();
+    favoriteNumberMemoizedSerializedSize = -1;
+  onChanged();
     return this;
   }
   /**
@@ -950,7 +951,8 @@ private static final long serialVersionUID = 0L;
   public Person addFavoriteNumber(
       int value) {
     favoriteNumber_.add(value);
-    onChanged();
+    favoriteNumberMemoizedSerializedSize = -1;
+  onChanged();
     return this;
   }
   /**
@@ -961,7 +963,8 @@ private static final long serialVersionUID = 0L;
   public Person addAllFavoriteNumber(
       java.util.Collection<java.lang.Integer> values) {
     favoriteNumber_.addAll(values);
-    onChanged();
+    favoriteNumberMemoizedSerializedSize = -1;
+  onChanged();
     return this;
   }
   /**
@@ -970,7 +973,8 @@ private static final long serialVersionUID = 0L;
    */
   public Person clearFavoriteNumber() {
     favoriteNumber_ = newIntList();
-    onChanged();
+    favoriteNumberMemoizedSerializedSize = -1;
+  onChanged();
     return this;
   }
 

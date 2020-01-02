@@ -459,7 +459,7 @@ public final class TextFormat {
             final FieldDescriptor field, final Object value, final TextGenerator generator)
             throws IOException {
       if (!printValue(field, value, generator)) {
-        generator.print(value.toString());
+        generator.print(value == null ? "null" : value.toString());
       }
     }
 

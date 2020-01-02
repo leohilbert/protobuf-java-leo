@@ -198,6 +198,12 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
       GenerateGetBitFromLocal(builderBitIndex);
   (*variables)["set_has_field_bit_to_local"] =
       GenerateSetBitToLocal(messageBitIndex);
+
+  if (descriptor->is_packed()) {
+    (*variables)["resetMemoized"] = "  " + (*variables)["name"] + "MemoizedSerializedSize = -1;\n";
+  } else {
+    (*variables)["resetMemoized"] = "";
+  }
 }
 
 string buildConverterName(const string &customType) {
@@ -651,6 +657,7 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateMembers(
                  "    int index, $type$ value) {\n"
                  "$null_check$"
                  "  $name$_.set(index, value);\n"
+                 "$resetMemoized$"
                  "  $on_changed$\n"
                  "  return this;\n"
                  "}\n");
@@ -662,6 +669,7 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateMembers(
                  "    $type$ value) {\n"
                  "$null_check$"
                  "  $name$_.add(value);\n"
+                 "$resetMemoized$"
                  "  $on_changed$\n"
                  "  return this;\n"
                  "}\n");
@@ -672,6 +680,7 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateMembers(
                  "$deprecation$public $classname$ ${$addAll$capitalized_name$$}$(\n"
                  "    java.util.Collection<$boxed_type$> values) {\n"
                  "  $name$_.addAll(values);\n"
+                 "$resetMemoized$"
                  "  $on_changed$\n"
                  "  return this;\n"
                  "}\n");
@@ -682,6 +691,7 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateMembers(
       variables_,
       "$deprecation$public $classname$ ${$clear$capitalized_name$$}$() {\n"
       "  $name$_ = $empty_list$;\n"
+      "$resetMemoized$"
       "  $on_changed$\n"
       "  return this;\n"
       "}\n");

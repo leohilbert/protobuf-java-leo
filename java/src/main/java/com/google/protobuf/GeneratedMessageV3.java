@@ -3161,6 +3161,8 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
   public transient Runnable updateReceiver = null;
 
   public void onChanged() {
+      memoizedSize = -1;
+      memoizedHashCode = -1;
       if (updateReceiver != null) {
           updateReceiver.run();
       }
