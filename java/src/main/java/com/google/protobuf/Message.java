@@ -133,10 +133,6 @@ public interface Message extends MessageLite, MessageOrBuilder {
     @Override
     Builder mergeFrom(CodedInputStream input) throws IOException;
 
-    @Override
-    Builder mergeFrom(CodedInputStream input, ExtensionRegistryLite extensionRegistry)
-        throws IOException;
-
     /** Get the message's type's descriptor. See {@link Message#getDescriptorForType()}. */
     @Override
     Descriptors.Descriptor getDescriptorForType();
@@ -239,35 +235,15 @@ public interface Message extends MessageLite, MessageOrBuilder {
     Builder mergeFrom(ByteString data) throws InvalidProtocolBufferException;
 
     @Override
-    Builder mergeFrom(ByteString data, ExtensionRegistryLite extensionRegistry)
-        throws InvalidProtocolBufferException;
-
-    @Override
     Builder mergeFrom(byte[] data) throws InvalidProtocolBufferException;
 
     @Override
     Builder mergeFrom(byte[] data, int off, int len) throws InvalidProtocolBufferException;
 
     @Override
-    Builder mergeFrom(byte[] data, ExtensionRegistryLite extensionRegistry)
-        throws InvalidProtocolBufferException;
-
-    @Override
-    Builder mergeFrom(byte[] data, int off, int len, ExtensionRegistryLite extensionRegistry)
-        throws InvalidProtocolBufferException;
-
-    @Override
     Builder mergeFrom(InputStream input) throws IOException;
 
     @Override
-    Builder mergeFrom(InputStream input, ExtensionRegistryLite extensionRegistry)
-        throws IOException;
-
-    @Override
     boolean mergeDelimitedFrom(InputStream input) throws IOException;
-
-    @Override
-    boolean mergeDelimitedFrom(InputStream input, ExtensionRegistryLite extensionRegistry)
-        throws IOException;
   }
 }

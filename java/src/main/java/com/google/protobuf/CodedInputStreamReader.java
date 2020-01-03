@@ -210,7 +210,7 @@ final class CodedInputStreamReader implements Reader {
     // Allocate and read the message.
     T message = schema.newInstance();
     ++input.recursionDepth;
-    schema.mergeFrom(message, this, extensionRegistry);
+    schema.mergeFrom(message, this);
     schema.makeImmutable(message);
     input.checkLastTagWas(0);
     --input.recursionDepth;
@@ -227,7 +227,7 @@ final class CodedInputStreamReader implements Reader {
     try {
       // Allocate and read the message.
       T message = schema.newInstance();
-      schema.mergeFrom(message, this, extensionRegistry);
+      schema.mergeFrom(message, this);
       schema.makeImmutable(message);
 
       if (tag != endGroupTag) {

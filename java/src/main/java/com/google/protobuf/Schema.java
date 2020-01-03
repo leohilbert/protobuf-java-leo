@@ -30,7 +30,6 @@
 
 package com.google.protobuf;
 
-import com.google.protobuf.ArrayDecoders.Registers;
 import java.io.IOException;
 
 /**
@@ -47,7 +46,7 @@ interface Schema<T> {
    * the message immutable after parsing is done. To make the message immutable, use {@link
    * #makeImmutable}.
    */
-  void mergeFrom(T message, Reader reader, ExtensionRegistryLite extensionRegistry)
+  void mergeFrom(T message, Reader reader)
       throws IOException;
 
   /**
@@ -56,7 +55,7 @@ interface Schema<T> {
    * format. Protobuf public API methods should catch and convert that exception to
    * InvalidProtocolBufferException.
    */
-  void mergeFrom(T message, byte[] data, int position, int limit, Registers registers)
+  void mergeFrom(T message, byte[] data, int position, int limit)
       throws IOException;
 
   /** Marks repeated/map/extension/unknown fields as immutable. */

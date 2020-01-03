@@ -3836,7 +3836,7 @@ final class MessageSchema<T> implements Schema<T> {
   }
 
   @Override
-  public void mergeFrom(T message, Reader reader, ExtensionRegistryLite extensionRegistry)
+  public void mergeFrom(T message, Reader reader)
       throws IOException {
     if (extensionRegistry == null) {
       throw new NullPointerException();
@@ -5388,7 +5388,7 @@ final class MessageSchema<T> implements Schema<T> {
   }
 
   @Override
-  public void mergeFrom(T message, byte[] data, int position, int limit, Registers registers)
+  public void mergeFrom(T message, byte[] data, int position, int limit)
       throws IOException {
     if (proto3) {
       parseProto3Message(message, data, position, limit, registers);

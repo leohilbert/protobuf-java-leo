@@ -426,13 +426,12 @@ public abstract class GeneratedMessageLite<
 
     @Override
     public BuilderType mergeFrom(
-        byte[] input, int offset, int length, ExtensionRegistryLite extensionRegistry)
+            byte[] input, int offset, int length)
         throws InvalidProtocolBufferException {
       copyOnWrite();
       try {
         Protobuf.getInstance().schemaFor(instance).mergeFrom(
-            instance, input, offset, offset + length,
-            new ArrayDecoders.Registers(extensionRegistry));
+            instance, input, offset, offset + length);
       } catch (InvalidProtocolBufferException e) {
         throw e;
       } catch (IndexOutOfBoundsException e) {
@@ -443,32 +442,6 @@ public abstract class GeneratedMessageLite<
       return (BuilderType) this;
     }
 
-    @Override
-    public BuilderType mergeFrom(
-        byte[] input, int offset, int length)
-        throws InvalidProtocolBufferException {
-      return mergeFrom(input, offset, length, ExtensionRegistryLite.getEmptyRegistry());
-    }
-
-    @Override
-    public BuilderType mergeFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws IOException {
-      copyOnWrite();
-      try {
-        // TODO(yilunchong): Try to make input with type CodedInpuStream.ArrayDecoder use
-        // fast path.
-        Protobuf.getInstance().schemaFor(instance).mergeFrom(
-            instance, CodedInputStreamReader.forCodedInput(input), extensionRegistry);
-      } catch (RuntimeException e) {
-        if (e.getCause() instanceof IOException) {
-          throw (IOException) e.getCause();
-        }
-        throw e;
-      }
-      return (BuilderType) this;
-    }
   }
 
 
@@ -607,7 +580,7 @@ public abstract class GeneratedMessageLite<
                 subBuilder = extension.getMessageDefaultInstance().newBuilderForType();
               }
               if (extension.descriptor.getLiteType() == WireFormat.FieldType.GROUP) {
-                input.readGroup(extension.getNumber(), subBuilder, extensionRegistry);
+                input.readGroup(extension.getNumber(), subBuilder);
               } else {
                 input.readMessage(subBuilder, extensionRegistry);
               }
@@ -1501,7 +1474,7 @@ public abstract class GeneratedMessageLite<
     }
 
     @Override
-    public T parsePartialFrom(CodedInputStream input, ExtensionRegistryLite extensionRegistry)
+    public T parsePartialFrom(CodedInputStream input)
         throws InvalidProtocolBufferException {
       return GeneratedMessageLite.parsePartialFrom(defaultInstance, input, extensionRegistry);
     }
@@ -1529,7 +1502,7 @@ public abstract class GeneratedMessageLite<
       // TODO(yilunchong): Try to make input with type CodedInpuStream.ArrayDecoder use
       // fast path.
       Schema<T> schema = Protobuf.getInstance().schemaFor(result);
-      schema.mergeFrom(result, CodedInputStreamReader.forCodedInput(input), extensionRegistry);
+      schema.mergeFrom(result, CodedInputStreamReader.forCodedInput(input));
       schema.makeImmutable(result);
     } catch (IOException e) {
       if (e.getCause() instanceof InvalidProtocolBufferException) {
@@ -1554,7 +1527,7 @@ public abstract class GeneratedMessageLite<
     try {
       Schema<T> schema = Protobuf.getInstance().schemaFor(result);
       schema.mergeFrom(
-          result, input, offset, offset + length, new ArrayDecoders.Registers(extensionRegistry));
+          result, input, offset, offset + length);
       schema.makeImmutable(result);
       if (result.memoizedHashCode != 0) {
         throw new RuntimeException();

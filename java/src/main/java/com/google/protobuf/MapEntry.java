@@ -66,7 +66,7 @@ public final class MapEntry<K, V> extends AbstractMessage {
 
             @Override
             public MapEntry<K, V> parsePartialFrom(
-                CodedInputStream input, ExtensionRegistryLite extensionRegistry)
+                    CodedInputStream input)
                 throws InvalidProtocolBufferException {
               return new MapEntry<K, V>(Metadata.this, input, extensionRegistry);
             }

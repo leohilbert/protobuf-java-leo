@@ -621,27 +621,6 @@ public final class UnknownFieldSet implements MessageLite {
     }
 
     @Override
-    public boolean mergeDelimitedFrom(InputStream input, ExtensionRegistryLite extensionRegistry)
-        throws IOException {
-      // UnknownFieldSet has no extensions.
-      return mergeDelimitedFrom(input);
-    }
-
-    @Override
-    public Builder mergeFrom(CodedInputStream input, ExtensionRegistryLite extensionRegistry)
-        throws IOException {
-      // UnknownFieldSet has no extensions.
-      return mergeFrom(input);
-    }
-
-    @Override
-    public Builder mergeFrom(ByteString data, ExtensionRegistryLite extensionRegistry)
-        throws InvalidProtocolBufferException {
-      // UnknownFieldSet has no extensions.
-      return mergeFrom(data);
-    }
-
-    @Override
     public Builder mergeFrom(byte[] data, int off, int len) throws InvalidProtocolBufferException {
       try {
         final CodedInputStream input = CodedInputStream.newInstance(data, off, len);
@@ -654,27 +633,6 @@ public final class UnknownFieldSet implements MessageLite {
         throw new RuntimeException(
             "Reading from a byte array threw an IOException (should never happen).", e);
       }
-    }
-
-    @Override
-    public Builder mergeFrom(byte[] data, ExtensionRegistryLite extensionRegistry)
-        throws InvalidProtocolBufferException {
-      // UnknownFieldSet has no extensions.
-      return mergeFrom(data);
-    }
-
-    @Override
-    public Builder mergeFrom(byte[] data, int off, int len, ExtensionRegistryLite extensionRegistry)
-        throws InvalidProtocolBufferException {
-      // UnknownFieldSet has no extensions.
-      return mergeFrom(data, off, len);
-    }
-
-    @Override
-    public Builder mergeFrom(InputStream input, ExtensionRegistryLite extensionRegistry)
-        throws IOException {
-      // UnknownFieldSet has no extensions.
-      return mergeFrom(input);
     }
 
     @Override
@@ -1055,7 +1013,7 @@ public final class UnknownFieldSet implements MessageLite {
   public static final class Parser extends AbstractParser<UnknownFieldSet> {
     @Override
     public UnknownFieldSet parsePartialFrom(
-        CodedInputStream input, ExtensionRegistryLite extensionRegistry)
+            CodedInputStream input)
         throws InvalidProtocolBufferException {
       Builder builder = newBuilder();
       try {

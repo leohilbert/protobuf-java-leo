@@ -30,9 +30,8 @@
 
 package com.google.protobuf;
 
-import static com.google.protobuf.MessageSchema.getMutableUnknownFields;
-
 import com.google.protobuf.Internal.ProtobufList;
+
 import java.io.IOException;
 
 /**
@@ -57,18 +56,6 @@ final class ArrayDecoders {
     public int int1;
     public long long1;
     public Object object1;
-    public final ExtensionRegistryLite extensionRegistry;
-
-    Registers() {
-      this.extensionRegistry = ExtensionRegistryLite.getEmptyRegistry();
-    }
-
-    Registers(ExtensionRegistryLite extensionRegistry) {
-      if (extensionRegistry == null) {
-        throw new NullPointerException();
-      }
-      this.extensionRegistry = extensionRegistry;
-    }
   }
 
   /**
@@ -243,7 +230,7 @@ final class ArrayDecoders {
       throw InvalidProtocolBufferException.truncatedMessage();
     }
     Object result = schema.newInstance();
-    schema.mergeFrom(result, data, position, position + length, registers);
+    schema.mergeFrom(result, data, position, position + length);
     schema.makeImmutable(result);
     registers.object1 = result;
     return position + length;
@@ -740,241 +727,6 @@ final class ArrayDecoders {
       }
       position = decodeGroupField(schema, data, nextPosition, limit, endgroup, registers);
       output.add(registers.object1);
-    }
-    return position;
-  }
-
-  static int decodeExtensionOrUnknownField(
-      int tag, byte[] data, int position, int limit,
-      Object message,
-      MessageLite defaultInstance,
-      UnknownFieldSchema<UnknownFieldSetLite, UnknownFieldSetLite> unknownFieldSchema,
-      Registers registers)
-      throws IOException {
-    final int number = tag >>> 3;
-    GeneratedMessageLite.GeneratedExtension extension =
-        registers.extensionRegistry.findLiteExtensionByNumber(defaultInstance, number);
-    if (extension == null) {
-      return decodeUnknownField(
-          tag, data, position, limit, getMutableUnknownFields(message), registers);
-    } else  {
-      ((GeneratedMessageLite.ExtendableMessage<?, ?>) message).ensureExtensionsAreMutable();
-      return decodeExtension(
-          tag, data, position, limit, (GeneratedMessageLite.ExtendableMessage) message,
-          extension, unknownFieldSchema, registers);
-    }
-  }
-
-  static int decodeExtension(
-      int tag,
-      byte[] data,
-      int position,
-      int limit,
-      GeneratedMessageLite.ExtendableMessage<?, ?> message,
-      GeneratedMessageLite.GeneratedExtension<?, ?> extension,
-      UnknownFieldSchema<UnknownFieldSetLite, UnknownFieldSetLite> unknownFieldSchema,
-      Registers registers)
-      throws IOException {
-    final FieldSet<GeneratedMessageLite.ExtensionDescriptor> extensions = message.extensions;
-    final int fieldNumber = tag >>> 3;
-    if (extension.descriptor.isRepeated() && extension.descriptor.isPacked()) {
-      switch (extension.getLiteType()) {
-        case DOUBLE:
-        {
-          DoubleArrayList list = new DoubleArrayList();
-          position = decodePackedDoubleList(data, position, list, registers);
-          extensions.setField(extension.descriptor, list);
-          break;
-        }
-        case FLOAT:
-        {
-          FloatArrayList list = new FloatArrayList();
-          position = decodePackedFloatList(data, position, list, registers);
-          extensions.setField(extension.descriptor, list);
-          break;
-        }
-        case INT64:
-        case UINT64:
-        {
-          LongArrayList list = new LongArrayList();
-          position = decodePackedVarint64List(data, position, list, registers);
-          extensions.setField(extension.descriptor, list);
-          break;
-        }
-        case INT32:
-        case UINT32:
-        {
-          IntArrayList list = new IntArrayList();
-          position = decodePackedVarint32List(data, position, list, registers);
-          extensions.setField(extension.descriptor, list);
-          break;
-        }
-        case FIXED64:
-        case SFIXED64:
-        {
-          LongArrayList list = new LongArrayList();
-          position = decodePackedFixed64List(data, position, list, registers);
-          extensions.setField(extension.descriptor, list);
-          break;
-        }
-        case FIXED32:
-        case SFIXED32:
-        {
-          IntArrayList list = new IntArrayList();
-          position = decodePackedFixed32List(data, position, list, registers);
-          extensions.setField(extension.descriptor, list);
-          break;
-        }
-        case BOOL:
-        {
-          BooleanArrayList list = new BooleanArrayList();
-          position = decodePackedBoolList(data, position, list, registers);
-          extensions.setField(extension.descriptor, list);
-          break;
-        }
-        case SINT32:
-        {
-          IntArrayList list = new IntArrayList();
-          position = decodePackedSInt32List(data, position, list, registers);
-          extensions.setField(extension.descriptor, list);
-          break;
-        }
-        case SINT64:
-        {
-          LongArrayList list = new LongArrayList();
-          position = decodePackedSInt64List(data, position, list, registers);
-          extensions.setField(extension.descriptor, list);
-          break;
-        }
-        case ENUM:
-        {
-          IntArrayList list = new IntArrayList();
-          position = decodePackedVarint32List(data, position, list, registers);
-          UnknownFieldSetLite unknownFields = message.unknownFields;
-          if (unknownFields == UnknownFieldSetLite.getDefaultInstance()) {
-            unknownFields = null;
-          }
-          unknownFields =
-              SchemaUtil.filterUnknownEnumList(
-                  fieldNumber,
-                  list,
-                  extension.descriptor.getEnumType(),
-                  unknownFields,
-                  unknownFieldSchema);
-          if (unknownFields != null) {
-            message.unknownFields = unknownFields;
-          }
-          extensions.setField(extension.descriptor, list);
-          break;
-        }
-        default:
-          throw new IllegalStateException(
-              "Type cannot be packed: " + extension.descriptor.getLiteType());
-      }
-    } else {
-      Object value = null;
-      // Enum is a special case becasue unknown enum values will be put into UnknownFieldSetLite.
-      if (extension.getLiteType() == WireFormat.FieldType.ENUM) {
-        position = decodeVarint32(data, position, registers);
-        Object enumValue = extension.descriptor.getEnumType().findValueByNumber(registers.int1);
-        if (enumValue == null) {
-          UnknownFieldSetLite unknownFields = ((GeneratedMessageLite) message).unknownFields;
-          if (unknownFields == UnknownFieldSetLite.getDefaultInstance()) {
-            unknownFields = UnknownFieldSetLite.newInstance();
-            ((GeneratedMessageLite) message).unknownFields = unknownFields;
-          }
-          SchemaUtil.storeUnknownEnum(
-              fieldNumber, registers.int1, unknownFields, unknownFieldSchema);
-          return position;
-        }
-        // Note, we store the integer value instead of the actual enum object in FieldSet.
-        // This is also different from full-runtime where we store EnumValueDescriptor.
-        value = registers.int1;
-      } else {
-        switch (extension.getLiteType()) {
-          case DOUBLE:
-            value = decodeDouble(data, position);
-            position += 8;
-            break;
-          case FLOAT:
-            value = decodeFloat(data, position);
-            position += 4;
-            break;
-          case INT64:
-          case UINT64:
-            position = decodeVarint64(data, position, registers);
-            value = registers.long1;
-            break;
-          case INT32:
-          case UINT32:
-            position = decodeVarint32(data, position, registers);
-            value = registers.int1;
-            break;
-          case FIXED64:
-          case SFIXED64:
-            value = decodeFixed64(data, position);
-            position += 8;
-            break;
-          case FIXED32:
-          case SFIXED32:
-            value = decodeFixed32(data, position);
-            position += 4;
-            break;
-          case BOOL:
-            position = decodeVarint64(data, position, registers);
-            value = (registers.long1 != 0);
-            break;
-          case BYTES:
-            position = decodeBytes(data, position, registers);
-            value = registers.object1;
-            break;
-          case SINT32:
-            position = decodeVarint32(data, position, registers);
-            value = CodedInputStream.decodeZigZag32(registers.int1);
-            break;
-          case SINT64:
-            position = decodeVarint64(data, position, registers);
-            value = CodedInputStream.decodeZigZag64(registers.long1);
-            break;
-          case STRING:
-            position = decodeString(data, position, registers);
-            value = registers.object1;
-            break;
-          case GROUP:
-            final int endTag = (fieldNumber << 3) | WireFormat.WIRETYPE_END_GROUP;
-            position = decodeGroupField(
-                Protobuf.getInstance().schemaFor(extension.getMessageDefaultInstance().getClass()),
-                data, position, limit, endTag, registers);
-            value = registers.object1;
-            break;
-
-          case MESSAGE:
-            position = decodeMessageField(
-                Protobuf.getInstance().schemaFor(extension.getMessageDefaultInstance().getClass()),
-                data, position, limit, registers);
-            value = registers.object1;
-            break;
-
-          case ENUM:
-            throw new IllegalStateException("Shouldn't reach here.");
-        }
-      }
-      if (extension.isRepeated()) {
-        extensions.addRepeatedField(extension.descriptor, value);
-      } else {
-        switch (extension.getLiteType()) {
-          case MESSAGE:
-          case GROUP:
-            Object oldValue = extensions.getField(extension.descriptor);
-            if (oldValue != null) {
-              value = Internal.mergeMessage(oldValue, value);
-            }
-            break;
-          default:
-            break;
-        }
-        extensions.setField(extension.descriptor, value);
-      }
     }
     return position;
   }

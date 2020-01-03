@@ -68,7 +68,7 @@ final class Protobuf {
   /** Reads fields from the given {@link Reader} and merges them into the message. */
   public <T> void mergeFrom(T message, Reader reader, ExtensionRegistryLite extensionRegistry)
       throws IOException {
-    schemaFor(message).mergeFrom(message, reader, extensionRegistry);
+    schemaFor(message).mergeFrom(message, reader);
   }
 
   /** Marks repeated/map/extension/unknown fields as immutable. */

@@ -79,7 +79,7 @@ public interface Parser<MessageType> {
    * exception if the message is missing required fields. Instead, a partial message is returned.
    */
   public MessageType parsePartialFrom(
-      CodedInputStream input, ExtensionRegistryLite extensionRegistry)
+          CodedInputStream input)
       throws InvalidProtocolBufferException;
 
   // ---------------------------------------------------------------

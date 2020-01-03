@@ -34,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.google.protobuf.testing.Proto3Testing.Proto3Message;
 import java.io.IOException;
-import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.jupiter.api.Test;
 
 public final class CodedAdapterTest {
@@ -79,8 +79,8 @@ public final class CodedAdapterTest {
       T msg = schema.newInstance();
       schema.mergeFrom(
           msg,
-          CodedInputStreamReader.forCodedInput(CodedInputStream.newInstance(data)),
-          ExtensionRegistryLite.EMPTY_REGISTRY_LITE);
+          CodedInputStreamReader.forCodedInput(CodedInputStream.newInstance(data))
+      );
       return msg;
     } catch (IOException e) {
       throw new RuntimeException(e);

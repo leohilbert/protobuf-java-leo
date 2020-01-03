@@ -258,7 +258,7 @@ abstract class BinaryReader implements Reader {
       try {
         // Allocate and read the message.
         T message = schema.newInstance();
-        schema.mergeFrom(message, this, extensionRegistry);
+        schema.mergeFrom(message, this);
         schema.makeImmutable(message);
 
         if (pos != newLimit) {
@@ -293,7 +293,7 @@ abstract class BinaryReader implements Reader {
       try {
         // Allocate and read the message.
         T message = schema.newInstance();
-        schema.mergeFrom(message, this, extensionRegistry);
+        schema.mergeFrom(message, this);
         schema.makeImmutable(message);
 
         if (tag != endGroupTag) {

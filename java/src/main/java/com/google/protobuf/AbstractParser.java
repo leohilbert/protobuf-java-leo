@@ -41,7 +41,7 @@ import java.nio.ByteBuffer;
  *
  * <p>Note: This class implements all the convenience methods in the {@link Parser} interface. See
  * {@link Parser} for related javadocs. Subclasses need to implement {@link
- * Parser#parsePartialFrom(CodedInputStream, ExtensionRegistryLite)}
+ * Parser#parsePartialFrom(CodedInputStream)}
  *
  * @author liujisi@google.com (Pherl Liu)
  */
@@ -77,13 +77,13 @@ public abstract class AbstractParser<MessageType extends MessageLite>
   @Override
   public MessageType parsePartialFrom(CodedInputStream input)
       throws InvalidProtocolBufferException {
-    return parsePartialFrom(input, EMPTY_REGISTRY);
+    return parsePartialFrom(input);
   }
 
   @Override
   public MessageType parseFrom(CodedInputStream input, ExtensionRegistryLite extensionRegistry)
       throws InvalidProtocolBufferException {
-    return checkMessageInitialized(parsePartialFrom(input, extensionRegistry));
+    return checkMessageInitialized(parsePartialFrom(input));
   }
 
   @Override
@@ -97,7 +97,7 @@ public abstract class AbstractParser<MessageType extends MessageLite>
     MessageType message;
     try {
       CodedInputStream input = data.newCodedInput();
-      message = parsePartialFrom(input, extensionRegistry);
+      message = parsePartialFrom(input);
       try {
         input.checkLastTagWas(0);
       } catch (InvalidProtocolBufferException e) {
@@ -131,7 +131,7 @@ public abstract class AbstractParser<MessageType extends MessageLite>
     MessageType message;
     try {
       CodedInputStream input = CodedInputStream.newInstance(data);
-      message = parsePartialFrom(input, extensionRegistry);
+      message = parsePartialFrom(input);
       try {
         input.checkLastTagWas(0);
       } catch (InvalidProtocolBufferException e) {
@@ -155,7 +155,7 @@ public abstract class AbstractParser<MessageType extends MessageLite>
       throws InvalidProtocolBufferException {
     try {
       CodedInputStream input = CodedInputStream.newInstance(data, off, len);
-      MessageType message = parsePartialFrom(input, extensionRegistry);
+      MessageType message = parsePartialFrom(input);
       try {
         input.checkLastTagWas(0);
       } catch (InvalidProtocolBufferException e) {
@@ -212,7 +212,7 @@ public abstract class AbstractParser<MessageType extends MessageLite>
   public MessageType parsePartialFrom(InputStream input, ExtensionRegistryLite extensionRegistry)
       throws InvalidProtocolBufferException {
     CodedInputStream codedInput = CodedInputStream.newInstance(input);
-    MessageType message = parsePartialFrom(codedInput, extensionRegistry);
+    MessageType message = parsePartialFrom(codedInput);
     try {
       codedInput.checkLastTagWas(0);
     } catch (InvalidProtocolBufferException e) {

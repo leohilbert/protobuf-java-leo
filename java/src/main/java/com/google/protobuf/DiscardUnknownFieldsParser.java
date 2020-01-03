@@ -54,11 +54,11 @@ public final class DiscardUnknownFieldsParser {
   public static final <T extends Message> Parser<T> wrap(final Parser<T> parser) {
     return new AbstractParser<T>() {
       @Override
-      public T parsePartialFrom(CodedInputStream input, ExtensionRegistryLite extensionRegistry)
+      public T parsePartialFrom(CodedInputStream input)
           throws InvalidProtocolBufferException {
         try {
           input.discardUnknownFields();
-          return parser.parsePartialFrom(input, extensionRegistry);
+          return parser.parsePartialFrom(input);
         } finally {
           input.unsetDiscardUnknownFields();
         }

@@ -421,33 +421,6 @@ public abstract class AbstractMessage
     }
 
     @Override
-    public BuilderType mergeFrom(
-        final CodedInputStream input, final ExtensionRegistryLite extensionRegistry)
-        throws IOException {
-      boolean discardUnknown = input.shouldDiscardUnknownFields();
-      final UnknownFieldSet.Builder unknownFields =
-          discardUnknown ? null : UnknownFieldSet.newBuilder(getUnknownFields());
-      while (true) {
-        final int tag = input.readTag();
-        if (tag == 0) {
-          break;
-        }
-
-        MessageReflection.BuilderAdapter builderAdapter =
-            new MessageReflection.BuilderAdapter(this);
-        if (!MessageReflection.mergeFieldFrom(
-            input, unknownFields, extensionRegistry, getDescriptorForType(), builderAdapter, tag)) {
-          // end group tag
-          break;
-        }
-      }
-      if (unknownFields != null) {
-        setUnknownFields(unknownFields.build());
-      }
-      return (BuilderType) this;
-    }
-
-    @Override
     public BuilderType mergeUnknownFields(final UnknownFieldSet unknownFields) {
       setUnknownFields(
           UnknownFieldSet.newBuilder(getUnknownFields()).mergeFrom(unknownFields).build());
@@ -520,13 +493,6 @@ public abstract class AbstractMessage
     }
 
     @Override
-    public BuilderType mergeFrom(
-        final ByteString data, final ExtensionRegistryLite extensionRegistry)
-        throws InvalidProtocolBufferException {
-      return (BuilderType) super.mergeFrom(data, extensionRegistry);
-    }
-
-    @Override
     public BuilderType mergeFrom(final byte[] data) throws InvalidProtocolBufferException {
       return (BuilderType) super.mergeFrom(data);
     }
@@ -538,30 +504,8 @@ public abstract class AbstractMessage
     }
 
     @Override
-    public BuilderType mergeFrom(final byte[] data, final ExtensionRegistryLite extensionRegistry)
-        throws InvalidProtocolBufferException {
-      return (BuilderType) super.mergeFrom(data, extensionRegistry);
-    }
-
-    @Override
-    public BuilderType mergeFrom(
-        final byte[] data,
-        final int off,
-        final int len,
-        final ExtensionRegistryLite extensionRegistry)
-        throws InvalidProtocolBufferException {
-      return (BuilderType) super.mergeFrom(data, off, len, extensionRegistry);
-    }
-
-    @Override
     public BuilderType mergeFrom(final InputStream input) throws IOException {
       return (BuilderType) super.mergeFrom(input);
-    }
-
-    @Override
-    public BuilderType mergeFrom(
-        final InputStream input, final ExtensionRegistryLite extensionRegistry) throws IOException {
-      return (BuilderType) super.mergeFrom(input, extensionRegistry);
     }
 
     @Override
@@ -569,11 +513,6 @@ public abstract class AbstractMessage
       return super.mergeDelimitedFrom(input);
     }
 
-    @Override
-    public boolean mergeDelimitedFrom(
-        final InputStream input, final ExtensionRegistryLite extensionRegistry) throws IOException {
-      return super.mergeDelimitedFrom(input, extensionRegistry);
-    }
   }
 
   /**

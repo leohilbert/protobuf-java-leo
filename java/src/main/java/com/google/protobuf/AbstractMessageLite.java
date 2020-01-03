@@ -169,37 +169,13 @@ public abstract class AbstractMessageLite<
     public abstract BuilderType clone();
 
     @Override
-    public BuilderType mergeFrom(final CodedInputStream input) throws IOException {
-      return mergeFrom(input, ExtensionRegistryLite.getEmptyRegistry());
-    }
-
-    // Re-defined here for return type covariance.
-    @Override
-    public abstract BuilderType mergeFrom(
-        final CodedInputStream input, final ExtensionRegistryLite extensionRegistry)
-        throws IOException;
+    public abstract BuilderType mergeFrom(final CodedInputStream input) throws IOException;
 
     @Override
     public BuilderType mergeFrom(final ByteString data) throws InvalidProtocolBufferException {
       try {
         final CodedInputStream input = data.newCodedInput();
         mergeFrom(input);
-        input.checkLastTagWas(0);
-        return (BuilderType) this;
-      } catch (InvalidProtocolBufferException e) {
-        throw e;
-      } catch (IOException e) {
-        throw new RuntimeException(getReadingExceptionMessage("ByteString"), e);
-      }
-    }
-
-    @Override
-    public BuilderType mergeFrom(
-        final ByteString data, final ExtensionRegistryLite extensionRegistry)
-        throws InvalidProtocolBufferException {
-      try {
-        final CodedInputStream input = data.newCodedInput();
-        mergeFrom(input, extensionRegistry);
         input.checkLastTagWas(0);
         return (BuilderType) this;
       } catch (InvalidProtocolBufferException e) {
@@ -230,43 +206,9 @@ public abstract class AbstractMessageLite<
     }
 
     @Override
-    public BuilderType mergeFrom(final byte[] data, final ExtensionRegistryLite extensionRegistry)
-        throws InvalidProtocolBufferException {
-      return mergeFrom(data, 0, data.length, extensionRegistry);
-    }
-
-    @Override
-    public BuilderType mergeFrom(
-        final byte[] data,
-        final int off,
-        final int len,
-        final ExtensionRegistryLite extensionRegistry)
-        throws InvalidProtocolBufferException {
-      try {
-        final CodedInputStream input = CodedInputStream.newInstance(data, off, len);
-        mergeFrom(input, extensionRegistry);
-        input.checkLastTagWas(0);
-        return (BuilderType) this;
-      } catch (InvalidProtocolBufferException e) {
-        throw e;
-      } catch (IOException e) {
-        throw new RuntimeException(getReadingExceptionMessage("byte array"), e);
-      }
-    }
-
-    @Override
     public BuilderType mergeFrom(final InputStream input) throws IOException {
       final CodedInputStream codedInput = CodedInputStream.newInstance(input);
       mergeFrom(codedInput);
-      codedInput.checkLastTagWas(0);
-      return (BuilderType) this;
-    }
-
-    @Override
-    public BuilderType mergeFrom(
-        final InputStream input, final ExtensionRegistryLite extensionRegistry) throws IOException {
-      final CodedInputStream codedInput = CodedInputStream.newInstance(input);
-      mergeFrom(codedInput, extensionRegistry);
       codedInput.checkLastTagWas(0);
       return (BuilderType) this;
     }
@@ -326,21 +268,17 @@ public abstract class AbstractMessageLite<
 
     @Override
     public boolean mergeDelimitedFrom(
-        final InputStream input, final ExtensionRegistryLite extensionRegistry) throws IOException {
+            final InputStream input) throws IOException {
       final int firstByte = input.read();
       if (firstByte == -1) {
         return false;
       }
       final int size = CodedInputStream.readRawVarint32(firstByte, input);
       final InputStream limitedInput = new LimitedInputStream(input, size);
-      mergeFrom(limitedInput, extensionRegistry);
+      mergeFrom(limitedInput);
       return true;
     }
 
-    @Override
-    public boolean mergeDelimitedFrom(final InputStream input) throws IOException {
-      return mergeDelimitedFrom(input, ExtensionRegistryLite.getEmptyRegistry());
-    }
 
     @Override
     @SuppressWarnings("unchecked") // isInstance takes care of this

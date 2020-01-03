@@ -80,7 +80,7 @@ public abstract class AbstractSchemaTest<T extends MessageLite> {
 
             T newMsg = schema.newInstance();
             try {
-                schema.mergeFrom(newMsg, reader, ExtensionRegistryLite.getEmptyRegistry());
+                schema.mergeFrom(newMsg, reader);
                 fail("should throw invalid ");
             } catch (InvalidProtocolBufferException expected) {
             }
@@ -100,7 +100,7 @@ public abstract class AbstractSchemaTest<T extends MessageLite> {
             try {
                 T message = schema.newInstance();
                 // Test that this method throws the expected exceptions.
-                schema.mergeFrom(message, truncatedData, 0, i, new ArrayDecoders.Registers());
+                schema.mergeFrom(message, truncatedData, 0, i);
             } catch (InvalidProtocolBufferException e) {
                 // Ignore expected exceptions.
             } catch (IndexOutOfBoundsException e) {
@@ -120,13 +120,13 @@ public abstract class AbstractSchemaTest<T extends MessageLite> {
             // Test the fast path on Android.
             M newMsg = schema.newInstance();
             schema.mergeFrom(
-                    newMsg, serializedBytes, 0, serializedBytes.length, new ArrayDecoders.Registers());
+                    newMsg, serializedBytes, 0, serializedBytes.length);
             schema.makeImmutable(newMsg);
             assertEquals(msg, newMsg, failureMessage);
         }
         M newMsg = schema.newInstance();
         Reader reader = BinaryReader.newInstance(ByteBuffer.wrap(serializedBytes), true);
-        schema.mergeFrom(newMsg, reader, ExtensionRegistryLite.getEmptyRegistry());
+        schema.mergeFrom(newMsg, reader);
         schema.makeImmutable(newMsg);
 
         assertEquals(msg, newMsg, failureMessage);

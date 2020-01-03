@@ -177,14 +177,6 @@ public interface MessageLite extends MessageLiteOrBuilder {
      */
     Builder mergeFrom(CodedInputStream input) throws IOException;
 
-    /**
-     * Like {@link Builder#mergeFrom(CodedInputStream)}, but also parses extensions. The extensions
-     * that you want to be able to parse must be registered in {@code extensionRegistry}. Extensions
-     * not in the registry will be treated as unknown fields.
-     */
-    Builder mergeFrom(CodedInputStream input, ExtensionRegistryLite extensionRegistry)
-        throws IOException;
-
     // ---------------------------------------------------------------
     // Convenience methods.
 
@@ -195,15 +187,6 @@ public interface MessageLite extends MessageLiteOrBuilder {
      * @return this
      */
     Builder mergeFrom(ByteString data) throws InvalidProtocolBufferException;
-
-    /**
-     * Parse {@code data} as a message of this type and merge it with the message being built. This
-     * is just a small wrapper around {@link #mergeFrom(CodedInputStream,ExtensionRegistryLite)}.
-     *
-     * @return this
-     */
-    Builder mergeFrom(ByteString data, ExtensionRegistryLite extensionRegistry)
-        throws InvalidProtocolBufferException;
 
     /**
      * Parse {@code data} as a message of this type and merge it with the message being built. This
@@ -222,24 +205,6 @@ public interface MessageLite extends MessageLiteOrBuilder {
     Builder mergeFrom(byte[] data, int off, int len) throws InvalidProtocolBufferException;
 
     /**
-     * Parse {@code data} as a message of this type and merge it with the message being built. This
-     * is just a small wrapper around {@link #mergeFrom(CodedInputStream,ExtensionRegistryLite)}.
-     *
-     * @return this
-     */
-    Builder mergeFrom(byte[] data, ExtensionRegistryLite extensionRegistry)
-        throws InvalidProtocolBufferException;
-
-    /**
-     * Parse {@code data} as a message of this type and merge it with the message being built. This
-     * is just a small wrapper around {@link #mergeFrom(CodedInputStream,ExtensionRegistryLite)}.
-     *
-     * @return this
-     */
-    Builder mergeFrom(byte[] data, int off, int len, ExtensionRegistryLite extensionRegistry)
-        throws InvalidProtocolBufferException;
-
-    /**
      * Parse a message of this type from {@code input} and merge it with the message being built.
      * This is just a small wrapper around {@link #mergeFrom(CodedInputStream)}. Note that this
      * method always reads the <i>entire</i> input (unless it throws an exception). If you want it
@@ -252,16 +217,6 @@ public interface MessageLite extends MessageLiteOrBuilder {
      * @return this
      */
     Builder mergeFrom(InputStream input) throws IOException;
-
-    /**
-     * Parse a message of this type from {@code input} and merge it with the message being built.
-     * This is just a small wrapper around {@link
-     * #mergeFrom(CodedInputStream,ExtensionRegistryLite)}.
-     *
-     * @return this
-     */
-    Builder mergeFrom(InputStream input, ExtensionRegistryLite extensionRegistry)
-        throws IOException;
 
     /**
      * Merge {@code other} into the message being built. {@code other} must have the exact same type
@@ -291,8 +246,5 @@ public interface MessageLite extends MessageLiteOrBuilder {
      */
     boolean mergeDelimitedFrom(InputStream input) throws IOException;
 
-    /** Like {@link #mergeDelimitedFrom(InputStream)} but supporting extensions. */
-    boolean mergeDelimitedFrom(InputStream input, ExtensionRegistryLite extensionRegistry)
-        throws IOException;
   }
 }

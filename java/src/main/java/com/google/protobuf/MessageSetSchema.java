@@ -130,7 +130,7 @@ final class MessageSetSchema<T> implements Schema<T> {
   @SuppressWarnings("ReferenceEquality")
   @Override
   public void mergeFrom(
-      T message, byte[] data, int position, int limit, ArrayDecoders.Registers registers)
+          T message, byte[] data, int position, int limit)
       throws IOException {
     UnknownFieldSetLite unknownFields = ((GeneratedMessageLite) message).unknownFields;
     if (unknownFields == UnknownFieldSetLite.getDefaultInstance()) {
@@ -222,7 +222,7 @@ final class MessageSetSchema<T> implements Schema<T> {
   }
 
   @Override
-  public void mergeFrom(T message, Reader reader, ExtensionRegistryLite extensionRegistry)
+  public void mergeFrom(T message, Reader reader)
       throws IOException {
     mergeFromHelper(unknownFieldSchema, extensionSchema, message, reader, extensionRegistry);
   }

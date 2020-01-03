@@ -284,7 +284,7 @@ public final class DynamicMessage extends AbstractMessage {
     return new AbstractParser<DynamicMessage>() {
       @Override
       public DynamicMessage parsePartialFrom(
-          CodedInputStream input, ExtensionRegistryLite extensionRegistry)
+              CodedInputStream input)
           throws InvalidProtocolBufferException {
         Builder builder = newBuilder(type);
         try {

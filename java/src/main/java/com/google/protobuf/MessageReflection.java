@@ -447,7 +447,7 @@ class MessageReflection {
           subBuilder.mergeFrom(originalMessage);
         }
       }
-      input.readGroup(field.getNumber(), subBuilder, extensionRegistry);
+      input.readGroup(field.getNumber(), subBuilder);
       return subBuilder.buildPartial();
     }
 
@@ -643,7 +643,7 @@ class MessageReflection {
           subBuilder.mergeFrom(originalMessage);
         }
       }
-      input.readGroup(field.getNumber(), subBuilder, registry);
+      input.readGroup(field.getNumber(), subBuilder);
       return subBuilder.buildPartial();
     }
 

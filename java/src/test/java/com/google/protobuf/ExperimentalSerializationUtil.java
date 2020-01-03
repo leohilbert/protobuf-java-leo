@@ -90,7 +90,7 @@ public class ExperimentalSerializationUtil {
       Schema<T> schema = Protobuf.getInstance().schemaFor(messageType);
       T msg = schema.newInstance();
       schema.mergeFrom(
-          msg, BinaryReader.newInstance(ByteBuffer.wrap(data), true), extensionRegistry);
+          msg, BinaryReader.newInstance(ByteBuffer.wrap(data), true));
       schema.makeImmutable(msg);
       return msg;
     } catch (IOException e) {
@@ -103,7 +103,7 @@ public class ExperimentalSerializationUtil {
     try {
       Schema<T> schema = Protobuf.getInstance().schemaFor(messageType);
       T msg = schema.newInstance();
-      schema.mergeFrom(msg, data, 0, data.length, new ArrayDecoders.Registers());
+      schema.mergeFrom(msg, data, 0, data.length);
       schema.makeImmutable(msg);
       return msg;
     } catch (IOException e) {
