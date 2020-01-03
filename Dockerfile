@@ -9,17 +9,20 @@ RUN ./configure.sh
 
 COPY "src" "src"
 COPY "CMakeLists.txt" "."
-RUN mkdir -p build && cd build && cmake ..
-RUN cd build && make -j8
+RUN mkdir -p build \
+    && cd build && cmake .. \
+    && make -j$(nproc)
 
-FROM gradle:latest as buildGrpc
+FROM gradle:6.0-jre13 as buildGrpc
 WORKDIR /tmp
+ARG GRPC_JAVA_VERSION=1.26.x
 RUN apt-get update && apt-get install -y git g++
-COPY ./docker ./docker
 COPY --from=buildLeo ["/tmp/protoc/lib", "/usr/local/lib"]
 COPY --from=buildLeo "/tmp/protoc/include" "/usr/local/include"
-RUN ldconfig
-RUN ./docker/compileGrpc.sh 1.26
+RUN ldconfig; set -x \
+    && git clone -b v${GRPC_JAVA_VERSION} --recursive https://github.com/grpc/grpc-java.git grpc-java \
+    && cd grpc-java/compiler \
+    && gradle java_pluginExecutable
 
 FROM debian:buster-slim as final
 COPY --from=buildGrpc "/tmp/grpc-java/compiler/build/exe/java_plugin/protoc-gen-grpc-java" "/usr/local/bin"
@@ -30,4 +33,5 @@ COPY --from=buildLeo "/tmp/protoc/include" "/usr/local/include"
 RUN chmod -R +x /usr/local/bin
 RUN ldconfig
 
-ENTRYPOINT ["protoc"]
+ENTRYPOINT ["/bin/sh"]
+CMD ["protoc"]
