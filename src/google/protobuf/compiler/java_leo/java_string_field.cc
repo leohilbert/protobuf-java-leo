@@ -567,6 +567,18 @@ void RepeatedImmutableStringFieldGenerator::GenerateInterfaceMembers(
   printer->Print(variables_,
                  "$deprecation$com.google.protobuf.ByteString\n"
                  "    get$capitalized_name$Bytes(int index);\n");
+
+  WriteFieldDocComment(printer, descriptor_);
+  printer->Print(variables_, "$deprecation$public SELF ${$set$capitalized_name$$}$(int index, java.lang.String value);\n");
+
+  WriteFieldDocComment(printer, descriptor_);
+  printer->Print(variables_, "$deprecation$public SELF ${$add$capitalized_name$$}$(java.lang.String value);\n");
+
+  WriteFieldDocComment(printer, descriptor_);
+  printer->Print(variables_, "$deprecation$public SELF ${$addAll$capitalized_name$$}$(java.util.Collection<java.lang.String> values);\n");
+
+  WriteFieldDocComment(printer, descriptor_);
+  printer->Print(variables_, "$deprecation$public SELF ${$clear$capitalized_name$$}$();\n");
 }
 
 void RepeatedImmutableStringFieldGenerator::GenerateMembers(

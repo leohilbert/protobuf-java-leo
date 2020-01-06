@@ -20,6 +20,22 @@ public interface AddressBookInterface<SELF> extends
    * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
    */
   int getPeopleCount();
+  /**
+   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   */
+  public SELF setPeople(int index, com.example.tutorial.Person value);
+  /**
+   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   */
+  public SELF addPeople(com.example.tutorial.Person value);
+  /**
+   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   */
+  public SELF addAllPeople(java.util.Collection<com.example.tutorial.Person> values);
+  /**
+   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   */
+  public SELF clearPeople();
 
   /**
    * <code>.tutorial.Person owner = 2[json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>

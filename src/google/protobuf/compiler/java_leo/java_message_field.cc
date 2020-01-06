@@ -449,6 +449,18 @@ void RepeatedImmutableMessageFieldGenerator::GenerateInterfaceMembers(
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
                  "$deprecation$int get$capitalized_name$Count();\n");
+
+  WriteFieldDocComment(printer, descriptor_);
+  printer->Print(variables_, "$deprecation$public SELF ${$set$capitalized_name$$}$(int index, $type$ value);\n");
+
+  WriteFieldDocComment(printer, descriptor_);
+  printer->Print(variables_, "$deprecation$public SELF ${$add$capitalized_name$$}$($type$ value);\n");
+
+  WriteFieldDocComment(printer, descriptor_);
+  printer->Print(variables_, "$deprecation$public SELF ${$addAll$capitalized_name$$}$(java.util.Collection<$type$> values);\n");
+
+  WriteFieldDocComment(printer, descriptor_);
+  printer->Print(variables_, "$deprecation$public SELF ${$clear$capitalized_name$$}$();\n");
 }
 
 void RepeatedImmutableMessageFieldGenerator::GenerateMembers(

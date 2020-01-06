@@ -616,6 +616,22 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateInterfaceMembers(
   WriteFieldAccessorDocComment(printer, descriptor_, LIST_INDEXED_GETTER);
   printer->Print(variables_,
                  "$deprecation$$type$ get$capitalized_name$(int index);\n");
+
+  WriteFieldDocComment(printer, descriptor_);
+  printer->Print(variables_,
+      "$deprecation$public SELF ${$set$capitalized_name$$}$(int index, $type$ value);\n");
+
+  WriteFieldDocComment(printer, descriptor_);
+  printer->Print(variables_,
+      "$deprecation$public SELF ${$add$capitalized_name$$}$($type$ value);\n");
+
+  WriteFieldDocComment(printer, descriptor_);
+  printer->Print(variables_,
+      "$deprecation$public SELF ${$addAll$capitalized_name$$}$(java.util.Collection<$boxed_type$> values);\n");
+
+  WriteFieldDocComment(printer, descriptor_);
+  printer->Print(variables_,
+      "$deprecation$public SELF ${$clear$capitalized_name$$}$();\n");
 }
 
 void RepeatedImmutablePrimitiveFieldGenerator::GenerateMembers(

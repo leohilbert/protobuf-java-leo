@@ -76,6 +76,22 @@ public interface PersonInterface<SELF> extends
    * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
    */
   int getPhonesCount();
+  /**
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   */
+  public SELF setPhones(int index, com.example.tutorial.Person.PhoneNumber value);
+  /**
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   */
+  public SELF addPhones(com.example.tutorial.Person.PhoneNumber value);
+  /**
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   */
+  public SELF addAllPhones(java.util.Collection<com.example.tutorial.Person.PhoneNumber> values);
+  /**
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   */
+  public SELF clearPhones();
 
   /**
    * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
@@ -101,6 +117,22 @@ public interface PersonInterface<SELF> extends
    */
   com.google.protobuf.ByteString
       getFriendIdsBytes(int index);
+  /**
+   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   */
+  public SELF setFriendIds(int index, java.lang.String value);
+  /**
+   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   */
+  public SELF addFriendIds(java.lang.String value);
+  /**
+   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   */
+  public SELF addAllFriendIds(java.util.Collection<java.lang.String> values);
+  /**
+   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   */
+  public SELF clearFriendIds();
 
   /**
    * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
@@ -118,6 +150,22 @@ public interface PersonInterface<SELF> extends
    * @return The favoriteNumber at the given index.
    */
   int getFavoriteNumber(int index);
+  /**
+   * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
+   */
+  public SELF setFavoriteNumber(int index, int value);
+  /**
+   * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
+   */
+  public SELF addFavoriteNumber(int value);
+  /**
+   * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
+   */
+  public SELF addAllFavoriteNumber(java.util.Collection<java.lang.Integer> values);
+  /**
+   * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
+   */
+  public SELF clearFavoriteNumber();
 
   /**
    * <code>.google.protobuf.Timestamp last_updated = 8[json_name = "lastUpdated"];</code>
