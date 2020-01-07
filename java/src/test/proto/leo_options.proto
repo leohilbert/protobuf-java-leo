@@ -9,6 +9,7 @@ extend google.protobuf.FieldOptions {
 
 extend google.protobuf.FileOptions {
     bool use_custom_superclass = 51235;
+    string implements_interface = 51237;
 }
 
 extend google.protobuf.MessageOptions {

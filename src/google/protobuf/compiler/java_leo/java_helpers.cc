@@ -299,8 +299,11 @@ std::string ExtraBuilderInterfaces(const Descriptor* descriptor) {
 }
 
 std::string ExtraMessageOrBuilderInterfaces(const Descriptor* descriptor) {
-  std::string interfaces = "// @@protoc_insertion_point(interface_extends:" +
-                           descriptor->full_name() + ")";
+  std::string interfaces = "// @@protoc_insertion_point(interface_extends:" + descriptor->full_name() + ")";
+  string additionalInterface = descriptor->file()->options().GetExtension(leo::proto::implements_interface);
+  if (additionalInterface != nullptr) {
+    interfaces += "\n" + additionalInterface + ",";
+  }
   return interfaces;
 }
 

@@ -44,6 +44,7 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.ArrayList;
@@ -462,8 +463,19 @@ public abstract class ByteString implements Iterable<Byte>, Serializable {
     return new LiteralByteString(text.getBytes(Internal.UTF_8));
   }
 
-  // =================================================================
-  // InputStream -> ByteString
+    // =================================================================
+    // short[] -> ByteString
+
+    public static ByteString copyFrom(short[] shorts) {
+        ByteBuffer byteBuf = ByteBuffer.allocate(2 * shorts.length);
+        for (short s : shorts) {
+            byteBuf.putShort(s);
+        }
+        return ByteString.wrap(byteBuf);
+    }
+
+    // =================================================================
+    // InputStream -> ByteString
 
   /**
    * Completely reads the given stream's bytes into a {@code ByteString}, blocking if necessary
@@ -695,6 +707,25 @@ public abstract class ByteString implements Iterable<Byte>, Serializable {
     copyToInternal(result, 0, 0, size);
     return result;
   }
+
+    /**
+     * Copies bytes to a {@code short[]}.
+     *
+     * @return copied bytes
+     */
+    public final short[] toShortArray() {
+        final int size = size();
+        if (size == 0) {
+            return Internal.EMPTY_SHORT_ARRAY;
+        }
+        ByteBuffer buffer = ByteBuffer.allocate(size);
+        copyTo(buffer);
+
+        short[] result = new short[size / 2];
+        buffer.order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().get(result);
+
+        return result;
+    }
 
   /**
    * Writes a copy of the contents of this byte string to the specified output stream argument.

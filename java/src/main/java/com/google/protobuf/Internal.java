@@ -375,6 +375,9 @@ public final class Internal {
   public static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
 
   /** An empty byte array constant used in generated code. */
+  public static final short[] EMPTY_SHORT_ARRAY = new short[0];
+
+  /** An empty byte array constant used in generated code. */
   public static final ByteBuffer EMPTY_BYTE_BUFFER = ByteBuffer.wrap(EMPTY_BYTE_ARRAY);
 
   /** An empty coded input stream constant used in generated code. */
