@@ -65,7 +65,7 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
 
   (*variables)["empty_list"] = "new com.google.protobuf.LazyStringArrayList()";
 
-  (*variables)["default"] = ImmutableDefaultValue(descriptor, name_resolver);
+  (*variables)["default"] = "null";
   (*variables)["default_init"] =
       "= " + ImmutableDefaultValue(descriptor, name_resolver);
   (*variables)["capitalized_type"] = "String";
@@ -73,10 +73,6 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
       StrCat(static_cast<int32>(WireFormat::MakeTag(descriptor)));
   (*variables)["tag_size"] = StrCat(
       WireFormat::TagSize(descriptor->number(), GetType(descriptor)));
-  (*variables)["null_check"] =
-      "  if (value == null) {\n"
-      "    throw new NullPointerException();\n"
-      "  }\n";
   (*variables)["writeString"] = "com.google.protobuf.GeneratedMessage" +
                                 GeneratedCodeVersionSuffix() + ".writeString";
   (*variables)["computeStringSize"] = "com.google.protobuf.GeneratedMessage" +
@@ -87,7 +83,7 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
   // by the proto compiler
   (*variables)["deprecation"] =
       descriptor->options().deprecated() ? "@java.lang.Deprecated " : "";
-  (*variables)["on_changed"] = "onChanged();";
+  (*variables)["on_changed"] = "onChanged(" + FieldConstantName(descriptor) + ");";
 
   if (SupportFieldPresence(descriptor->file())) {
     // For singular messages and builders, one bit is used for the hasField bit.
@@ -109,7 +105,7 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
     (*variables)["clear_has_field_bit_builder"] = "";
 
     (*variables)["is_field_present_message"] =
-        "!get" + (*variables)["capitalized_name"] + "Bytes().isEmpty()";
+        (*variables)["name"] + "_ != null && !" + (*variables)["name"] + "_.isEmpty()";
   }
 
   // For repeated fields, one bit is used for whether the array is immutable
@@ -190,10 +186,6 @@ void ImmutableStringFieldGenerator::GenerateInterfaceMembers(
   WriteFieldAccessorDocComment(printer, descriptor_, GETTER);
   printer->Print(variables_,
                  "$deprecation$java.lang.String get$capitalized_name$();\n");
-  WriteFieldStringBytesAccessorDocComment(printer, descriptor_, GETTER);
-  printer->Print(variables_,
-                 "$deprecation$com.google.protobuf.ByteString\n"
-                 "    get$capitalized_name$Bytes();\n");
 
   WriteFieldAccessorDocComment(printer, descriptor_, SETTER);
   printer->Print(variables_,
@@ -202,7 +194,7 @@ void ImmutableStringFieldGenerator::GenerateInterfaceMembers(
 
 void ImmutableStringFieldGenerator::GenerateMembers(
     io::Printer* printer) const {
-  printer->Print(variables_, "private volatile java.lang.Object $name$_;\n");
+  printer->Print(variables_, "private volatile java.lang.String $name$_;\n");
   PrintExtraFieldInfo(variables_, printer);
 
   if (SupportFieldPresence(descriptor_->file())) {
@@ -219,41 +211,8 @@ void ImmutableStringFieldGenerator::GenerateMembers(
   printer->Print(
       variables_,
       "$deprecation$public java.lang.String ${$get$capitalized_name$$}$() {\n"
-      "  java.lang.Object ref = $name$_;\n"
-      "  if (ref instanceof java.lang.String) {\n"
-      "    return (java.lang.String) ref;\n"
-      "  } else {\n"
-      "    com.google.protobuf.ByteString bs = \n"
-      "        (com.google.protobuf.ByteString) ref;\n"
-      "    java.lang.String s = bs.toStringUtf8();\n");
-  printer->Annotate("{", "}", descriptor_);
-  if (CheckUtf8(descriptor_)) {
-    printer->Print(variables_, "    $name$_ = s;\n");
-  } else {
-    printer->Print(variables_,
-                   "    if (bs.isValidUtf8()) {\n"
-                   "      $name$_ = s;\n"
-                   "    }\n");
-  }
-  printer->Print(variables_,
-                 "    return s;\n"
-                 "  }\n"
-                 "}\n");
-  WriteFieldStringBytesAccessorDocComment(printer, descriptor_, GETTER);
-  printer->Print(variables_,
-                 "$deprecation$public com.google.protobuf.ByteString\n"
-                 "    ${$get$capitalized_name$Bytes$}$() {\n"
-                 "  java.lang.Object ref = $name$_;\n"
-                 "  if (ref instanceof java.lang.String) {\n"
-                 "    com.google.protobuf.ByteString b = \n"
-                 "        com.google.protobuf.ByteString.copyFromUtf8(\n"
-                 "            (java.lang.String) ref);\n"
-                 "    $name$_ = b;\n"
-                 "    return b;\n"
-                 "  } else {\n"
-                 "    return (com.google.protobuf.ByteString) ref;\n"
-                 "  }\n"
-                 "}\n");
+      "  return $name$_;\n"
+      "}\n");
   printer->Annotate("{", "}", descriptor_);
 
   // !!!! Leo !!!! Add Setters to messages
@@ -261,9 +220,6 @@ void ImmutableStringFieldGenerator::GenerateMembers(
   printer->Print(variables_,
                  "$deprecation$public $classname$ ${$set$capitalized_name$$}$(\n"
                  "    java.lang.String value) {\n"
-                 "  if (value == null) {\n"
-                 "    throw new NullPointerException();\n"
-                 "  }\n"
                  "  $set_has_field_bit_builder$\n"
                  "  if(!value.equals($name$_)) {\n"
                  "    $name$_ = value;\n"
@@ -292,7 +248,7 @@ void ImmutableStringFieldGenerator::GenerateMergingCode(
                    "}\n");
   } else {
     printer->Print(variables_,
-                   "if (!other.get$capitalized_name$().isEmpty()) {\n"
+                   "if (other != null && !other.get$capitalized_name$().isEmpty()) {\n"
                    "  $name$_ = other.$name$_;\n"
                    "  $on_changed$\n"
                    "}\n");
@@ -385,16 +341,11 @@ void ImmutableStringOneofFieldGenerator::GenerateMembers(
   printer->Print(
       variables_,
       "$deprecation$public java.lang.String ${$get$capitalized_name$$}$() {\n"
-      "  java.lang.Object ref $default_init$;\n"
+      "  java.lang.String ref $default_init$;\n"
       "  if ($has_oneof_case_message$) {\n"
       "    ref = $oneof_name$_;\n"
       "  }\n"
-      "  if (ref instanceof java.lang.String) {\n"
-      "    return (java.lang.String) ref;\n"
-      "  } else {\n"
-      "    com.google.protobuf.ByteString bs = \n"
-      "        (com.google.protobuf.ByteString) ref;\n"
-      "    java.lang.String s = bs.toStringUtf8();\n");
+      "  return (java.lang.String) ref;\n");
   printer->Annotate("{", "}", descriptor_);
   if (CheckUtf8(descriptor_)) {
     printer->Print(variables_,
@@ -411,35 +362,12 @@ void ImmutableStringOneofFieldGenerator::GenerateMembers(
                  "    return s;\n"
                  "  }\n"
                  "}\n");
-  WriteFieldStringBytesAccessorDocComment(printer, descriptor_, GETTER);
-
-  printer->Print(variables_,
-                 "$deprecation$public com.google.protobuf.ByteString\n"
-                 "    ${$get$capitalized_name$Bytes$}$() {\n"
-                 "  java.lang.Object ref $default_init$;\n"
-                 "  if ($has_oneof_case_message$) {\n"
-                 "    ref = $oneof_name$_;\n"
-                 "  }\n"
-                 "  if (ref instanceof java.lang.String) {\n"
-                 "    com.google.protobuf.ByteString b = \n"
-                 "        com.google.protobuf.ByteString.copyFromUtf8(\n"
-                 "            (java.lang.String) ref);\n"
-                 "    if ($has_oneof_case_message$) {\n"
-                 "      $oneof_name$_ = b;\n"
-                 "    }\n"
-                 "    return b;\n"
-                 "  } else {\n"
-                 "    return (com.google.protobuf.ByteString) ref;\n"
-                 "  }\n"
-                 "}\n");
-  printer->Annotate("{", "}", descriptor_);
 
   WriteFieldAccessorDocComment(printer, descriptor_, SETTER,
       /* builder */ true);
   printer->Print(variables_,
                  "$deprecation$public $classname$ ${$set$capitalized_name$$}$(\n"
                  "    java.lang.String value) {\n"
-                 "$null_check$"
                  "  $set_oneof_case_message$;\n"
                  "  $oneof_name$_ = value;\n"
                  "  $on_changed$\n"
@@ -460,14 +388,6 @@ void ImmutableStringOneofFieldGenerator::GenerateMembers(
       "}\n");
   printer->Annotate("{", "}", descriptor_);
 
-  WriteFieldStringBytesAccessorDocComment(printer, descriptor_, SETTER,
-      /* builder */ true);
-  printer->Print(
-      variables_,
-      "$deprecation$public $classname$ ${$set$capitalized_name$Bytes$}$(\n"
-      "    com.google.protobuf.ByteString value) {\n"
-      "$null_check$");
-  printer->Annotate("{", "}", descriptor_);
   if (CheckUtf8(descriptor_)) {
     printer->Print(variables_, "  checkByteStringIsUtf8(value);\n");
   }
@@ -562,11 +482,6 @@ void RepeatedImmutableStringFieldGenerator::GenerateInterfaceMembers(
   printer->Print(
       variables_,
       "$deprecation$java.lang.String get$capitalized_name$(int index);\n");
-  WriteFieldStringBytesAccessorDocComment(printer, descriptor_,
-                                          LIST_INDEXED_GETTER);
-  printer->Print(variables_,
-                 "$deprecation$com.google.protobuf.ByteString\n"
-                 "    get$capitalized_name$Bytes(int index);\n");
 
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_, "$deprecation$public SELF ${$set$capitalized_name$$}$(int index, java.lang.String value);\n");
@@ -606,15 +521,6 @@ void RepeatedImmutableStringFieldGenerator::GenerateMembers(
                  "${$get$capitalized_name$$}$(int index) {\n"
                  "  return $name$_.get(index);\n"
                  "}\n");
-  printer->Annotate("{", "}", descriptor_);
-  WriteFieldStringBytesAccessorDocComment(printer, descriptor_,
-                                          LIST_INDEXED_GETTER);
-  printer->Print(variables_,
-                 "$deprecation$public com.google.protobuf.ByteString\n"
-                 "    ${$get$capitalized_name$Bytes$}$(int index) {\n"
-                 "  return $name$_.getByteString(index);\n"
-                 "}\n");
-  printer->Annotate("{", "}", descriptor_);
 
   printer->Annotate("{", "}", descriptor_);
   WriteFieldAccessorDocComment(printer, descriptor_, LIST_INDEXED_SETTER,
@@ -622,7 +528,6 @@ void RepeatedImmutableStringFieldGenerator::GenerateMembers(
   printer->Print(variables_,
                  "$deprecation$public $classname$ ${$set$capitalized_name$$}$(\n"
                  "    int index, java.lang.String value) {\n"
-                 "$null_check$"
                  "  $name$_.set(index, value);\n"
                  "  $on_changed$\n"
                  "  return this;\n"
@@ -633,7 +538,6 @@ void RepeatedImmutableStringFieldGenerator::GenerateMembers(
   printer->Print(variables_,
                  "$deprecation$public $classname$ ${$add$capitalized_name$$}$(\n"
                  "    java.lang.String value) {\n"
-                 "$null_check$"
                  "  $name$_.add(value);\n"
                  "  $on_changed$\n"
                  "  return this;\n"
@@ -659,23 +563,6 @@ void RepeatedImmutableStringFieldGenerator::GenerateMembers(
       "  return this;\n"
       "}\n");
   printer->Annotate("{", "}", descriptor_);
-
-  WriteFieldStringBytesAccessorDocComment(printer, descriptor_, LIST_ADDER,
-      /* builder */ true);
-  printer->Print(
-      variables_,
-      "$deprecation$public $classname$ ${$add$capitalized_name$Bytes$}$(\n"
-      "    com.google.protobuf.ByteString value) {\n"
-      "$null_check$");
-  printer->Annotate("{", "}", descriptor_);
-  if (CheckUtf8(descriptor_)) {
-    printer->Print(variables_, "  checkByteStringIsUtf8(value);\n");
-  }
-  printer->Print(variables_,
-                 "  $name$_.add(value);\n"
-                 "  $on_changed$\n"
-                 "  return this;\n"
-                 "}\n");
 }
 
 void RepeatedImmutableStringFieldGenerator::GenerateInitializationCode(
@@ -691,8 +578,8 @@ void RepeatedImmutableStringFieldGenerator::GenerateMergingCode(
   //   2. If the other list is non-empty and our current list is empty, we can
   //      reuse the other list which is guaranteed to be immutable.
   printer->Print(variables_,
-                 "if (!other.$name$_.isEmpty()) {\n"
-                 "  if ($name$_.isEmpty()) {\n"
+                 "if (other != null && !other.$name$_.isEmpty()) {\n"
+                 "  if ($name$_ != null && $name$_.isEmpty()) {\n"
                  "    $name$_ = other.$name$_;\n"
                  "  } else {\n"
                  "    $name$_.addAll(other.$name$_);\n"

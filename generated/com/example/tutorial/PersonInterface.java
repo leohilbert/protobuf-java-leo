@@ -6,6 +6,7 @@ package com.example.tutorial;
 public interface PersonInterface<SELF> extends
     // @@protoc_insertion_point(interface_extends:tutorial.Person)
     com.google.protobuf.MessageOrBuilder {
+  public static final int ID_FIELD_NUMBER = 1;
 
   /**
    * <code>string id = 1[json_name = "id", (.leo.proto.javatype) = "java.util.UUID"];</code>
@@ -17,6 +18,7 @@ public interface PersonInterface<SELF> extends
    * @param value The id to set.
    */
   SELF setId(java.util.UUID value);
+  public static final int NAME_FIELD_NUMBER = 2;
 
   /**
    * <code>string name = 2[json_name = "name"];</code>
@@ -25,15 +27,10 @@ public interface PersonInterface<SELF> extends
   java.lang.String getName();
   /**
    * <code>string name = 2[json_name = "name"];</code>
-   * @return The bytes for name.
-   */
-  com.google.protobuf.ByteString
-      getNameBytes();
-  /**
-   * <code>string name = 2[json_name = "name"];</code>
    * @param value The name to set.
    */
   SELF setName(java.lang.String value);
+  public static final int AGE_FIELD_NUMBER = 3;
 
   /**
    * <code>int32 age = 3[json_name = "age"];</code>
@@ -45,6 +42,7 @@ public interface PersonInterface<SELF> extends
    * @param value The age to set.
    */
   SELF setAge(int value);
+  public static final int EMAIL_FIELD_NUMBER = 4;
 
   /**
    * <code>string email = 4[json_name = "email"];</code>
@@ -53,15 +51,10 @@ public interface PersonInterface<SELF> extends
   java.lang.String getEmail();
   /**
    * <code>string email = 4[json_name = "email"];</code>
-   * @return The bytes for email.
-   */
-  com.google.protobuf.ByteString
-      getEmailBytes();
-  /**
-   * <code>string email = 4[json_name = "email"];</code>
    * @param value The email to set.
    */
   SELF setEmail(java.lang.String value);
+  public static final int PHONES_FIELD_NUMBER = 5;
 
   /**
    * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
@@ -92,6 +85,7 @@ public interface PersonInterface<SELF> extends
    * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
    */
   public SELF clearPhones();
+  public static final int FRIENDIDS_FIELD_NUMBER = 6;
 
   /**
    * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
@@ -112,13 +106,6 @@ public interface PersonInterface<SELF> extends
   java.lang.String getFriendIds(int index);
   /**
    * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
-   * @param index The index of the value to return.
-   * @return The bytes of the friendIds at the given index.
-   */
-  com.google.protobuf.ByteString
-      getFriendIdsBytes(int index);
-  /**
-   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
    */
   public SELF setFriendIds(int index, java.lang.String value);
   /**
@@ -133,6 +120,7 @@ public interface PersonInterface<SELF> extends
    * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
    */
   public SELF clearFriendIds();
+  public static final int FAVORITENUMBER_FIELD_NUMBER = 7;
 
   /**
    * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
@@ -166,6 +154,7 @@ public interface PersonInterface<SELF> extends
    * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
    */
   public SELF clearFavoriteNumber();
+  public static final int LAST_UPDATED_FIELD_NUMBER = 8;
 
   /**
    * <code>.google.protobuf.Timestamp last_updated = 8[json_name = "lastUpdated"];</code>

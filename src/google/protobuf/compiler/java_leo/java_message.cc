@@ -260,8 +260,12 @@ void ImmutableMessageGenerator::GenerateInterface(io::Printer* printer) {
 
   printer->Indent();
   for (int i = 0; i < descriptor_->field_count(); i++) {
+    const FieldDescriptor* fieldDescriptor = descriptor_->field(i);
+    printer->Print("public static final int $constant_name$ = $number$;\n",
+                   "constant_name", FieldConstantName(fieldDescriptor),
+                   "number", StrCat(fieldDescriptor->number()));
     printer->Print("\n");
-    field_generators_.get(descriptor_->field(i))
+    field_generators_.get(fieldDescriptor)
         .GenerateInterfaceMembers(printer);
   }
   for (int i = 0; i < descriptor_->oneof_decl_count(); i++) {
@@ -340,6 +344,7 @@ void ImmutableMessageGenerator::Generate(io::Printer* printer) {
   printer->Print("public $classname$() {\n", "classname", descriptor_->name());
   printer->Indent();
   GenerateInitializers(printer);
+  printer->Print("afterMessageInit();\n");
   printer->Outdent();
   printer->Print(
       "}\n"
@@ -480,9 +485,6 @@ void ImmutableMessageGenerator::Generate(io::Printer* printer) {
 
   // Fields
   for (int i = 0; i < descriptor_->field_count(); i++) {
-    printer->Print("public static final int $constant_name$ = $number$;\n",
-                   "constant_name", FieldConstantName(descriptor_->field(i)),
-                   "number", StrCat(descriptor_->field(i)->number()));
     field_generators_.get(descriptor_->field(i)).GenerateMembers(printer);
     printer->Print("\n");
   }
@@ -1250,6 +1252,7 @@ void ImmutableMessageGenerator::GenerateUpdateFromMethod(
 
   printer->Outdent();
   printer->Print(
+      "  afterMessageInit();\n"
       "} catch (com.google.protobuf.InvalidProtocolBufferException e) {\n"
       "  throw e.setUnfinishedMessage(this);\n"
       "} catch (java.io.IOException e) {\n"

@@ -6,6 +6,7 @@ package com.example.tutorial;
 public interface AddressBookInterface<SELF> extends
     // @@protoc_insertion_point(interface_extends:tutorial.AddressBook)
     com.google.protobuf.MessageOrBuilder {
+  public static final int PEOPLE_FIELD_NUMBER = 1;
 
   /**
    * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
@@ -36,6 +37,7 @@ public interface AddressBookInterface<SELF> extends
    * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
    */
   public SELF clearPeople();
+  public static final int OWNER_FIELD_NUMBER = 2;
 
   /**
    * <code>.tutorial.Person owner = 2[json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>

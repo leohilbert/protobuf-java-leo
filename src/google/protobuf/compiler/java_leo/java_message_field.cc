@@ -67,7 +67,7 @@ void SetMessageVariables(const FieldDescriptor* descriptor, int messageBitIndex,
   // by the proto compiler
   (*variables)["deprecation"] =
       descriptor->options().deprecated() ? "@java.lang.Deprecated " : "";
-  (*variables)["on_changed"] = "onChanged();";
+  (*variables)["on_changed"] = "onChanged(" + FieldConstantName(descriptor) + ");";
   (*variables)["ver"] = GeneratedCodeVersionSuffix();
   (*variables)["get_parser"] =
       ExposePublicParser(descriptor->message_type()->file()) ? "PARSER"
@@ -112,10 +112,6 @@ void SetMessageVariables(const FieldDescriptor* descriptor, int messageBitIndex,
       GenerateGetBitFromLocal(builderBitIndex);
   (*variables)["set_has_field_bit_to_local"] =
       GenerateSetBitToLocal(messageBitIndex);
-  (*variables)["null_check"] =
-      "  if (value == null) {\n"
-      "    throw new NullPointerException();\n"
-      "  }\n";
 }
 
 }  // namespace
@@ -208,9 +204,6 @@ void ImmutableMessageFieldGenerator::GenerateMembers(
   printer->Print(variables_,
                  "$deprecation$public $classname$ "
                  "${$set$capitalized_name$$}$($type$ value) {\n"
-                 "  if (value == null) {\n"
-                 "    throw new NullPointerException();\n"
-                 "  }\n"
                  "  if(!value.equals($name$_)) {\n"
                  "    $name$_ = value;\n"
                  "    $on_changed$\n"
@@ -361,9 +354,6 @@ void ImmutableMessageOneofFieldGenerator::GenerateMembers(
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
       "$deprecation$public $classname$ ${$set$capitalized_name$$}$($type$ value) {\n"
-      "if (value == null) {\n"
-      "  throw new NullPointerException();\n"
-      "}\n"
       "$oneof_name$_ = value;\n"
       "$on_changed$\n"
       "return this;\n"
@@ -502,7 +492,6 @@ void RepeatedImmutableMessageFieldGenerator::GenerateMembers(
   printer->Print(variables_,
                  "$deprecation$public $classname$ ${$set$capitalized_name$$}$(\n"
                  "    int index, $type$ value) {\n"
-                 "$null_check$"
                  "  $name$_.set(index, value);\n"
                  "  $on_changed$\n"
                  "  return this;\n"
@@ -512,7 +501,6 @@ void RepeatedImmutableMessageFieldGenerator::GenerateMembers(
   printer->Print(variables_,
                  "$deprecation$public $classname$ ${$add$capitalized_name$$}$(\n"
                  "    $type$ value) {\n"
-                 "$null_check$"
                  "  $name$_.add(value);\n"
                  "  $on_changed$\n"
                  "  return this;\n"

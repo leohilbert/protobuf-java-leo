@@ -3138,7 +3138,7 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
   // LEOS STUFF
   public transient Runnable updateReceiver = null;
 
-  public void onChanged() {
+  public void onChanged(int fieldNumber) {
       memoizedSize = -1;
       memoizedHashCode = -1;
       if (updateReceiver != null) {
@@ -3155,5 +3155,11 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
   public Message.Builder newBuilderForType() {
         throw new UnsupportedOperationException("builders are not implemented");
     }
+
+  public void afterMessageInit() {
+  }
+
+  public void afterMessageUpdate() {
+  }
 }
 

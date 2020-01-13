@@ -546,24 +546,7 @@ std::string DefaultValue(const FieldDescriptor* field, bool immutable,
     case FieldDescriptor::CPPTYPE_BOOL:
       return field->default_value_bool() ? "true" : "false";
     case FieldDescriptor::CPPTYPE_STRING:
-      if (GetType(field) == FieldDescriptor::TYPE_BYTES) {
-        if (field->has_default_value()) {
-          // See comments in Internal.java for gory details.
-          return
-              "com.google.protobuf.Internal.bytesDefaultValue(\"" + CEscape(field->default_value_string()) + "\")";
-        } else {
-          return "com.google.protobuf.ByteString.EMPTY";
-        }
-      } else {
-        if (AllAscii(field->default_value_string())) {
-          // All chars are ASCII.  In this case CEscape() works fine.
-          return "\"" + CEscape(field->default_value_string()) + "\"";
-        } else {
-          // See comments in Internal.java for gory details.
-          return
-              "com.google.protobuf.Internal.stringDefaultValue(\"" + CEscape(field->default_value_string()) + "\")";
-        }
-      }
+      return "null";
 
     case FieldDescriptor::CPPTYPE_ENUM:
       return name_resolver->GetClassName(field->enum_type(), immutable) + "." +

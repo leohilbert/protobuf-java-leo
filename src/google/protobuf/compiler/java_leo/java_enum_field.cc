@@ -73,7 +73,7 @@ void SetEnumVariables(const FieldDescriptor* descriptor, int messageBitIndex,
   // by the proto compiler
   (*variables)["deprecation"] =
       descriptor->options().deprecated() ? "@java.lang.Deprecated " : "";
-  (*variables)["on_changed"] = "onChanged();";
+  (*variables)["on_changed"] = "onChanged(" + FieldConstantName(descriptor) + ");";
   // Use deprecated valueOf() method to be compatible with old generated code
   // for v2.5.0/v2.6.1.
   // TODO(xiaofeng): Use "forNumber" when we no longer support compatibility
@@ -212,9 +212,6 @@ void ImmutableEnumFieldGenerator::GenerateMembers(io::Printer* printer) const {
   printer->Print(variables_,
                  "$deprecation$public $classname$ "
                  "${$set$capitalized_name$$}$($type$ value) {\n"
-                 "  if (value == null) {\n"
-                 "    throw new NullPointerException();\n"
-                 "  }\n"
                  "  int valueNumber = value.getNumber();\n"
                  "  if($name$_ != valueNumber) {"
                  "    $set_has_field_bit_builder$\n"
@@ -363,9 +360,6 @@ void ImmutableEnumOneofFieldGenerator::GenerateMembers(
   printer->Print(variables_,
                  "$deprecation$public $classname$ "
                  "${$set$capitalized_name$$}$($type$ value) {\n"
-                 "  if (value == null) {\n"
-                 "    throw new NullPointerException();\n"
-                 "  }\n"
                  "  $set_oneof_case_message$;\n"
                  "  $oneof_name$_ = value.getNumber();\n"
                  "  $on_changed$\n"
@@ -588,9 +582,6 @@ void RepeatedImmutableEnumFieldGenerator::GenerateMembers(
     printer->Print(variables_,
                    "$deprecation$public $classname$ "
                    "${$add$capitalized_name$$}$($type$ value) {\n"
-                   "  if (value == null) {\n"
-                   "    throw new NullPointerException();\n"
-                   "  }\n"
                    "  $name$_.add(value.getNumber());\n"
                    "$resetMemoized$"
                    "  $on_changed$\n"

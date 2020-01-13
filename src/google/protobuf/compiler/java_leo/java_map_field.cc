@@ -136,7 +136,7 @@ void SetMessageVariables(const FieldDescriptor* descriptor, int messageBitIndex,
   // by the proto compiler
   (*variables)["deprecation"] =
       descriptor->options().deprecated() ? "@java.lang.Deprecated " : "";
-  (*variables)["on_changed"] = "onChanged();";
+  (*variables)["on_changed"] = "onChanged(" + FieldConstantName(descriptor) + ");";
 
   // For repeated fields, one bit is used for whether the array is immutable
   // in the parsing constructor.

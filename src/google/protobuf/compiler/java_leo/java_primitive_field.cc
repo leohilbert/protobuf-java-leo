@@ -136,14 +136,6 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
       StrCat(static_cast<int32>(WireFormat::MakeTag(descriptor)));
   (*variables)["tag_size"] = StrCat(
       WireFormat::TagSize(descriptor->number(), GetType(descriptor)));
-  if (IsReferenceType(GetJavaType(descriptor))) {
-    (*variables)["null_check"] =
-        "  if (value == null) {\n"
-        "    throw new NullPointerException();\n"
-        "  }\n";
-  } else {
-    (*variables)["null_check"] = "";
-  }
   // TODO(birdo): Add @deprecated javadoc when generating javadoc is supported
   // by the proto compiler
   (*variables)["deprecation"] =
@@ -152,7 +144,7 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
   if (fixed_size != -1) {
     (*variables)["fixed_size"] = StrCat(fixed_size);
   }
-  (*variables)["on_changed"] = "onChanged();";
+  (*variables)["on_changed"] = "onChanged(" + FieldConstantName(descriptor) + ");";
 
   if (SupportFieldPresence(descriptor->file())) {
     // For singular messages and builders, one bit is used for the hasField bit.
@@ -277,7 +269,6 @@ void ImmutablePrimitiveFieldGenerator::GenerateMembers(
   printer->Print(variables_,
                  "$deprecation$public $classname$ "
                  "${$set$capitalized_name$$}$($type$ value) {\n"
-                 "$null_check$"
                  "  if($name$_ != value) {"
                  "    $set_has_field_bit_builder$\n"
                  "    $name$_ = value;\n"
@@ -509,7 +500,6 @@ void ImmutablePrimitiveOneofFieldGenerator::GenerateMembers(
   printer->Print(variables_,
                  "$deprecation$public $classname$ "
                  "${$set$capitalized_name$$}$($type$ value) {\n"
-                 "$null_check$"
                  "  $set_oneof_case_message$;\n"
                  "  $oneof_name$_ = value;\n"
                  "  $on_changed$\n"
@@ -671,7 +661,6 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateMembers(
   printer->Print(variables_,
                  "$deprecation$public $classname$ ${$set$capitalized_name$$}$(\n"
                  "    int index, $type$ value) {\n"
-                 "$null_check$"
                  "  $name$_.set(index, value);\n"
                  "$resetMemoized$"
                  "  $on_changed$\n"
@@ -683,7 +672,6 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateMembers(
   printer->Print(variables_,
                  "$deprecation$public $classname$ ${$add$capitalized_name$$}$(\n"
                  "    $type$ value) {\n"
-                 "$null_check$"
                  "  $name$_.add(value);\n"
                  "$resetMemoized$"
                  "  $on_changed$\n"

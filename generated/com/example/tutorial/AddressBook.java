@@ -14,6 +14,7 @@ private static final long serialVersionUID = 0L;
   public AddressBook() {
     people_ = new java.util.ArrayList<com.example.tutorial.Person>();
     owner_ = null;
+    afterMessageInit();
   }
 
   @java.lang.Override
@@ -76,6 +77,7 @@ private static final long serialVersionUID = 0L;
           }
         }
       }
+      afterMessageInit();
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
       throw e.setUnfinishedMessage(this);
     } catch (java.io.IOException e) {
@@ -102,7 +104,6 @@ private static final long serialVersionUID = 0L;
             com.example.tutorial.AddressBook.class);
   }
 
-  public static final int PEOPLE_FIELD_NUMBER = 1;
   private java.util.List<com.example.tutorial.Person> people_;
   /**
    * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
@@ -137,11 +138,8 @@ private static final long serialVersionUID = 0L;
    */
   public AddressBook setPeople(
       int index, com.example.tutorial.Person value) {
-    if (value == null) {
-    throw new NullPointerException();
-  }
-  people_.set(index, value);
-    onChanged();
+    people_.set(index, value);
+    onChanged(PEOPLE_FIELD_NUMBER);
     return this;
   }
   /**
@@ -151,11 +149,8 @@ private static final long serialVersionUID = 0L;
    */
   public AddressBook addPeople(
       com.example.tutorial.Person value) {
-    if (value == null) {
-    throw new NullPointerException();
-  }
-  people_.add(value);
-    onChanged();
+    people_.add(value);
+    onChanged(PEOPLE_FIELD_NUMBER);
     return this;
   }
   /**
@@ -166,7 +161,7 @@ private static final long serialVersionUID = 0L;
   public AddressBook addAllPeople(
       java.util.Collection<com.example.tutorial.Person> values) {
     people_.addAll(values);
-    onChanged();
+    onChanged(PEOPLE_FIELD_NUMBER);
     return this;
   }
   /**
@@ -175,11 +170,10 @@ private static final long serialVersionUID = 0L;
    */
   public AddressBook clearPeople() {
     people_ = new java.util.ArrayList<com.example.tutorial.Person>(people_);
-    onChanged();
+    onChanged(PEOPLE_FIELD_NUMBER);
     return this;
   }
 
-  public static final int OWNER_FIELD_NUMBER = 2;
   private com.example.custom.CustomOwnerClass owner_;
   /**
    * <code>.tutorial.Person owner = 2[json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
@@ -193,12 +187,9 @@ private static final long serialVersionUID = 0L;
    * @param value The owner to set.
    */
   public AddressBook setOwner(com.example.custom.CustomOwnerClass value) {
-    if (value == null) {
-    throw new NullPointerException();
-  }
-  if(owner_ != value) {    
+    if(owner_ != value) {    
       owner_ = value;
-      onChanged();
+      onChanged(OWNER_FIELD_NUMBER);
     }
     return this;
   }
@@ -208,7 +199,7 @@ private static final long serialVersionUID = 0L;
    */
   public AddressBook clearOwner() {
     owner_ = null;
-    onChanged();
+    onChanged(OWNER_FIELD_NUMBER);
     return this;
   }
 

@@ -13,11 +13,12 @@ public  final class Person extends
 private static final long serialVersionUID = 0L;
   public Person() {
     id_ = null;
-    name_ = "";
-    email_ = "";
+    name_ = null;
+    email_ = null;
     phones_ = new java.util.ArrayList<com.example.tutorial.Person.PhoneNumber>();
     friendIds_ = new com.google.protobuf.LazyStringArrayList();
     favoriteNumber_ = newIntList();
+    afterMessageInit();
   }
 
   @java.lang.Override
@@ -131,6 +132,7 @@ private static final long serialVersionUID = 0L;
           }
         }
       }
+      afterMessageInit();
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
       throw e.setUnfinishedMessage(this);
     } catch (java.io.IOException e) {
@@ -166,6 +168,7 @@ private static final long serialVersionUID = 0L;
   public interface PhoneNumberInterface<SELF> extends
       // @@protoc_insertion_point(interface_extends:tutorial.Person.PhoneNumber)
       com.google.protobuf.MessageOrBuilder {
+    public static final int NUMBER_FIELD_NUMBER = 1;
 
     /**
      * <code>string number = 1[json_name = "number"];</code>
@@ -174,15 +177,10 @@ private static final long serialVersionUID = 0L;
     java.lang.String getNumber();
     /**
      * <code>string number = 1[json_name = "number"];</code>
-     * @return The bytes for number.
-     */
-    com.google.protobuf.ByteString
-        getNumberBytes();
-    /**
-     * <code>string number = 1[json_name = "number"];</code>
      * @param value The number to set.
      */
     SELF setNumber(java.lang.String value);
+    public static final int TYPE_FIELD_NUMBER = 2;
 
     /**
      * <code>.tutorial.PhoneType type = 2[json_name = "type", (.leo.proto.javatype) = "com.example.custom.CustomPhoneType"];</code>
@@ -204,7 +202,8 @@ private static final long serialVersionUID = 0L;
       PhoneNumberInterface<PhoneNumber> {
   private static final long serialVersionUID = 0L;
     public PhoneNumber() {
-      number_ = "";
+      number_ = null;
+      afterMessageInit();
     }
 
     @java.lang.Override
@@ -263,6 +262,7 @@ private static final long serialVersionUID = 0L;
             }
           }
         }
+        afterMessageInit();
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
@@ -286,40 +286,13 @@ private static final long serialVersionUID = 0L;
               com.example.tutorial.Person.PhoneNumber.class);
     }
 
-    public static final int NUMBER_FIELD_NUMBER = 1;
-    private volatile java.lang.Object number_;
+    private volatile java.lang.String number_;
     /**
      * <code>string number = 1[json_name = "number"];</code>
      * @return The number.
      */
     public java.lang.String getNumber() {
-      java.lang.Object ref = number_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        number_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string number = 1[json_name = "number"];</code>
-     * @return The bytes for number.
-     */
-    public com.google.protobuf.ByteString
-        getNumberBytes() {
-      java.lang.Object ref = number_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        number_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+      return number_;
     }
     /**
      * <code>string number = 1[json_name = "number"];</code>
@@ -327,18 +300,14 @@ private static final long serialVersionUID = 0L;
      */
     public PhoneNumber setNumber(
         java.lang.String value) {
-      if (value == null) {
-        throw new NullPointerException();
-      }
       
       if(!value.equals(number_)) {
         number_ = value;
-        onChanged();
+        onChanged(NUMBER_FIELD_NUMBER);
       }
       return this;
     }
 
-    public static final int TYPE_FIELD_NUMBER = 2;
     private com.example.custom.CustomPhoneType type_;
     /**
      * <code>.tutorial.PhoneType type = 2[json_name = "type", (.leo.proto.javatype) = "com.example.custom.CustomPhoneType"];</code>
@@ -352,12 +321,9 @@ private static final long serialVersionUID = 0L;
      * @param value The type to set.
      */
     public PhoneNumber setType(com.example.custom.CustomPhoneType value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  if(type_ != value) {    
+      if(type_ != value) {    
         type_ = value;
-        onChanged();
+        onChanged(TYPE_FIELD_NUMBER);
       }
       return this;
     }
@@ -367,7 +333,7 @@ private static final long serialVersionUID = 0L;
      */
     public PhoneNumber clearType() {
       type_ = null;
-      onChanged();
+      onChanged(TYPE_FIELD_NUMBER);
       return this;
     }
 
@@ -385,7 +351,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getNumberBytes().isEmpty()) {
+      if (!getNumber().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, number_);
       }
       if (type_ != null) {
@@ -400,7 +366,7 @@ private static final long serialVersionUID = 0L;
       if (size != -1) return size;
 
       size = 0;
-      if (!getNumberBytes().isEmpty()) {
+      if (!getNumber().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, number_);
       }
       if (type_ != null) {
@@ -554,7 +520,6 @@ private static final long serialVersionUID = 0L;
 
   }
 
-  public static final int ID_FIELD_NUMBER = 1;
   private java.util.UUID id_;
   /**
    * <code>string id = 1[json_name = "id", (.leo.proto.javatype) = "java.util.UUID"];</code>
@@ -568,12 +533,9 @@ private static final long serialVersionUID = 0L;
    * @param value The id to set.
    */
   public Person setId(java.util.UUID value) {
-    if (value == null) {
-    throw new NullPointerException();
-  }
-  if(id_ != value) {    
+    if(id_ != value) {    
       id_ = value;
-      onChanged();
+      onChanged(ID_FIELD_NUMBER);
     }
     return this;
   }
@@ -583,44 +545,17 @@ private static final long serialVersionUID = 0L;
    */
   public Person clearId() {
     id_ = null;
-    onChanged();
+    onChanged(ID_FIELD_NUMBER);
     return this;
   }
 
-  public static final int NAME_FIELD_NUMBER = 2;
-  private volatile java.lang.Object name_;
+  private volatile java.lang.String name_;
   /**
    * <code>string name = 2[json_name = "name"];</code>
    * @return The name.
    */
   public java.lang.String getName() {
-    java.lang.Object ref = name_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      name_ = s;
-      return s;
-    }
-  }
-  /**
-   * <code>string name = 2[json_name = "name"];</code>
-   * @return The bytes for name.
-   */
-  public com.google.protobuf.ByteString
-      getNameBytes() {
-    java.lang.Object ref = name_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      name_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
+    return name_;
   }
   /**
    * <code>string name = 2[json_name = "name"];</code>
@@ -628,18 +563,14 @@ private static final long serialVersionUID = 0L;
    */
   public Person setName(
       java.lang.String value) {
-    if (value == null) {
-      throw new NullPointerException();
-    }
     
     if(!value.equals(name_)) {
       name_ = value;
-      onChanged();
+      onChanged(NAME_FIELD_NUMBER);
     }
     return this;
   }
 
-  public static final int AGE_FIELD_NUMBER = 3;
   private int age_;
   /**
    * <code>int32 age = 3[json_name = "age"];</code>
@@ -655,7 +586,7 @@ private static final long serialVersionUID = 0L;
   public Person setAge(int value) {
     if(age_ != value) {    
       age_ = value;
-      onChanged();
+      onChanged(AGE_FIELD_NUMBER);
     }
     return this;
   }
@@ -665,44 +596,17 @@ private static final long serialVersionUID = 0L;
    */
   public Person clearAge() {
     age_ = 0;
-    onChanged();
+    onChanged(AGE_FIELD_NUMBER);
     return this;
   }
 
-  public static final int EMAIL_FIELD_NUMBER = 4;
-  private volatile java.lang.Object email_;
+  private volatile java.lang.String email_;
   /**
    * <code>string email = 4[json_name = "email"];</code>
    * @return The email.
    */
   public java.lang.String getEmail() {
-    java.lang.Object ref = email_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      email_ = s;
-      return s;
-    }
-  }
-  /**
-   * <code>string email = 4[json_name = "email"];</code>
-   * @return The bytes for email.
-   */
-  public com.google.protobuf.ByteString
-      getEmailBytes() {
-    java.lang.Object ref = email_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      email_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
+    return email_;
   }
   /**
    * <code>string email = 4[json_name = "email"];</code>
@@ -710,18 +614,14 @@ private static final long serialVersionUID = 0L;
    */
   public Person setEmail(
       java.lang.String value) {
-    if (value == null) {
-      throw new NullPointerException();
-    }
     
     if(!value.equals(email_)) {
       email_ = value;
-      onChanged();
+      onChanged(EMAIL_FIELD_NUMBER);
     }
     return this;
   }
 
-  public static final int PHONES_FIELD_NUMBER = 5;
   private java.util.List<com.example.tutorial.Person.PhoneNumber> phones_;
   /**
    * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
@@ -756,11 +656,8 @@ private static final long serialVersionUID = 0L;
    */
   public Person setPhones(
       int index, com.example.tutorial.Person.PhoneNumber value) {
-    if (value == null) {
-    throw new NullPointerException();
-  }
-  phones_.set(index, value);
-    onChanged();
+    phones_.set(index, value);
+    onChanged(PHONES_FIELD_NUMBER);
     return this;
   }
   /**
@@ -770,11 +667,8 @@ private static final long serialVersionUID = 0L;
    */
   public Person addPhones(
       com.example.tutorial.Person.PhoneNumber value) {
-    if (value == null) {
-    throw new NullPointerException();
-  }
-  phones_.add(value);
-    onChanged();
+    phones_.add(value);
+    onChanged(PHONES_FIELD_NUMBER);
     return this;
   }
   /**
@@ -785,7 +679,7 @@ private static final long serialVersionUID = 0L;
   public Person addAllPhones(
       java.util.Collection<com.example.tutorial.Person.PhoneNumber> values) {
     phones_.addAll(values);
-    onChanged();
+    onChanged(PHONES_FIELD_NUMBER);
     return this;
   }
   /**
@@ -794,11 +688,10 @@ private static final long serialVersionUID = 0L;
    */
   public Person clearPhones() {
     phones_ = new java.util.ArrayList<com.example.tutorial.Person.PhoneNumber>(phones_);
-    onChanged();
+    onChanged(PHONES_FIELD_NUMBER);
     return this;
   }
 
-  public static final int FRIENDIDS_FIELD_NUMBER = 6;
   private com.google.protobuf.LazyStringList friendIds_;
   /**
    * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
@@ -825,26 +718,14 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
-   * @param index The index of the value to return.
-   * @return The bytes of the friendIds at the given index.
-   */
-  public com.google.protobuf.ByteString
-      getFriendIdsBytes(int index) {
-    return friendIds_.getByteString(index);
-  }
-  /**
-   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
    * @param index The index to set the value at.
    * @param value The friendIds to set.
    * @return 'This' for chaining.
    */
   public Person setFriendIds(
       int index, java.lang.String value) {
-    if (value == null) {
-    throw new NullPointerException();
-  }
-  friendIds_.set(index, value);
-    onChanged();
+    friendIds_.set(index, value);
+    onChanged(FRIENDIDS_FIELD_NUMBER);
     return this;
   }
   /**
@@ -854,11 +735,8 @@ private static final long serialVersionUID = 0L;
    */
   public Person addFriendIds(
       java.lang.String value) {
-    if (value == null) {
-    throw new NullPointerException();
-  }
-  friendIds_.add(value);
-    onChanged();
+    friendIds_.add(value);
+    onChanged(FRIENDIDS_FIELD_NUMBER);
     return this;
   }
   /**
@@ -869,7 +747,7 @@ private static final long serialVersionUID = 0L;
   public Person addAllFriendIds(
       java.util.Collection<java.lang.String> values) {
     friendIds_.addAll(values);
-    onChanged();
+    onChanged(FRIENDIDS_FIELD_NUMBER);
     return this;
   }
   /**
@@ -878,26 +756,10 @@ private static final long serialVersionUID = 0L;
    */
   public Person clearFriendIds() {
     friendIds_ = new com.google.protobuf.LazyStringArrayList();
-    onChanged();
-    return this;
-  }
-  /**
-   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
-   * @param value The bytes of the friendIds to add.
-   * @return This builder for chaining.
-   */
-  public Person addFriendIdsBytes(
-      com.google.protobuf.ByteString value) {
-    if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-    friendIds_.add(value);
-    onChanged();
+    onChanged(FRIENDIDS_FIELD_NUMBER);
     return this;
   }
 
-  public static final int FAVORITENUMBER_FIELD_NUMBER = 7;
   private com.google.protobuf.Internal.IntList favoriteNumber_;
   /**
    * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
@@ -933,7 +795,7 @@ private static final long serialVersionUID = 0L;
       int index, int value) {
     favoriteNumber_.set(index, value);
     favoriteNumberMemoizedSerializedSize = -1;
-  onChanged();
+  onChanged(FAVORITENUMBER_FIELD_NUMBER);
     return this;
   }
   /**
@@ -945,7 +807,7 @@ private static final long serialVersionUID = 0L;
       int value) {
     favoriteNumber_.add(value);
     favoriteNumberMemoizedSerializedSize = -1;
-  onChanged();
+  onChanged(FAVORITENUMBER_FIELD_NUMBER);
     return this;
   }
   /**
@@ -957,7 +819,7 @@ private static final long serialVersionUID = 0L;
       java.util.Collection<java.lang.Integer> values) {
     favoriteNumber_.addAll(values);
     favoriteNumberMemoizedSerializedSize = -1;
-  onChanged();
+  onChanged(FAVORITENUMBER_FIELD_NUMBER);
     return this;
   }
   /**
@@ -967,11 +829,10 @@ private static final long serialVersionUID = 0L;
   public Person clearFavoriteNumber() {
     favoriteNumber_ = newIntList();
     favoriteNumberMemoizedSerializedSize = -1;
-  onChanged();
+  onChanged(FAVORITENUMBER_FIELD_NUMBER);
     return this;
   }
 
-  public static final int LAST_UPDATED_FIELD_NUMBER = 8;
   private com.google.protobuf.Timestamp lastUpdated_;
   /**
    * <code>.google.protobuf.Timestamp last_updated = 8[json_name = "lastUpdated"];</code>
@@ -992,12 +853,9 @@ private static final long serialVersionUID = 0L;
    * @param value The lastUpdated to set.
    */
   public Person setLastUpdated(com.google.protobuf.Timestamp value) {
-    if (value == null) {
-      throw new NullPointerException();
-    }
     if(!value.equals(lastUpdated_)) {
       lastUpdated_ = value;
-      onChanged();
+      onChanged(LAST_UPDATED_FIELD_NUMBER);
     }
     return this;
   }
@@ -1006,7 +864,7 @@ private static final long serialVersionUID = 0L;
    */
   public Person clearLastUpdated() {
     lastUpdated_ = null;
-    onChanged();
+    onChanged(LAST_UPDATED_FIELD_NUMBER);
     return this;
   }
 
@@ -1028,13 +886,13 @@ private static final long serialVersionUID = 0L;
     if (id_ != null) {
       output.writeString(1, de.leohilbert.protoconverter.ProtoConverter_JAVA_UTIL_UUID.toProto(id_));
     }
-    if (!getNameBytes().isEmpty()) {
+    if (!getName().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
     }
     if (age_ != 0) {
       output.writeInt32(3, (age_));
     }
-    if (!getEmailBytes().isEmpty()) {
+    if (!getEmail().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 4, email_);
     }
     for (int i = 0; i < phones_.size(); i++) {
@@ -1066,14 +924,14 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeStringSize(1, de.leohilbert.protoconverter.ProtoConverter_JAVA_UTIL_UUID.toProto(id_));
     }
-    if (!getNameBytes().isEmpty()) {
+    if (!getName().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
     }
     if (age_ != 0) {
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(3, (age_));
     }
-    if (!getEmailBytes().isEmpty()) {
+    if (!getEmail().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, email_);
     }
     for (int i = 0; i < phones_.size(); i++) {
