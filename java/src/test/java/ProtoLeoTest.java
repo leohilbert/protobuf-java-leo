@@ -3,8 +3,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.example.custom.CustomOwnerClass;
+import com.example.custom.CustomPhoneType;
 import com.example.tutorial.AddressBook;
 import com.example.tutorial.Person;
+import com.example.tutorial.PhoneType;
 import com.google.protobuf.CodedInputStream;
 import com.google.protobuf.MessageLite;
 import org.junit.jupiter.api.Test;
@@ -21,6 +23,7 @@ public class ProtoLeoTest {
         Person person = new Person()
                 .setId(TEST_UUID1)
                 .setEmail("hans@wurst.de")
+                .addPhones(new Person.PhoneNumber().setNumber("12345").setType(CustomPhoneType.HOME))
                 .addFriendIds("Dieter").addFriendIds("Horst")
                 .addFavoriteNumber(14).addFavoriteNumber(15);
         assertEquals(person.getId(), TEST_UUID1);
@@ -30,9 +33,11 @@ public class ProtoLeoTest {
         final Person deserPerson = new Person(CodedInputStream.newInstance(getByteArray(person)), getEmptyRegistry());
         assertEquals(deserPerson.getId(), TEST_UUID1);
         assertEquals(deserPerson.getEmail(), "hans@wurst.de");
+        assertEquals(deserPerson, person);
 
         person.setId(TEST_UUID2);
         assertEquals(person.getId(), TEST_UUID2);
+        assertThat(deserPerson).isNotEqualTo(person);
 
         deserPerson.setEmail("horst@wurst.de");
         assertEquals(deserPerson.getEmail(), "horst@wurst.de");

@@ -260,7 +260,7 @@ private static final long serialVersionUID = 0L;
      return true;
     }
     if (!(obj instanceof com.example.tutorial.AddressBook)) {
-      return super.equals(obj);
+      return false;
     }
     com.example.tutorial.AddressBook other = (com.example.tutorial.AddressBook) obj;
 

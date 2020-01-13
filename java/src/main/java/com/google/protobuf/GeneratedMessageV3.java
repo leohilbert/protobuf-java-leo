@@ -2713,56 +2713,34 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
 
         enumDescriptor = descriptor.getEnumType();
 
-        valueOfMethod = getMethodOrDie(type, "valueOf", EnumValueDescriptor.class);
-        getValueDescriptorMethod = getMethodOrDie(type, "getValueDescriptor");
-
         supportUnknownEnumValue = descriptor.getFile().supportsUnknownEnumValue();
         if (supportUnknownEnumValue) {
           getValueMethod =
               getMethodOrDie(messageClass, "get" + camelCaseName + "Value");
           getValueMethodBuilder =
               getMethodOrDie(messageClass, "get" + camelCaseName + "Value");
-          setValueMethod =
-              getMethodOrDie(messageClass, "set" + camelCaseName + "Value", int.class);
         }
       }
 
       private EnumDescriptor enumDescriptor;
 
-      private Method valueOfMethod;
-      private Method getValueDescriptorMethod;
-
       private boolean supportUnknownEnumValue;
       private Method getValueMethod;
       private Method getValueMethodBuilder;
-      private Method setValueMethod;
 
       @Override
       public Object get(final GeneratedMessageV3 message) {
-        if (supportUnknownEnumValue) {
-          int value = (Integer) invokeOrDie(getValueMethod, message);
-          return enumDescriptor.findValueByNumberCreatingIfUnknown(value);
-        }
-        return invokeOrDie(getValueDescriptorMethod, super.get(message));
+        return "Not implemented";
       }
 
       @Override
       public Object get(final GeneratedMessageV3.Builder builder) {
-        if (supportUnknownEnumValue) {
-          int value = (Integer) invokeOrDie(getValueMethodBuilder, builder);
-          return enumDescriptor.findValueByNumberCreatingIfUnknown(value);
-        }
-        return invokeOrDie(getValueDescriptorMethod, super.get(builder));
+          return "Not implemented";
       }
 
       @Override
       public void set(final Builder builder, final Object value) {
-        if (supportUnknownEnumValue) {
-          invokeOrDie(setValueMethod, builder,
-              ((EnumValueDescriptor) value).getNumber());
-          return;
-        }
-        super.set(builder, invokeOrDie(valueOfMethod, null, value));
+        throw new UnsupportedOperationException();
       }
     }
 

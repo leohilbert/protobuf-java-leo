@@ -967,7 +967,7 @@ void ImmutableMessageGenerator::GenerateEqualsAndHashCode(
       " return true;\n"
       "}\n"
       "if (!(obj instanceof $classname$)) {\n"
-      "  return super.equals(obj);\n"
+      "  return false;\n"
       "}\n"
       "$classname$ other = ($classname$) obj;\n"
       "\n",

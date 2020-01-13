@@ -185,20 +185,15 @@ private static final long serialVersionUID = 0L;
     SELF setNumber(java.lang.String value);
 
     /**
-     * <code>.tutorial.PhoneType type = 2[json_name = "type"];</code>
-     * @return The enum numeric value on the wire for type.
-     */
-    int getTypeValue();
-    /**
-     * <code>.tutorial.PhoneType type = 2[json_name = "type"];</code>
+     * <code>.tutorial.PhoneType type = 2[json_name = "type", (.leo.proto.javatype) = "com.example.custom.CustomPhoneType"];</code>
      * @return The type.
      */
-    com.example.tutorial.PhoneType getType();
+    com.example.custom.CustomPhoneType getType();
     /**
-     * <code>.tutorial.PhoneType type = 2[json_name = "type"];</code>
+     * <code>.tutorial.PhoneType type = 2[json_name = "type", (.leo.proto.javatype) = "com.example.custom.CustomPhoneType"];</code>
      * @param value The type to set.
      */
-    SELF setType(com.example.tutorial.PhoneType value);
+    SELF setType(com.example.custom.CustomPhoneType value);
   }
   /**
    * Protobuf type {@code tutorial.Person.PhoneNumber}
@@ -210,7 +205,6 @@ private static final long serialVersionUID = 0L;
   private static final long serialVersionUID = 0L;
     public PhoneNumber() {
       number_ = "";
-      type_ = 0;
     }
 
     @java.lang.Override
@@ -256,9 +250,8 @@ private static final long serialVersionUID = 0L;
               break;
             }
             case 16: {
-              int rawValue = input.readEnum();
 
-              type_ = rawValue;
+              type_ = de.leohilbert.protoconverter.ProtoConverter_COM_EXAMPLE_CUSTOM_CUSTOMPHONETYPE.fromProto(input.readEnum());
               break;
             }
             default: {
@@ -346,36 +339,35 @@ private static final long serialVersionUID = 0L;
     }
 
     public static final int TYPE_FIELD_NUMBER = 2;
-    private int type_;
+    private com.example.custom.CustomPhoneType type_;
     /**
-     * <code>.tutorial.PhoneType type = 2[json_name = "type"];</code>
-     * @return The enum numeric value on the wire for type.
+     * <code>.tutorial.PhoneType type = 2[json_name = "type", (.leo.proto.javatype) = "com.example.custom.CustomPhoneType"];</code>
+     * @return The type.
      */
-    public int getTypeValue() {
+    public com.example.custom.CustomPhoneType getType() {
       return type_;
     }
     /**
-     * <code>.tutorial.PhoneType type = 2[json_name = "type"];</code>
-     * @return The type.
-     */
-    public com.example.tutorial.PhoneType getType() {
-      @SuppressWarnings("deprecation")
-      com.example.tutorial.PhoneType result = com.example.tutorial.PhoneType.valueOf(type_);
-      return result == null ? com.example.tutorial.PhoneType.UNRECOGNIZED : result;
-    }
-    /**
-     * <code>.tutorial.PhoneType type = 2[json_name = "type"];</code>
+     * <code>.tutorial.PhoneType type = 2[json_name = "type", (.leo.proto.javatype) = "com.example.custom.CustomPhoneType"];</code>
      * @param value The type to set.
      */
-    public PhoneNumber setType(com.example.tutorial.PhoneType value) {
+    public PhoneNumber setType(com.example.custom.CustomPhoneType value) {
       if (value == null) {
-        throw new NullPointerException();
-      }
-      int valueNumber = value.getNumber();
-      if(type_ != valueNumber) {    
-        type_ = valueNumber;
+    throw new NullPointerException();
+  }
+  if(type_ != value) {    
+        type_ = value;
         onChanged();
       }
+      return this;
+    }
+    /**
+     * <code>.tutorial.PhoneType type = 2[json_name = "type", (.leo.proto.javatype) = "com.example.custom.CustomPhoneType"];</code>
+     * @return 'This' for chaining.
+     */
+    public PhoneNumber clearType() {
+      type_ = null;
+      onChanged();
       return this;
     }
 
@@ -396,8 +388,8 @@ private static final long serialVersionUID = 0L;
       if (!getNumberBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, number_);
       }
-      if (type_ != com.example.tutorial.PhoneType.MOBILE.getNumber()) {
-        output.writeEnum(2, type_);
+      if (type_ != null) {
+        output.writeEnum(2, de.leohilbert.protoconverter.ProtoConverter_COM_EXAMPLE_CUSTOM_CUSTOMPHONETYPE.toProto(type_));
       }
       unknownFields.writeTo(output);
     }
@@ -411,9 +403,9 @@ private static final long serialVersionUID = 0L;
       if (!getNumberBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, number_);
       }
-      if (type_ != com.example.tutorial.PhoneType.MOBILE.getNumber()) {
+      if (type_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(2, type_);
+          .computeEnumSize(2, de.leohilbert.protoconverter.ProtoConverter_COM_EXAMPLE_CUSTOM_CUSTOMPHONETYPE.toProto(type_));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -426,13 +418,14 @@ private static final long serialVersionUID = 0L;
        return true;
       }
       if (!(obj instanceof com.example.tutorial.Person.PhoneNumber)) {
-        return super.equals(obj);
+        return false;
       }
       com.example.tutorial.Person.PhoneNumber other = (com.example.tutorial.Person.PhoneNumber) obj;
 
       if (!getNumber()
           .equals(other.getNumber())) return false;
-      if (type_ != other.type_) return false;
+      if (!getType()
+          .equals(other.getType())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -447,7 +440,7 @@ private static final long serialVersionUID = 0L;
       hash = (37 * hash) + NUMBER_FIELD_NUMBER;
       hash = (53 * hash) + getNumber().hashCode();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
-      hash = (53 * hash) + type_;
+      hash = (53 * hash) + getType().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1124,7 +1117,7 @@ private static final long serialVersionUID = 0L;
      return true;
     }
     if (!(obj instanceof com.example.tutorial.Person)) {
-      return super.equals(obj);
+      return false;
     }
     com.example.tutorial.Person other = (com.example.tutorial.Person) obj;
 

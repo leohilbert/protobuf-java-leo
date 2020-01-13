@@ -108,7 +108,7 @@ public abstract class AbstractMessage
 
   @Override
   public final String toString() {
-    return TextFormat.printer().printToString(this);
+    return getClass() + ": not implemented";
   }
 
   @Override
