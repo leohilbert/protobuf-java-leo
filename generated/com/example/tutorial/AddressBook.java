@@ -255,10 +255,10 @@ private static final long serialVersionUID = 0L;
     }
     com.example.tutorial.AddressBook other = (com.example.tutorial.AddressBook) obj;
 
-    if (!getPeopleList()
-        .equals(other.getPeopleList())) return false;
-    if (!getOwner()
-        .equals(other.getOwner())) return false;
+    if (!java.util.Objects.equals(getPeopleList(),
+        other.getPeopleList())) return false;
+    if (!java.util.Objects.equals(getOwner(),
+        other.getOwner())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }

@@ -221,7 +221,7 @@ void ImmutableStringFieldGenerator::GenerateMembers(
                  "$deprecation$public $classname$ ${$set$capitalized_name$$}$(\n"
                  "    java.lang.String value) {\n"
                  "  $set_has_field_bit_builder$\n"
-                 "  if(!value.equals($name$_)) {\n"
+                 "  if (!java.util.Objects.equals(value, $name$_)) {\n"
                  "    $name$_ = value;\n"
                  "    $on_changed$\n"
                  "  }\n"
@@ -264,7 +264,7 @@ void ImmutableStringFieldGenerator::GenerateParsingCode(
                    "$name$_ = s;\n");
   } else {
     printer->Print(variables_,
-                   "com.google.protobuf.ByteString bs = input.readBytes();\n"
+                   "java.lang.String bs = input.readString();\n"
                    "$set_has_field_bit_message$\n"
                    "$name$_ = bs;\n");
   }
@@ -294,8 +294,8 @@ void ImmutableStringFieldGenerator::GenerateSerializedSizeCode(
 void ImmutableStringFieldGenerator::GenerateEqualsCode(
     io::Printer* printer) const {
   printer->Print(variables_,
-                 "if (!get$capitalized_name$()\n"
-                 "    .equals(other.get$capitalized_name$())) return false;\n");
+                 "if (!java.util.Objects.equals(get$capitalized_name$(),\n"
+                 "    other.get$capitalized_name$())) return false;\n");
 }
 
 void ImmutableStringFieldGenerator::GenerateHashCode(
@@ -341,27 +341,12 @@ void ImmutableStringOneofFieldGenerator::GenerateMembers(
   printer->Print(
       variables_,
       "$deprecation$public java.lang.String ${$get$capitalized_name$$}$() {\n"
-      "  java.lang.String ref $default_init$;\n"
       "  if ($has_oneof_case_message$) {\n"
-      "    ref = $oneof_name$_;\n"
+      "    return (java.lang.String) $oneof_name$_;\n"
       "  }\n"
-      "  return (java.lang.String) ref;\n");
+      "  return $default$;\n"
+      "}\n");
   printer->Annotate("{", "}", descriptor_);
-  if (CheckUtf8(descriptor_)) {
-    printer->Print(variables_,
-                   "    if ($has_oneof_case_message$) {\n"
-                   "      $oneof_name$_ = s;\n"
-                   "    }\n");
-  } else {
-    printer->Print(variables_,
-                   "    if (bs.isValidUtf8() && ($has_oneof_case_message$)) {\n"
-                   "      $oneof_name$_ = s;\n"
-                   "    }\n");
-  }
-  printer->Print(variables_,
-                 "    return s;\n"
-                 "  }\n"
-                 "}\n");
 
   WriteFieldAccessorDocComment(printer, descriptor_, SETTER,
       /* builder */ true);
@@ -387,16 +372,6 @@ void ImmutableStringOneofFieldGenerator::GenerateMembers(
       "  return this;\n"
       "}\n");
   printer->Annotate("{", "}", descriptor_);
-
-  if (CheckUtf8(descriptor_)) {
-    printer->Print(variables_, "  checkByteStringIsUtf8(value);\n");
-  }
-  printer->Print(variables_,
-                 "  $set_oneof_case_message$;\n"
-                 "  $oneof_name$_ = value;\n"
-                 "  $on_changed$\n"
-                 "  return this;\n"
-                 "}\n");
 }
 
 void ImmutableStringOneofFieldGenerator::GenerateMergingCode(
@@ -418,7 +393,7 @@ void ImmutableStringOneofFieldGenerator::GenerateParsingCode(
                    "$oneof_name$_ = s;\n");
   } else {
     printer->Print(variables_,
-                   "com.google.protobuf.ByteString bs = input.readBytes();\n"
+                   "java.lang.String bs = input.readString();\n"
                    "$set_oneof_case_message$;\n"
                    "$oneof_name$_ = bs;\n");
   }
@@ -595,7 +570,7 @@ void RepeatedImmutableStringFieldGenerator::GenerateParsingCode(
                    "java.lang.String s = input.readStringRequireUtf8();\n");
   } else {
     printer->Print(variables_,
-                   "com.google.protobuf.ByteString bs = input.readBytes();\n");
+                   "java.lang.String bs = input.readString();\n");
   }
   printer->Print(variables_,
                  "if (!$get_mutable_bit_parser$) {\n"
@@ -650,8 +625,8 @@ void RepeatedImmutableStringFieldGenerator::GenerateEqualsCode(
     io::Printer* printer) const {
   printer->Print(
       variables_,
-      "if (!get$capitalized_name$List()\n"
-      "    .equals(other.get$capitalized_name$List())) return false;\n");
+      "if (!java.util.Objects.equals(get$capitalized_name$List(),\n"
+      "    other.get$capitalized_name$List())) return false;\n");
 }
 
 void RepeatedImmutableStringFieldGenerator::GenerateHashCode(

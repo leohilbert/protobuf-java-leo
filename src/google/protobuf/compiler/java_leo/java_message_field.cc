@@ -204,7 +204,7 @@ void ImmutableMessageFieldGenerator::GenerateMembers(
   printer->Print(variables_,
                  "$deprecation$public $classname$ "
                  "${$set$capitalized_name$$}$($type$ value) {\n"
-                 "  if(!value.equals($name$_)) {\n"
+                 "  if (!java.util.Objects.equals(value, $name$_)) {\n"
                  "    $name$_ = value;\n"
                  "    $on_changed$\n"
                  "  }\n"
@@ -302,8 +302,8 @@ void ImmutableMessageFieldGenerator::GenerateSerializedSizeCode(
 void ImmutableMessageFieldGenerator::GenerateEqualsCode(
     io::Printer* printer) const {
   printer->Print(variables_,
-                 "if (!get$capitalized_name$()\n"
-                 "    .equals(other.get$capitalized_name$())) return false;\n");
+                 "if (!java.util.Objects.equals(get$capitalized_name$(),\n"
+                 "    other.get$capitalized_name$())) return false;\n");
 }
 
 void ImmutableMessageFieldGenerator::GenerateHashCode(
@@ -649,8 +649,8 @@ void RepeatedImmutableMessageFieldGenerator::GenerateEqualsCode(
     io::Printer* printer) const {
   printer->Print(
       variables_,
-      "if (!get$capitalized_name$List()\n"
-      "    .equals(other.get$capitalized_name$List())) return false;\n");
+      "if (!java.util.Objects.equals(get$capitalized_name$List(),\n"
+      "    other.get$capitalized_name$List())) return false;\n");
 }
 
 void RepeatedImmutableMessageFieldGenerator::GenerateHashCode(

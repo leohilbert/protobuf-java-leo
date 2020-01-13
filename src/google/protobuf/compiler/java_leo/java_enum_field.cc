@@ -443,8 +443,8 @@ void ImmutableEnumOneofFieldGenerator::GenerateEqualsCode(
   } else {
     printer->Print(
         variables_,
-        "if (!get$capitalized_name$()\n"
-        "    .equals(other.get$capitalized_name$())) return false;\n");
+        "if (!java.util.Objects.equals(get$capitalized_name$(),\n"
+        "other.get$capitalized_name$())) return false;\n");
   }
 }
 
@@ -757,7 +757,7 @@ void RepeatedImmutableEnumFieldGenerator::GenerateSerializedSizeCode(
 void RepeatedImmutableEnumFieldGenerator::GenerateEqualsCode(
     io::Printer* printer) const {
   printer->Print(variables_,
-                 "if (!$name$_.equals(other.$name$_)) return false;\n");
+                 "if (!java.util.Objects.equals($name$_, other.$name$_)) return false;\n");
 }
 
 void RepeatedImmutableEnumFieldGenerator::GenerateHashCode(

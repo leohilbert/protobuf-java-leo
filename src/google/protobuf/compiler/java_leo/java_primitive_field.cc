@@ -389,8 +389,8 @@ void ImmutablePrimitiveFieldGenerator::GenerateEqualsCode(
     case JAVATYPE_BYTES:
       printer->Print(
           variables_,
-          "if (!get$capitalized_name$()\n"
-          "    .equals(other.get$capitalized_name$())) return false;\n");
+          "if (!java.util.Objects.equals(get$capitalized_name$(),\n"
+          "    other.get$capitalized_name$())) return false;\n");
       break;
 
     case JAVATYPE_ENUM:
@@ -832,8 +832,8 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateEqualsCode(
     io::Printer* printer) const {
   printer->Print(
       variables_,
-      "if (!get$capitalized_name$List()\n"
-      "    .equals(other.get$capitalized_name$List())) return false;\n");
+      "if (!java.util.Objects.equals(get$capitalized_name$List(),\n"
+      "    other.get$capitalized_name$List())) return false;\n");
 }
 
 void RepeatedImmutablePrimitiveFieldGenerator::GenerateHashCode(

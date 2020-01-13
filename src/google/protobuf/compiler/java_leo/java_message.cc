@@ -998,7 +998,7 @@ void ImmutableMessageGenerator::GenerateEqualsAndHashCode(
   // Compare oneofs.
   for (int i = 0; i < descriptor_->oneof_decl_count(); i++) {
     printer->Print(
-        "if (!get$oneof_capitalized_name$Case().equals("
+        "if (!java.util.Objects.equals(get$oneof_capitalized_name$Case(), "
         "other.get$oneof_capitalized_name$Case())) return false;\n",
         "oneof_capitalized_name",
         context_->GetOneofGeneratorInfo(descriptor_->oneof_decl(i))

@@ -56,6 +56,8 @@ public class ProtoLeoTest {
         final AddressBook deserAddressbook = new AddressBook(CodedInputStream.newInstance(getByteArray(addressBook)), getEmptyRegistry());
         assertThat(deserAddressbook.getPeopleList()).containsExactly(person);
         assertThat(deserAddressbook.getOwner().email).isEqualTo("owner@test.de");
+
+        assertThat(PhoneType.HOME.toString()).isNotNull();
     }
 
     private byte[] getByteArray(final MessageLite message) throws IOException {

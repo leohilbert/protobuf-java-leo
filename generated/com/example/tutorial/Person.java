@@ -301,7 +301,7 @@ private static final long serialVersionUID = 0L;
     public PhoneNumber setNumber(
         java.lang.String value) {
       
-      if(!value.equals(number_)) {
+      if (!java.util.Objects.equals(value, number_)) {
         number_ = value;
         onChanged(NUMBER_FIELD_NUMBER);
       }
@@ -351,7 +351,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getNumber().isEmpty()) {
+      if (number_ != null && !number_.isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, number_);
       }
       if (type_ != null) {
@@ -366,7 +366,7 @@ private static final long serialVersionUID = 0L;
       if (size != -1) return size;
 
       size = 0;
-      if (!getNumber().isEmpty()) {
+      if (number_ != null && !number_.isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, number_);
       }
       if (type_ != null) {
@@ -388,10 +388,10 @@ private static final long serialVersionUID = 0L;
       }
       com.example.tutorial.Person.PhoneNumber other = (com.example.tutorial.Person.PhoneNumber) obj;
 
-      if (!getNumber()
-          .equals(other.getNumber())) return false;
-      if (!getType()
-          .equals(other.getType())) return false;
+      if (!java.util.Objects.equals(getNumber(),
+          other.getNumber())) return false;
+      if (!java.util.Objects.equals(getType(),
+          other.getType())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -564,7 +564,7 @@ private static final long serialVersionUID = 0L;
   public Person setName(
       java.lang.String value) {
     
-    if(!value.equals(name_)) {
+    if (!java.util.Objects.equals(value, name_)) {
       name_ = value;
       onChanged(NAME_FIELD_NUMBER);
     }
@@ -615,7 +615,7 @@ private static final long serialVersionUID = 0L;
   public Person setEmail(
       java.lang.String value) {
     
-    if(!value.equals(email_)) {
+    if (!java.util.Objects.equals(value, email_)) {
       email_ = value;
       onChanged(EMAIL_FIELD_NUMBER);
     }
@@ -853,7 +853,7 @@ private static final long serialVersionUID = 0L;
    * @param value The lastUpdated to set.
    */
   public Person setLastUpdated(com.google.protobuf.Timestamp value) {
-    if(!value.equals(lastUpdated_)) {
+    if (!java.util.Objects.equals(value, lastUpdated_)) {
       lastUpdated_ = value;
       onChanged(LAST_UPDATED_FIELD_NUMBER);
     }
@@ -886,13 +886,13 @@ private static final long serialVersionUID = 0L;
     if (id_ != null) {
       output.writeString(1, de.leohilbert.protoconverter.ProtoConverter_JAVA_UTIL_UUID.toProto(id_));
     }
-    if (!getName().isEmpty()) {
+    if (name_ != null && !name_.isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
     }
     if (age_ != 0) {
       output.writeInt32(3, (age_));
     }
-    if (!getEmail().isEmpty()) {
+    if (email_ != null && !email_.isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 4, email_);
     }
     for (int i = 0; i < phones_.size(); i++) {
@@ -924,14 +924,14 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeStringSize(1, de.leohilbert.protoconverter.ProtoConverter_JAVA_UTIL_UUID.toProto(id_));
     }
-    if (!getName().isEmpty()) {
+    if (name_ != null && !name_.isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
     }
     if (age_ != 0) {
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(3, (age_));
     }
-    if (!getEmail().isEmpty()) {
+    if (email_ != null && !email_.isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, email_);
     }
     for (int i = 0; i < phones_.size(); i++) {
@@ -979,24 +979,24 @@ private static final long serialVersionUID = 0L;
     }
     com.example.tutorial.Person other = (com.example.tutorial.Person) obj;
 
-    if (!getId()
-        .equals(other.getId())) return false;
-    if (!getName()
-        .equals(other.getName())) return false;
+    if (!java.util.Objects.equals(getId(),
+        other.getId())) return false;
+    if (!java.util.Objects.equals(getName(),
+        other.getName())) return false;
     if (getAge()
         != other.getAge()) return false;
-    if (!getEmail()
-        .equals(other.getEmail())) return false;
-    if (!getPhonesList()
-        .equals(other.getPhonesList())) return false;
-    if (!getFriendIdsList()
-        .equals(other.getFriendIdsList())) return false;
-    if (!getFavoriteNumberList()
-        .equals(other.getFavoriteNumberList())) return false;
+    if (!java.util.Objects.equals(getEmail(),
+        other.getEmail())) return false;
+    if (!java.util.Objects.equals(getPhonesList(),
+        other.getPhonesList())) return false;
+    if (!java.util.Objects.equals(getFriendIdsList(),
+        other.getFriendIdsList())) return false;
+    if (!java.util.Objects.equals(getFavoriteNumberList(),
+        other.getFavoriteNumberList())) return false;
     if (hasLastUpdated() != other.hasLastUpdated()) return false;
     if (hasLastUpdated()) {
-      if (!getLastUpdated()
-          .equals(other.getLastUpdated())) return false;
+      if (!java.util.Objects.equals(getLastUpdated(),
+          other.getLastUpdated())) return false;
     }
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;

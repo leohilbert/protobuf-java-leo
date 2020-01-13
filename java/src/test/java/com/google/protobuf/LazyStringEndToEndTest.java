@@ -106,15 +106,4 @@ public class LazyStringEndToEndTest extends TestCase {
     assertSame(b, proto.getRepeatedString(0));
     assertSame(c, proto.getRepeatedString(1));
   }
-
-  public void testNoStringCachingIfOnlyBytesAccessed() throws Exception {
-    UnittestProto.TestAllTypes proto = UnittestProto.TestAllTypes.parseFrom(encodedTestAllTypes);
-    ByteString optional = proto.getOptionalStringBytes();
-    assertSame(optional, proto.getOptionalStringBytes());
-
-    ByteString repeated0 = proto.getRepeatedStringBytes(0);
-    ByteString repeated1 = proto.getRepeatedStringBytes(1);
-    assertSame(repeated0, proto.getRepeatedStringBytes(0));
-    assertSame(repeated1, proto.getRepeatedStringBytes(1));
-  }
 }
