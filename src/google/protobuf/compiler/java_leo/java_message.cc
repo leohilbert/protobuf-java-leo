@@ -495,6 +495,8 @@ void ImmutableMessageGenerator::Generate(io::Printer* printer) {
     GenerateEqualsAndHashCode(printer);
   }
 
+  GenerateClearMethod(printer);
+
 
   GenerateParseFromMethods(printer);
 
@@ -1186,6 +1188,10 @@ void ImmutableMessageGenerator::GenerateUpdateFromMethod(
   printer->Print("try {\n");
   printer->Indent();
 
+  // The clear is necessary, because if a field is set to the default-value it will not be send.
+  // TODO Leo: Better would be to track the fields that were updated and only reset the fields that were not
+  printer->Print("clear();\n");
+
   printer->Print(
       "boolean done = false;\n"
       "while (!done) {\n");
@@ -1252,7 +1258,7 @@ void ImmutableMessageGenerator::GenerateUpdateFromMethod(
 
   printer->Outdent();
   printer->Print(
-      "  afterMessageInit();\n"
+      "  afterMessageUpdate();\n"
       "} catch (com.google.protobuf.InvalidProtocolBufferException e) {\n"
       "  throw e.setUnfinishedMessage(this);\n"
       "} catch (java.io.IOException e) {\n"
@@ -1400,6 +1406,34 @@ void ImmutableMessageGenerator::GenerateAnyMethods(io::Printer* printer) {
       "  cachedUnpackValue = result;\n"
       "  return result;\n"
       "}\n");
+}
+void ImmutableMessageGenerator::GenerateClearMethod(io::Printer* printer) {
+  printer->Print(
+      "@java.lang.Override\n"
+      "public void clear() {\n");
+
+  printer->Indent();
+
+  for (int i = 0; i < descriptor_->field_count(); i++) {
+    if (!descriptor_->field(i)->containing_oneof()) {
+      field_generators_.get(descriptor_->field(i))
+          .GenerateClearCode(printer);
+    }
+  }
+
+  for (int i = 0; i < descriptor_->oneof_decl_count(); i++) {
+    printer->Print(
+        "$oneof_name$Case_ = 0;\n"
+        "$oneof_name$_ = null;\n",
+        "oneof_name",
+        context_->GetOneofGeneratorInfo(descriptor_->oneof_decl(i))->name);
+  }
+
+  printer->Outdent();
+
+  printer->Print(
+      "}\n"
+      "\n");
 }
 
 }  // namespace java

@@ -235,6 +235,13 @@ void ImmutableStringFieldGenerator::GenerateInitializationCode(
   printer->Print(variables_, "$name$_ = $default$;\n");
 }
 
+void ImmutableStringFieldGenerator::GenerateClearCode(
+    io::Printer* printer) const {
+  printer->Print(variables_,
+                 "$name$_ = $default$;\n"
+                 "$clear_has_field_bit_builder$\n");
+}
+
 void ImmutableStringFieldGenerator::GenerateMergingCode(
     io::Printer* printer) const {
   if (SupportFieldPresence(descriptor_->file())) {
@@ -545,6 +552,12 @@ void RepeatedImmutableStringFieldGenerator::GenerateInitializationCode(
   printer->Print(variables_, "$name$_ = $empty_list$;\n");
 }
 
+void RepeatedImmutableStringFieldGenerator::GenerateClearCode(
+    io::Printer* printer) const {
+  printer->Print(variables_,
+                 "$name$_ = $empty_list$;\n");
+}
+
 void RepeatedImmutableStringFieldGenerator::GenerateMergingCode(
     io::Printer* printer) const {
   // The code below does two optimizations:
@@ -586,10 +599,6 @@ void RepeatedImmutableStringFieldGenerator::GenerateParsingCode(
 
 void RepeatedImmutableStringFieldGenerator::GenerateParsingDoneCode(
     io::Printer* printer) const {
-  printer->Print(variables_,
-                 "if ($get_mutable_bit_parser$) {\n"
-                 "  $name$_ = $name$_.getUnmodifiableView();\n"
-                 "}\n");
 }
 
 void RepeatedImmutableStringFieldGenerator::GenerateSerializationCode(

@@ -47,6 +47,7 @@ private static final long serialVersionUID = 0L;
     com.google.protobuf.UnknownFieldSet.Builder unknownFields =
         com.google.protobuf.UnknownFieldSet.newBuilder();
     try {
+      clear();
       boolean done = false;
       while (!done) {
         int tag = input.readTag();
@@ -77,16 +78,13 @@ private static final long serialVersionUID = 0L;
           }
         }
       }
-      afterMessageInit();
+      afterMessageUpdate();
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
       throw e.setUnfinishedMessage(this);
     } catch (java.io.IOException e) {
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
-      if (((mutable_bitField0_ & 0x00000001) != 0)) {
-        people_ = java.util.Collections.unmodifiableList(people_);
-      }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
@@ -279,6 +277,13 @@ private static final long serialVersionUID = 0L;
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
+  }
+
+  @java.lang.Override
+  public void clear() {
+    people_ = java.util.Collections.emptyList();
+    owner_ = null;
+
   }
 
   public static com.example.tutorial.AddressBook parseFrom(

@@ -306,6 +306,13 @@ void ImmutablePrimitiveFieldGenerator::GenerateInitializationCode(
   }
 }
 
+void ImmutablePrimitiveFieldGenerator::GenerateClearCode(
+    io::Printer* printer) const {
+  printer->Print(variables_,
+                 "$name$_ = $default$;\n"
+                 "$clear_has_field_bit_builder$\n");
+}
+
 void ImmutablePrimitiveFieldGenerator::GenerateMergingCode(
     io::Printer* printer) const {
   if (SupportFieldPresence(descriptor_->file())) {
@@ -707,6 +714,12 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateInitializationCode(
   printer->Print(variables_, "$name$_ = $empty_list$;\n");
 }
 
+void RepeatedImmutablePrimitiveFieldGenerator::GenerateClearCode(
+    io::Printer* printer) const {
+  printer->Print(variables_,
+                 "$name$_ = $empty_list$;\n");
+}
+
 void RepeatedImmutablePrimitiveFieldGenerator::GenerateMergingCode(
     io::Printer* printer) const {
   // The code below does two optimizations:
@@ -718,7 +731,6 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateMergingCode(
                  "if (!other.$name$_.isEmpty()) {\n"
                  "  if ($name$_.isEmpty()) {\n"
                  "    $name$_ = other.$name$_;\n"
-                 "    $clear_mutable_bit_builder$;\n"
                  "  } else {\n"
                  "    ensure$capitalized_name$IsMutable();\n"
                  "    $name$_.addAll(other.$name$_);\n"
@@ -755,10 +767,6 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateParsingCodeFromPacked(
 
 void RepeatedImmutablePrimitiveFieldGenerator::GenerateParsingDoneCode(
     io::Printer* printer) const {
-  printer->Print(variables_,
-                 "if ($get_mutable_bit_parser$) {\n"
-                 "  $name_make_immutable$; // C\n"
-                 "}\n");
 }
 
 void RepeatedImmutablePrimitiveFieldGenerator::GenerateSerializationCode(

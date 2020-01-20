@@ -3161,5 +3161,7 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
 
   public void afterMessageUpdate() {
   }
+
+  public abstract void clear();
 }
 

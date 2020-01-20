@@ -489,6 +489,12 @@ void ImmutableMapFieldGenerator::GenerateInitializationCode(
   // Nothing to initialize.
 }
 
+void ImmutableMapFieldGenerator::GenerateClearCode(
+    io::Printer* printer) const {
+  printer->Print(variables_,
+                 "$name$_.clear();\n");
+}
+
 void ImmutableMapFieldGenerator::GenerateMergingCode(
     io::Printer* printer) const {
   printer->Print(variables_,

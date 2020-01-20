@@ -254,6 +254,11 @@ void ImmutableMessageFieldGenerator::PrintNestedBuilderFunction(
 void ImmutableMessageFieldGenerator::GenerateInitializationCode(
     io::Printer* printer) const {}
 
+void ImmutableMessageFieldGenerator::GenerateClearCode(
+    io::Printer* printer) const {
+    printer->Print(variables_, "$name$_ = null;\n");
+}
+
 void ImmutableMessageFieldGenerator::GenerateMergingCode(
     io::Printer* printer) const {
   printer->Print(variables_,
@@ -561,6 +566,12 @@ void RepeatedImmutableMessageFieldGenerator::GenerateInitializationCode(
   printer->Print(variables_, "$name$_ = new java.util.ArrayList<$type$>();\n");
 }
 
+void RepeatedImmutableMessageFieldGenerator::GenerateClearCode(
+    io::Printer* printer) const {
+  printer->Print(variables_,
+                              "$name$_ = java.util.Collections.emptyList();\n");
+}
+
 void RepeatedImmutableMessageFieldGenerator::GenerateMergingCode(
     io::Printer* printer) const {
   // The code below does two optimizations (non-nested builder case):
@@ -620,11 +631,6 @@ void RepeatedImmutableMessageFieldGenerator::GenerateParsingCode(
 
 void RepeatedImmutableMessageFieldGenerator::GenerateParsingDoneCode(
     io::Printer* printer) const {
-  printer->Print(
-      variables_,
-      "if ($get_mutable_bit_parser$) {\n"
-      "  $name$_ = java.util.Collections.unmodifiableList($name$_);\n"
-      "}\n");
 }
 
 void RepeatedImmutableMessageFieldGenerator::GenerateSerializationCode(

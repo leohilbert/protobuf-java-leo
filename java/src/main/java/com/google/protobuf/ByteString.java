@@ -467,11 +467,11 @@ public abstract class ByteString implements Iterable<Byte>, Serializable {
     // short[] -> ByteString
 
     public static ByteString copyFrom(short[] shorts) {
-        ByteBuffer byteBuf = ByteBuffer.allocate(2 * shorts.length);
+        ByteBuffer byteBuf = ByteBuffer.allocate(2 * shorts.length).order(ByteOrder.LITTLE_ENDIAN);
         for (short s : shorts) {
             byteBuf.putShort(s);
         }
-        return ByteString.wrap(byteBuf);
+        return ByteString.wrap(byteBuf.position(0));
     }
 
     // =================================================================
@@ -722,7 +722,7 @@ public abstract class ByteString implements Iterable<Byte>, Serializable {
         copyTo(buffer);
 
         short[] result = new short[size / 2];
-        buffer.order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().get(result);
+        buffer.position(0).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().get(result);
 
         return result;
     }

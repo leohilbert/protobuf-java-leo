@@ -228,6 +228,12 @@ void ImmutableEnumFieldGenerator::GenerateInitializationCode(
   printer->Print(variables_, "$name$_ = $default_number$;\n");
 }
 
+void ImmutableEnumFieldGenerator::GenerateClearCode(
+    io::Printer* printer) const {
+  printer->Print(variables_,
+                 "$name$_ = $default_number$;\n");
+}
+
 void ImmutableEnumFieldGenerator::GenerateMergingCode(
     io::Printer* printer) const {
   if (SupportFieldPresence(descriptor_->file())) {
@@ -626,6 +632,12 @@ void RepeatedImmutableEnumFieldGenerator::GenerateInitializationCode(
   printer->Print(variables_, "$name$_ = new java.util.ArrayList<java.lang.Integer>();\n");
 }
 
+void RepeatedImmutableEnumFieldGenerator::GenerateClearCode(
+    io::Printer* printer) const {
+  printer->Print(variables_,
+                 "$name$_ = java.util.Collections.emptyList();\n");
+}
+
 void RepeatedImmutableEnumFieldGenerator::GenerateMergingCode(
     io::Printer* printer) const {
   // The code below does two optimizations:
@@ -695,11 +707,6 @@ void RepeatedImmutableEnumFieldGenerator::GenerateParsingCodeFromPacked(
 
 void RepeatedImmutableEnumFieldGenerator::GenerateParsingDoneCode(
     io::Printer* printer) const {
-  printer->Print(
-      variables_,
-      "if ($get_mutable_bit_parser$) {\n"
-      "  $name$_ = java.util.Collections.unmodifiableList($name$_);\n"
-      "}\n");
 }
 
 void RepeatedImmutableEnumFieldGenerator::GenerateSerializationCode(

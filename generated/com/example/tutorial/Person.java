@@ -51,6 +51,7 @@ private static final long serialVersionUID = 0L;
     com.google.protobuf.UnknownFieldSet.Builder unknownFields =
         com.google.protobuf.UnknownFieldSet.newBuilder();
     try {
+      clear();
       boolean done = false;
       while (!done) {
         int tag = input.readTag();
@@ -132,22 +133,13 @@ private static final long serialVersionUID = 0L;
           }
         }
       }
-      afterMessageInit();
+      afterMessageUpdate();
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
       throw e.setUnfinishedMessage(this);
     } catch (java.io.IOException e) {
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
-      if (((mutable_bitField0_ & 0x00000001) != 0)) {
-        phones_ = java.util.Collections.unmodifiableList(phones_);
-      }
-      if (((mutable_bitField0_ & 0x00000002) != 0)) {
-        friendIds_ = friendIds_.getUnmodifiableView();
-      }
-      if (((mutable_bitField0_ & 0x00000004) != 0)) {
-        favoriteNumber_.makeImmutable(); // C
-      }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
@@ -235,6 +227,7 @@ private static final long serialVersionUID = 0L;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
+        clear();
         boolean done = false;
         while (!done) {
           int tag = input.readTag();
@@ -262,7 +255,7 @@ private static final long serialVersionUID = 0L;
             }
           }
         }
-        afterMessageInit();
+        afterMessageUpdate();
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
         throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
@@ -410,6 +403,14 @@ private static final long serialVersionUID = 0L;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
+    }
+
+    @java.lang.Override
+    public void clear() {
+      number_ = null;
+
+      type_ = null;
+
     }
 
     public static com.example.tutorial.Person.PhoneNumber parseFrom(
@@ -1036,6 +1037,22 @@ private static final long serialVersionUID = 0L;
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
+  }
+
+  @java.lang.Override
+  public void clear() {
+    id_ = null;
+
+    name_ = null;
+
+    age_ = 0;
+
+    email_ = null;
+
+    phones_ = java.util.Collections.emptyList();
+    friendIds_ = new com.google.protobuf.LazyStringArrayList();
+    favoriteNumber_ = newIntList();
+    lastUpdated_ = null;
   }
 
   public static com.example.tutorial.Person parseFrom(
