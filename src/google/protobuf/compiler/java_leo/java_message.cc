@@ -631,7 +631,8 @@ void ImmutableMessageGenerator::GenerateMessageSerializationMethods(
       "@java.lang.Override\n"
       "public int getSerializedSize() {\n"
       "  int size = memoizedSize;\n"
-      "  if (size != -1) return size;\n"
+      "  // LEO: caching is disabled for now, since custom objects are not yet considered\n"
+      "  // if (size != -1) return size;\n"
       "\n");
   printer->Indent();
 

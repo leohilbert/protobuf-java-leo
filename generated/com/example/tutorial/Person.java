@@ -356,7 +356,8 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
-      if (size != -1) return size;
+      // caching is disabled for now, since custom objects are not yet considered
+      // if (size != -1) return size;
 
       size = 0;
       if (number_ != null && !number_.isEmpty()) {
@@ -918,7 +919,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public int getSerializedSize() {
     int size = memoizedSize;
-    if (size != -1) return size;
+    // caching is disabled for now, since custom objects are not yet considered
+    // if (size != -1) return size;
 
     size = 0;
     if (id_ != null) {

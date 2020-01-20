@@ -60,6 +60,15 @@ public class ProtoLeoTest {
         assertThat(PhoneType.HOME.toString()).isNotNull();
     }
 
+    @Test
+    public void testCustomObjectManipulation() {
+        CustomOwnerClass owner = new CustomOwnerClass("a@a.de");
+        AddressBook addressBook = new AddressBook().setOwner(owner);
+        addressBook.toByteArray();
+        owner.email = "anotheremail@email.de";
+        addressBook.toByteArray();
+    }
+
     private byte[] getByteArray(final MessageLite message) throws IOException {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         message.writeTo(output);
