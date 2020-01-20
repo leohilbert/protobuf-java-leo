@@ -729,7 +729,7 @@ class MessageReflection {
       MergeTarget target,
       int tag)
       throws IOException {
-    if (type.getOptions().getMessageSetWireFormat() && tag == WireFormat.MESSAGE_SET_ITEM_TAG) {
+    if (type.getOptions() != null && type.getOptions().getMessageSetWireFormat() && tag == WireFormat.MESSAGE_SET_ITEM_TAG) {
       mergeMessageSetExtensionFromCodedStream(
           input, unknownFields, extensionRegistry, type, target);
       return true;

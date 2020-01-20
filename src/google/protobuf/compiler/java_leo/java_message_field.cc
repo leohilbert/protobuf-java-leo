@@ -170,7 +170,7 @@ void ImmutableMessageFieldGenerator::GenerateMembers(
     printer->Print(
         variables_,
         "$deprecation$public $type$ ${$get$capitalized_name$$}$() {\n"
-        "  return $name$_ == null ? $type$.getDefaultInstance() : $name$_;\n"
+        "  return $name$_;\n"
         "}\n");
     printer->Annotate("{", "}", descriptor_);
 
@@ -179,7 +179,7 @@ void ImmutableMessageFieldGenerator::GenerateMembers(
         variables_,
         "$deprecation$public $type$Interface "
         "${$get$capitalized_name$Interface$}$() {\n"
-        "  return $name$_ == null ? $type$.getDefaultInstance() : $name$_;\n"
+        "  return $name$_;\n"
         "}\n");
     printer->Annotate("{", "}", descriptor_);
   } else {
@@ -194,7 +194,7 @@ void ImmutableMessageFieldGenerator::GenerateMembers(
     printer->Print(
         variables_,
         "$deprecation$public $type$ ${$get$capitalized_name$$}$() {\n"
-        "  return $name$_ == null ? $type$.getDefaultInstance() : $name$_;\n"
+        "  return $name$_;\n"
         "}\n");
     printer->Annotate("{", "}", descriptor_);
   }
@@ -351,7 +351,7 @@ void ImmutableMessageOneofFieldGenerator::GenerateMembers(
                  "  if ($has_oneof_case_message$) {\n"
                  "     return ($type$) $oneof_name$_;\n"
                  "  }\n"
-                 "  return $type$.getDefaultInstance();\n"
+                 "  return null;\n"
                  "}\n");
   printer->Annotate("{", "}", descriptor_);
 

@@ -49,6 +49,7 @@ import com.google.protobuf.DescriptorProtos.OneofOptions;
 import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto;
 import com.google.protobuf.DescriptorProtos.ServiceOptions;
 import com.google.protobuf.Descriptors.FileDescriptor.Syntax;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1035,9 +1036,11 @@ public final class Descriptors {
     }
 
     public boolean isMapField() {
-      return getType() == Type.MESSAGE
-          && isRepeated()
-          && getMessageType().getOptions().getMapEntry();
+      if (getType() == Type.MESSAGE && isRepeated()) {
+        MessageOptions options = getMessageType().getOptions();
+        return options != null && options.getMapEntry();
+      }
+      return false;
     }
 
     // I'm pretty sure values() constructs a new array every time, since there
@@ -1073,7 +1076,7 @@ public final class Descriptors {
       if (getFile().getSyntax() == FileDescriptor.Syntax.PROTO2) {
         return getOptions().getPacked();
       } else {
-        return !getOptions().hasPacked() || getOptions().getPacked();
+        return getOptions() == null || !getOptions().hasPacked() || getOptions().getPacked();
       }
     }
 
@@ -1438,7 +1441,8 @@ public final class Descriptors {
       }
 
       // Only repeated primitive fields may be packed.
-      if (proto.getOptions().getPacked() && !isPackable()) {
+      FieldOptions options = proto.getOptions();
+      if (options != null && options.getPacked() && !isPackable()) {
         throw new DescriptorValidationException(
             this, "[packed = true] can only be specified for repeated primitive fields.");
       }
@@ -1531,7 +1535,7 @@ public final class Descriptors {
             case ENUM:
               // We guarantee elsewhere that an enum type always has at least
               // one possible value.
-              defaultValue = enumType.getValues().get(0);
+              defaultValue = enumType.getValues().get(0).getIndex();
               break;
             case MESSAGE:
               defaultValue = null;
@@ -1547,15 +1551,18 @@ public final class Descriptors {
         file.pool.addFieldByNumber(this);
       }
 
-      if (containingType != null && containingType.getOptions().getMessageSetWireFormat()) {
-        if (isExtension()) {
-          if (!isOptional() || getType() != Type.MESSAGE) {
+      if (containingType != null) {
+        MessageOptions containingOptions = containingType.getOptions();
+        if (containingOptions != null && containingOptions.getMessageSetWireFormat()) {
+          if (isExtension()) {
+            if (!isOptional() || getType() != Type.MESSAGE) {
+              throw new DescriptorValidationException(
+                      this, "Extensions of MessageSets must be optional messages.");
+            }
+          } else {
             throw new DescriptorValidationException(
-                this, "Extensions of MessageSets must be optional messages.");
+                    this, "MessageSets cannot have fields, only extensions.");
           }
-        } else {
-          throw new DescriptorValidationException(
-              this, "MessageSets cannot have fields, only extensions.");
         }
       }
     }

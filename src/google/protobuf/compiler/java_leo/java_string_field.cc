@@ -105,7 +105,7 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
     (*variables)["clear_has_field_bit_builder"] = "";
 
     (*variables)["is_field_present_message"] =
-        (*variables)["name"] + "_ != null && !" + (*variables)["name"] + "_.isEmpty()";
+        (*variables)["name"] + "_ != null";
   }
 
   // For repeated fields, one bit is used for whether the array is immutable

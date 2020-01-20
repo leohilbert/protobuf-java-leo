@@ -36,10 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import com.google.protobuf.Descriptors.Descriptor;
 import protobuf_unittest.UnittestProto;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
-@RunWith(JUnit4.class)
 public final class TypeRegistryTest {
 
   @Test

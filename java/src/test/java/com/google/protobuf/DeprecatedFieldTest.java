@@ -30,10 +30,11 @@
 
 package com.google.protobuf;
 
+import junit.framework.TestCase;
 import protobuf_unittest.UnittestProto.TestDeprecatedFields;
+
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
-import junit.framework.TestCase;
 
 /**
  * Test field deprecation
@@ -41,39 +42,32 @@ import junit.framework.TestCase;
  * @author birdo@google.com (Roberto Scaramuzzi)
  */
 public class DeprecatedFieldTest extends TestCase {
-  private String[] deprecatedGetterNames = {"hasDeprecatedInt32", "getDeprecatedInt32"};
+    private String[] deprecatedGetterNames = {
+            "getDeprecatedInt32", "getDeprecatedInt32", "clearDeprecatedInt32"
+    };
 
-  private String[] deprecatedBuilderGetterNames = {
-    "hasDeprecatedInt32", "getDeprecatedInt32", "clearDeprecatedInt32"
-  };
+    private String[] deprecatedSetterNames = {"setDeprecatedInt32"};
 
-  private String[] deprecatedBuilderSetterNames = {"setDeprecatedInt32"};
-
-  public void testDeprecatedField() throws Exception {
-    Class<?> deprecatedFields = TestDeprecatedFields.class;
-    Class<?> deprecatedFieldsBuilder = TestDeprecatedFields.Builder.class;
-    for (String name : deprecatedGetterNames) {
-      Method method = deprecatedFields.getMethod(name);
-      assertTrue("Method " + name + " should be deprecated", isDeprecated(method));
+    public void testDeprecatedField() throws Exception {
+        Class<?> deprecatedFields = TestDeprecatedFields.class;
+        for (String name : deprecatedGetterNames) {
+            Method method = deprecatedFields.getMethod(name);
+            assertTrue("Method " + name + " should be deprecated", isDeprecated(method));
+        }
+        for (String name : deprecatedSetterNames) {
+            Method method = deprecatedFields.getMethod(name, int.class);
+            assertTrue("Method " + name + " should be deprecated", isDeprecated(method));
+        }
     }
-    for (String name : deprecatedBuilderGetterNames) {
-      Method method = deprecatedFieldsBuilder.getMethod(name);
-      assertTrue("Method " + name + " should be deprecated", isDeprecated(method));
-    }
-    for (String name : deprecatedBuilderSetterNames) {
-      Method method = deprecatedFieldsBuilder.getMethod(name, int.class);
-      assertTrue("Method " + name + " should be deprecated", isDeprecated(method));
-    }
-  }
 
-  public void testDeprecatedFieldInOneof() throws Exception {
-    Class<?> oneofCase = TestDeprecatedFields.OneofFieldsCase.class;
-    String name = "DEPRECATED_INT32_IN_ONEOF";
-    java.lang.reflect.Field enumValue = oneofCase.getField(name);
-    assertTrue("Enum value " + name + " should be deprecated.", isDeprecated(enumValue));
-  }
+    public void testDeprecatedFieldInOneof() throws Exception {
+        Class<?> oneofCase = TestDeprecatedFields.OneofFieldsCase.class;
+        String name = "DEPRECATED_INT32_IN_ONEOF";
+        java.lang.reflect.Field enumValue = oneofCase.getField(name);
+        assertTrue("Enum value " + name + " should be deprecated.", isDeprecated(enumValue));
+    }
 
-  private boolean isDeprecated(AnnotatedElement annotated) {
-    return annotated.isAnnotationPresent(Deprecated.class);
-  }
+    private boolean isDeprecated(AnnotatedElement annotated) {
+        return annotated.isAnnotationPresent(Deprecated.class);
+    }
 }

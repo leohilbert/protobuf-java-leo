@@ -344,7 +344,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (number_ != null && !number_.isEmpty()) {
+      if (number_ != null) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, number_);
       }
       if (type_ != null) {
@@ -356,11 +356,11 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
-      // caching is disabled for now, since custom objects are not yet considered
+      // LEO: caching is disabled for now, since custom objects are not yet considered
       // if (size != -1) return size;
 
       size = 0;
-      if (number_ != null && !number_.isEmpty()) {
+      if (number_ != null) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, number_);
       }
       if (type_ != null) {
@@ -848,7 +848,7 @@ private static final long serialVersionUID = 0L;
    * @return The lastUpdated.
    */
   public com.google.protobuf.Timestamp getLastUpdated() {
-    return lastUpdated_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : lastUpdated_;
+    return lastUpdated_;
   }
   /**
    * <code>.google.protobuf.Timestamp last_updated = 8[json_name = "lastUpdated"];</code>
@@ -888,13 +888,13 @@ private static final long serialVersionUID = 0L;
     if (id_ != null) {
       output.writeString(1, de.leohilbert.protoconverter.ProtoConverter_JAVA_UTIL_UUID.toProto(id_));
     }
-    if (name_ != null && !name_.isEmpty()) {
+    if (name_ != null) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
     }
     if (age_ != 0) {
       output.writeInt32(3, (age_));
     }
-    if (email_ != null && !email_.isEmpty()) {
+    if (email_ != null) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 4, email_);
     }
     for (int i = 0; i < phones_.size(); i++) {
@@ -919,7 +919,7 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public int getSerializedSize() {
     int size = memoizedSize;
-    // caching is disabled for now, since custom objects are not yet considered
+    // LEO: caching is disabled for now, since custom objects are not yet considered
     // if (size != -1) return size;
 
     size = 0;
@@ -927,14 +927,14 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeStringSize(1, de.leohilbert.protoconverter.ProtoConverter_JAVA_UTIL_UUID.toProto(id_));
     }
-    if (name_ != null && !name_.isEmpty()) {
+    if (name_ != null) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
     }
     if (age_ != 0) {
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(3, (age_));
     }
-    if (email_ != null && !email_.isEmpty()) {
+    if (email_ != null) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, email_);
     }
     for (int i = 0; i < phones_.size(); i++) {

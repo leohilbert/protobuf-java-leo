@@ -1,3 +1,4 @@
+import static com.google.protobuf.CodedInputStream.newInstance;
 import static com.google.protobuf.ExtensionRegistryLite.getEmptyRegistry;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -7,11 +8,9 @@ import com.example.custom.CustomPhoneType;
 import com.example.tutorial.AddressBook;
 import com.example.tutorial.Person;
 import com.example.tutorial.PhoneType;
-import com.google.protobuf.CodedInputStream;
-import com.google.protobuf.MessageLite;
+import com.google.protobuf.InvalidProtocolBufferException;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -30,7 +29,7 @@ public class ProtoLeoTest {
         assertEquals(person.getEmail(), "hans@wurst.de");
         assertThat(person.toString()).isNotNull();
 
-        final Person deserPerson = new Person(CodedInputStream.newInstance(getByteArray(person)), getEmptyRegistry());
+        final Person deserPerson = new Person(newInstance(person.toByteArray()), getEmptyRegistry());
         assertEquals(deserPerson.getId(), TEST_UUID1);
         assertEquals(deserPerson.getEmail(), "hans@wurst.de");
         assertEquals(deserPerson, person);
@@ -42,7 +41,7 @@ public class ProtoLeoTest {
         deserPerson.setEmail("horst@wurst.de");
         assertEquals(deserPerson.getEmail(), "horst@wurst.de");
 
-        person.updateFrom(CodedInputStream.newInstance(getByteArray(deserPerson)), getEmptyRegistry());
+        person.updateFrom(newInstance(deserPerson.toByteArray()), getEmptyRegistry());
         assertEquals(person.getEmail(), "horst@wurst.de");
         assertEquals(person.getId(), TEST_UUID1);
         assertThat(person.getFriendIdsList()).containsExactly("Dieter", "Horst");
@@ -53,11 +52,20 @@ public class ProtoLeoTest {
                 .setOwner(new CustomOwnerClass("owner@test.de"));
         assertThat(addressBook.toString()).isNotNull();
 
-        final AddressBook deserAddressbook = new AddressBook(CodedInputStream.newInstance(getByteArray(addressBook)), getEmptyRegistry());
+        final AddressBook deserAddressbook = new AddressBook(newInstance(addressBook.toByteArray()), getEmptyRegistry());
         assertThat(deserAddressbook.getPeopleList()).containsExactly(person);
         assertThat(deserAddressbook.getOwner().email).isEqualTo("owner@test.de");
 
         assertThat(PhoneType.HOME.toString()).isNotNull();
+    }
+
+    @Test
+    public void testStringNullAndEmpty() throws InvalidProtocolBufferException {
+        Person emptyPerson = new Person(newInstance(new Person().setName("").toByteArray()), getEmptyRegistry());
+        assertThat(emptyPerson.getName()).isNotNull().isEmpty();
+
+        Person nullPerson = new Person(newInstance(new Person().setName(null).toByteArray()), getEmptyRegistry());
+        assertThat(nullPerson.getName()).isNull();
     }
 
     @Test
@@ -69,9 +77,4 @@ public class ProtoLeoTest {
         addressBook.toByteArray();
     }
 
-    private byte[] getByteArray(final MessageLite message) throws IOException {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        message.writeTo(output);
-        return output.toByteArray();
-    }
 }

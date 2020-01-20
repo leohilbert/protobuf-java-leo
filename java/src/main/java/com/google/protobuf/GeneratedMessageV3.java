@@ -2065,13 +2065,11 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
             getMethodOrDie(messageClass, "get" + camelCaseName + "Case");
         caseMethodBuilder =
             getMethodOrDie(messageClass, "get" + camelCaseName + "Case");
-        clearMethod = getMethodOrDie(messageClass, "clear" + camelCaseName);
       }
 
       private final Descriptor descriptor;
       private final Method caseMethod;
       private final Method caseMethodBuilder;
-      private final Method clearMethod;
 
       public boolean has(final GeneratedMessageV3 message) {
         if (((Internal.EnumLite) invokeOrDie(caseMethod, message)).getNumber() == 0) {
@@ -2104,7 +2102,7 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
       }
 
       public void clear(final Builder builder) {
-        invokeOrDie(clearMethod, builder);
+          throw new UnsupportedOperationException("leo: not implemented.");
       }
     }
 
@@ -2296,7 +2294,9 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
           if (isOneofField) {
             return invoker.getOneofFieldNumber(message) == field.getNumber();
           }
-          return !get(message).equals(field.getDefaultValue());
+            Object value = get(message);
+            Object defaultValue = field.getDefaultValue();
+            return value != null && !value.equals(defaultValue);
         }
         return invoker.has(message);
       }
@@ -2371,7 +2371,6 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
         protected final Method addRepeatedMethod;
         protected final Method getCountMethod;
         protected final Method getCountMethodBuilder;
-        protected final Method clearMethod;
 
         ReflectionInvoker(
                 final FieldDescriptor descriptor,
@@ -2388,7 +2387,7 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
           addRepeatedMethod = getMethodOrDie(messageClass, "add" + camelCaseName, type);
           getCountMethod = getMethodOrDie(messageClass, "get" + camelCaseName + "Count");
           getCountMethodBuilder = getMethodOrDie(messageClass, "get" + camelCaseName + "Count");
-          clearMethod = getMethodOrDie(messageClass, "clear" + camelCaseName);
+          // clearMethod = getMethodOrDie(messageClass, "clear" + camelCaseName);
         }
 
         @Override
@@ -2437,7 +2436,7 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
 
         @Override
         public void clear(final GeneratedMessageV3.Builder<?> builder) {
-          invokeOrDie(clearMethod, builder);
+            throw new UnsupportedOperationException("leo: not implemented.");
         }
       }
 
@@ -2730,7 +2729,7 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
 
       @Override
       public Object get(final GeneratedMessageV3 message) {
-        return "Not implemented";
+        return invokeOrDie(getValueMethod, message);
       }
 
       @Override
@@ -2762,8 +2761,6 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
               getMethodOrDie(messageClass, "get" + camelCaseName + "Value", int.class);
           getRepeatedValueMethodBuilder =
               getMethodOrDie(messageClass, "get" + camelCaseName + "Value", int.class);
-          setRepeatedValueMethod =
-              getMethodOrDie(messageClass, "set" + camelCaseName + "Value", int.class, int.class);
           addRepeatedValueMethod =
               getMethodOrDie(messageClass, "add" + camelCaseName + "Value", int.class);
         }
@@ -2776,7 +2773,6 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
       private boolean supportUnknownEnumValue;
       private Method getRepeatedValueMethod;
       private Method getRepeatedValueMethodBuilder;
-      private Method setRepeatedValueMethod;
       private Method addRepeatedValueMethod;
 
       @Override
@@ -2821,11 +2817,6 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
 
       @Override
       public void setRepeated(final Builder builder, final int index, final Object value) {
-        if (supportUnknownEnumValue) {
-          invokeOrDie(setRepeatedValueMethod, builder, index,
-              ((EnumValueDescriptor) value).getNumber());
-          return;
-        }
         super.setRepeated(builder, index, invokeOrDie(valueOfMethod, null, value));
       }
       @Override

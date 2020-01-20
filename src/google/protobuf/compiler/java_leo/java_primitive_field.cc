@@ -167,7 +167,7 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
 
     if (descriptor->type() == FieldDescriptor::TYPE_BYTES && javaType != JAVATYPE_CUSTOM) {
       (*variables)["is_field_present_message"] =
-          "!" + (*variables)["name"] + "_.isEmpty()";
+          (*variables)["name"] + "_ != null";
     } else {
       (*variables)["is_field_present_message"] =
           (*variables)["name"] + "_ != " + (*variables)["default"];

@@ -82,8 +82,8 @@ ImmutableMessageGenerator::ImmutableMessageGenerator(
       name_resolver_(context->GetNameResolver()),
       field_generators_(descriptor, context_) {
   GOOGLE_CHECK(HasDescriptorMethods(descriptor->file(), context->EnforceLite()))
-      << "Generator factory error: A non-lite message generator is used to "
-         "generate lite messages.";
+          << "Generator factory error: A non-lite message generator is used to "
+             "generate lite messages.";
 }
 
 ImmutableMessageGenerator::~ImmutableMessageGenerator() {}
@@ -234,7 +234,7 @@ int ImmutableMessageGenerator::GenerateFieldAccessorTableInitializer(
 
 void ImmutableMessageGenerator::GenerateInterface(io::Printer* printer) {
   MaybePrintGeneratedAnnotation(context_, printer, descriptor_,
-                                /* immutable = */ true, "Interface");
+      /* immutable = */ true, "Interface");
   if (descriptor_->extension_range_count() > 0) {
     printer->Print(
         "$deprecation$public interface ${$$classname$Interface$}$<SELF> extends\n"
@@ -305,7 +305,7 @@ void ImmutableMessageGenerator::Generate(io::Printer* printer) {
 
   WriteMessageDocComment(printer, descriptor_);
   MaybePrintGeneratedAnnotation(context_, printer, descriptor_,
-                                /* immutable = */ true);
+      /* immutable = */ true);
 
   // The builder_type stores the super type name of the nested Builder class.
   std::string builder_type;
@@ -561,7 +561,7 @@ void ImmutableMessageGenerator::Generate(io::Printer* printer) {
 
 void ImmutableMessageGenerator::GenerateMessageSerializationMethods(
     io::Printer* printer) {
-  std::unique_ptr<const FieldDescriptor*[]> sorted_fields(
+  std::unique_ptr<const FieldDescriptor* []> sorted_fields(
       SortFieldsByNumber(descriptor_));
 
   std::vector<const Descriptor::ExtensionRange*> sorted_extensions;
@@ -956,7 +956,7 @@ bool CheckHasBitsForEqualsAndHashCode(const FieldDescriptor* field) {
     return true;
   }
   return GetJavaType(field) == JAVATYPE_MESSAGE &&
-         field->containing_oneof() == NULL;
+      field->containing_oneof() == NULL;
 }
 }  // namespace
 
@@ -1133,7 +1133,7 @@ void ImmutableMessageGenerator::GenerateExtensionRegistrationCode(
 // ===================================================================
 void ImmutableMessageGenerator::GenerateParsingConstructor(
     io::Printer* printer) {
-  std::unique_ptr<const FieldDescriptor*[]> sorted_fields(
+  std::unique_ptr<const FieldDescriptor* []> sorted_fields(
       SortFieldsByNumber(descriptor_));
 
   printer->Print(
@@ -1172,7 +1172,7 @@ void ImmutableMessageGenerator::GenerateUpdateFromMethod(
   // Use builder bits to track mutable repeated fields.
   int totalBuilderBits = 0;
   for (int i = 0; i < descriptor_->field_count(); i++) {
-    const ImmutableFieldGenerator& field =
+    const ImmutableFieldGenerator &field =
         field_generators_.get(descriptor_->field(i));
     totalBuilderBits += field.GetNumBitsForBuilder();
   }
@@ -1335,7 +1335,6 @@ void ImmutableMessageGenerator::GenerateInitializers(io::Printer* printer) {
     }
   }
 }
-
 
 void ImmutableMessageGenerator::GenerateAnyMethods(io::Printer* printer) {
   printer->Print(

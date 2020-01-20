@@ -30,21 +30,19 @@
 
 package com.google.protobuf;
 
-import static com.google.protobuf.ExtensionRegistryLite.getEmptyRegistry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import com.google.protobuf.DescriptorProtos.DescriptorProto;
+import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
 /**
  * Tests the exceptions thrown when parsing from a stream. The methods on the {@link Parser}
@@ -55,7 +53,6 @@ import org.junit.runners.JUnit4;
  *
  * @author jh@squareup.com (Joshua Humphries)
  */
-@RunWith(JUnit4.class)
 public class ParseExceptionsTest {
 
   private interface ParseTester {

@@ -227,7 +227,7 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public int getSerializedSize() {
     int size = memoizedSize;
-    // caching is disabled for now, since custom objects are not yet considered
+    // LEO: caching is disabled for now, since custom objects are not yet considered
     // if (size != -1) return size;
 
     size = 0;

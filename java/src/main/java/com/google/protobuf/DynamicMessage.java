@@ -243,7 +243,7 @@ public final class DynamicMessage extends AbstractMessage {
 
   @Override
   public void writeTo(CodedOutputStream output) throws IOException {
-    if (type.getOptions().getMessageSetWireFormat()) {
+    if (type.getOptions() != null && type.getOptions().getMessageSetWireFormat()) {
       fields.writeMessageSetTo(output);
       unknownFields.writeAsMessageSetTo(output);
     } else {
@@ -257,7 +257,7 @@ public final class DynamicMessage extends AbstractMessage {
     int size = memoizedSize;
     if (size != -1) return size;
 
-    if (type.getOptions().getMessageSetWireFormat()) {
+    if (type.getOptions() != null && type.getOptions().getMessageSetWireFormat()) {
       size = fields.getMessageSetSerializedSize();
       size += unknownFields.getSerializedSizeAsMessageSet();
     } else {
@@ -329,7 +329,7 @@ public final class DynamicMessage extends AbstractMessage {
       this.unknownFields = UnknownFieldSet.getDefaultInstance();
       this.oneofCases = new FieldDescriptor[type.toProto().getOneofDeclCount()];
       // A MapEntry has all of its fields present at all times.
-      if (type.getOptions().getMapEntry()) {
+      if (type.getOptions() != null && type.getOptions().getMapEntry()) {
         populateMapEntry();
       }
     }
