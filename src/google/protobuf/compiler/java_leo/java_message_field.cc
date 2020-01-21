@@ -259,6 +259,10 @@ void ImmutableMessageFieldGenerator::GenerateClearCode(
     printer->Print(variables_, "$name$_ = null;\n");
 }
 
+void ImmutableMessageFieldGenerator::GenerateToStringCode(io::Printer* printer) const {
+  printer->Print(variables_, "sb.append(\"\\\"$name$\\\": \\\"\").append(java.lang.String.valueOf($name$_)).append(\"\\\",\\n\");\n");
+}
+
 void ImmutableMessageFieldGenerator::GenerateMergingCode(
     io::Printer* printer) const {
   printer->Print(variables_,
@@ -570,6 +574,10 @@ void RepeatedImmutableMessageFieldGenerator::GenerateClearCode(
     io::Printer* printer) const {
   printer->Print(variables_,
                               "$name$_ = java.util.Collections.emptyList();\n");
+}
+
+void RepeatedImmutableMessageFieldGenerator::GenerateToStringCode(io::Printer* printer) const {
+  printer->Print(variables_, "sb.append(\"\\\"$name$\\\": \").append(java.lang.String.valueOf($name$_)).append(\",\\n\");\n");
 }
 
 void RepeatedImmutableMessageFieldGenerator::GenerateMergingCode(

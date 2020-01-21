@@ -71,6 +71,7 @@ class ImmutablePrimitiveFieldGenerator : public ImmutableFieldGenerator {
   void GenerateMembers(io::Printer* printer) const;
   void GenerateInitializationCode(io::Printer* printer) const;
   void GenerateClearCode(io::Printer* printer) const;
+  void GenerateToStringCode(io::Printer* printer) const;
   void GenerateMergingCode(io::Printer* printer) const;
   void GenerateParsingCode(io::Printer* printer) const;
   void GenerateParsingDoneCode(io::Printer* printer) const;
@@ -123,6 +124,7 @@ class RepeatedImmutablePrimitiveFieldGenerator
   void GenerateMembers(io::Printer* printer) const;
   void GenerateInitializationCode(io::Printer* printer) const;
   void GenerateClearCode(io::Printer* printer) const;
+  void GenerateToStringCode(io::Printer* printer) const;
   void GenerateMergingCode(io::Printer* printer) const;
   void GenerateParsingCode(io::Printer* printer) const;
   void GenerateParsingCodeFromPacked(io::Printer* printer) const;

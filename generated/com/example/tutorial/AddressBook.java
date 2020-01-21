@@ -287,6 +287,14 @@ private static final long serialVersionUID = 0L;
 
   }
 
+  @java.lang.Override
+  public java.lang.String toString() {
+    java.lang.StringBuilder sb = new java.lang.StringBuilder("{\n");
+    sb.append("\"people\": ").append(java.lang.String.valueOf(people_)).append(",\n");
+    sb.append("\"owner\": \"").append(java.lang.String.valueOf(owner_)).append("\",\n");
+    return sb.append('}').toString();
+  }
+
   public static com.example.tutorial.AddressBook parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {

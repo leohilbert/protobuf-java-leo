@@ -414,6 +414,14 @@ private static final long serialVersionUID = 0L;
 
     }
 
+    @java.lang.Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("{\n");
+      sb.append("\"number\": \"").append(java.lang.String.valueOf(number_)).append("\",\n");
+      sb.append("\"type\": \"").append(java.lang.String.valueOf(type_)).append("\",\n");
+      return sb.append('}').toString();
+    }
+
     public static com.example.tutorial.Person.PhoneNumber parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1055,6 +1063,20 @@ private static final long serialVersionUID = 0L;
     friendIds_ = new com.google.protobuf.LazyStringArrayList();
     favoriteNumber_ = newIntList();
     lastUpdated_ = null;
+  }
+
+  @java.lang.Override
+  public java.lang.String toString() {
+    java.lang.StringBuilder sb = new java.lang.StringBuilder("{\n");
+    sb.append("\"id\": \"").append(java.lang.String.valueOf(id_)).append("\",\n");
+    sb.append("\"name\": \"").append(java.lang.String.valueOf(name_)).append("\",\n");
+    sb.append("\"age\": \"").append(java.lang.String.valueOf(age_)).append("\",\n");
+    sb.append("\"email\": \"").append(java.lang.String.valueOf(email_)).append("\",\n");
+    sb.append("\"phones\": ").append(java.lang.String.valueOf(phones_)).append(",\n");
+    sb.append("\"friendIds\": ").append(java.lang.String.valueOf(friendIds_)).append(",\n");
+    sb.append("\"favoriteNumber\": ").append(java.lang.String.valueOf(favoriteNumber_)).append(",\n");
+    sb.append("\"lastUpdated\": \"").append(java.lang.String.valueOf(lastUpdated_)).append("\",\n");
+    return sb.append('}').toString();
   }
 
   public static com.example.tutorial.Person parseFrom(

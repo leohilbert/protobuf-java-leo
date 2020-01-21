@@ -242,6 +242,10 @@ void ImmutableStringFieldGenerator::GenerateClearCode(
                  "$clear_has_field_bit_builder$\n");
 }
 
+void ImmutableStringFieldGenerator::GenerateToStringCode(io::Printer* printer) const {
+  printer->Print(variables_, "sb.append(\"\\\"$name$\\\": \\\"\").append(java.lang.String.valueOf($name$_)).append(\"\\\",\\n\");\n");
+}
+
 void ImmutableStringFieldGenerator::GenerateMergingCode(
     io::Printer* printer) const {
   if (SupportFieldPresence(descriptor_->file())) {
@@ -556,6 +560,10 @@ void RepeatedImmutableStringFieldGenerator::GenerateClearCode(
     io::Printer* printer) const {
   printer->Print(variables_,
                  "$name$_ = $empty_list$;\n");
+}
+
+void RepeatedImmutableStringFieldGenerator::GenerateToStringCode(io::Printer* printer) const {
+  printer->Print(variables_, "sb.append(\"\\\"$name$\\\": \").append(java.lang.String.valueOf($name$_)).append(\",\\n\");\n");
 }
 
 void RepeatedImmutableStringFieldGenerator::GenerateMergingCode(

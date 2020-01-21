@@ -495,6 +495,10 @@ void ImmutableMapFieldGenerator::GenerateClearCode(
                  "$name$_.clear();\n");
 }
 
+void ImmutableMapFieldGenerator::GenerateToStringCode(io::Printer* printer) const {
+  printer->Print(variables_, "sb.append(\"\\\"$name$\\\": \\\"\").append(java.lang.String.valueOf($name$_)).append(\"\\\",\\n\");\n");
+}
+
 void ImmutableMapFieldGenerator::GenerateMergingCode(
     io::Printer* printer) const {
   printer->Print(variables_,

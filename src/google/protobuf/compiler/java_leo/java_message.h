@@ -135,6 +135,7 @@ class ImmutableMessageGenerator : public MessageGenerator {
 
   GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(ImmutableMessageGenerator);
   void GenerateClearMethod(io::Printer* printer);
+  void GenerateToStringMethod(io::Printer* printer);
 };
 
 }  // namespace java

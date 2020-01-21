@@ -313,6 +313,10 @@ void ImmutablePrimitiveFieldGenerator::GenerateClearCode(
                  "$clear_has_field_bit_builder$\n");
 }
 
+void ImmutablePrimitiveFieldGenerator::GenerateToStringCode(io::Printer* printer) const {
+  printer->Print(variables_, "sb.append(\"\\\"$name$\\\": \\\"\").append(java.lang.String.valueOf($name$_)).append(\"\\\",\\n\");\n");
+}
+
 void ImmutablePrimitiveFieldGenerator::GenerateMergingCode(
     io::Printer* printer) const {
   if (SupportFieldPresence(descriptor_->file())) {
@@ -718,6 +722,10 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateClearCode(
     io::Printer* printer) const {
   printer->Print(variables_,
                  "$name$_ = $empty_list$;\n");
+}
+
+void RepeatedImmutablePrimitiveFieldGenerator::GenerateToStringCode(io::Printer* printer) const {
+  printer->Print(variables_, "sb.append(\"\\\"$name$\\\": \").append(java.lang.String.valueOf($name$_)).append(\",\\n\");\n");
 }
 
 void RepeatedImmutablePrimitiveFieldGenerator::GenerateMergingCode(

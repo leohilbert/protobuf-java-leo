@@ -107,7 +107,7 @@ public abstract class AbstractMessage
   }
 
   @Override
-  public final String toString() {
+  public String toString() {
     return getClass() + ": not implemented";
   }
 
@@ -464,11 +464,6 @@ public abstract class AbstractMessage
     public Message.Builder getRepeatedFieldBuilder(final FieldDescriptor field, int index) {
       throw new UnsupportedOperationException(
           "getRepeatedFieldBuilder() called on an unsupported message type.");
-    }
-
-    @Override
-    public String toString() {
-      return TextFormat.printer().printToString(this);
     }
 
     /** Construct an UninitializedMessageException reporting missing fields in the given message. */

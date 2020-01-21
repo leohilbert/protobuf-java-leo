@@ -234,6 +234,10 @@ void ImmutableEnumFieldGenerator::GenerateClearCode(
                  "$name$_ = $default_number$;\n");
 }
 
+void ImmutableEnumFieldGenerator::GenerateToStringCode(io::Printer* printer) const {
+  printer->Print(variables_, "sb.append(\"\\\"$name$\\\": \\\"\").append(java.lang.String.valueOf($name$_)).append(\"\\\",\\n\");\n");
+}
+
 void ImmutableEnumFieldGenerator::GenerateMergingCode(
     io::Printer* printer) const {
   if (SupportFieldPresence(descriptor_->file())) {
@@ -636,6 +640,10 @@ void RepeatedImmutableEnumFieldGenerator::GenerateClearCode(
     io::Printer* printer) const {
   printer->Print(variables_,
                  "$name$_ = java.util.Collections.emptyList();\n");
+}
+
+void RepeatedImmutableEnumFieldGenerator::GenerateToStringCode(io::Printer* printer) const {
+  printer->Print(variables_, "sb.append(\"\\\"$name$\\\": \").append(java.lang.String.valueOf($name$_)).append(\",\\n\");\n");
 }
 
 void RepeatedImmutableEnumFieldGenerator::GenerateMergingCode(

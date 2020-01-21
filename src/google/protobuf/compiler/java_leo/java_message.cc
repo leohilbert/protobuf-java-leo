@@ -496,7 +496,7 @@ void ImmutableMessageGenerator::Generate(io::Printer* printer) {
   }
 
   GenerateClearMethod(printer);
-
+  GenerateToStringMethod(printer);
 
   GenerateParseFromMethods(printer);
 
@@ -1429,6 +1429,36 @@ void ImmutableMessageGenerator::GenerateClearMethod(io::Printer* printer) {
         context_->GetOneofGeneratorInfo(descriptor_->oneof_decl(i))->name);
   }
 
+  printer->Outdent();
+
+  printer->Print(
+      "}\n"
+      "\n");
+}
+
+void ImmutableMessageGenerator::GenerateToStringMethod(io::Printer* printer) {
+  printer->Print(
+      "@java.lang.Override\n"
+      "public java.lang.String toString() {\n"
+      "  java.lang.StringBuilder sb = new java.lang.StringBuilder(\"{\\n\");\n");
+
+  printer->Indent();
+
+  for (int i = 0; i < descriptor_->field_count(); i++) {
+    if (!descriptor_->field(i)->containing_oneof()) {
+      field_generators_.get(descriptor_->field(i))
+          .GenerateToStringCode(printer);
+    }
+  }
+
+  for (int i = 0; i < descriptor_->oneof_decl_count(); i++) {
+    printer->Print(
+        "sb.append(\"\\\"$name$\\\": \\\"\").append(java.lang.String.valueOf($name$_)).append(\"'\\n\");\n",
+        "name",
+        context_->GetOneofGeneratorInfo(descriptor_->oneof_decl(i))->name);
+  }
+
+  printer->Print("return sb.append('}').toString();\n");
   printer->Outdent();
 
   printer->Print(
