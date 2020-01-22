@@ -32,11 +32,9 @@ package com.google.protobuf;
 
 import static com.google.protobuf.WireFormat.FIXED32_SIZE;
 import static com.google.protobuf.WireFormat.FIXED64_SIZE;
-import static com.google.protobuf.WireFormat.WIRETYPE_END_GROUP;
 import static com.google.protobuf.WireFormat.WIRETYPE_FIXED32;
 import static com.google.protobuf.WireFormat.WIRETYPE_FIXED64;
 import static com.google.protobuf.WireFormat.WIRETYPE_LENGTH_DELIMITED;
-import static com.google.protobuf.WireFormat.WIRETYPE_START_GROUP;
 import static com.google.protobuf.WireFormat.WIRETYPE_VARINT;
 
 import java.io.IOException;
@@ -167,39 +165,10 @@ final class CodedInputStreamReader implements Reader {
 
   @SuppressWarnings("unchecked")
   @Override
-  public <T> T readMessage(Class<T> clazz, ExtensionRegistryLite extensionRegistry)
-      throws IOException {
+  public <T extends Message> T readMessage(Class<T> clazz)
+          throws IOException {
     requireWireType(WIRETYPE_LENGTH_DELIMITED);
-    return readMessage(Protobuf.getInstance().schemaFor(clazz), extensionRegistry);
-  }
 
-  @SuppressWarnings("unchecked")
-  @Override
-  public <T> T readMessageBySchemaWithCheck(
-      Schema<T> schema, ExtensionRegistryLite extensionRegistry) throws IOException {
-    requireWireType(WIRETYPE_LENGTH_DELIMITED);
-    return readMessage(schema, extensionRegistry);
-  }
-
-  @SuppressWarnings("unchecked")
-  @Override
-  public <T> T readGroup(Class<T> clazz, ExtensionRegistryLite extensionRegistry)
-      throws IOException {
-    requireWireType(WIRETYPE_START_GROUP);
-    return readGroup(Protobuf.getInstance().schemaFor(clazz), extensionRegistry);
-  }
-
-  @SuppressWarnings("unchecked")
-  @Override
-  public <T> T readGroupBySchemaWithCheck(Schema<T> schema, ExtensionRegistryLite extensionRegistry)
-      throws IOException {
-    requireWireType(WIRETYPE_START_GROUP);
-    return readGroup(schema, extensionRegistry);
-  }
-
-  // Should have the same semantics of CodedInputStream#readMessage()
-  private <T> T readMessage(Schema<T> schema, ExtensionRegistryLite extensionRegistry)
-      throws IOException {
     int size = input.readUInt32();
     if (input.recursionDepth >= input.recursionLimit) {
       throw InvalidProtocolBufferException.recursionLimitExceeded();
@@ -208,36 +177,13 @@ final class CodedInputStreamReader implements Reader {
     // Push the new limit.
     final int prevLimit = input.pushLimit(size);
     // Allocate and read the message.
-    T message = schema.newInstance();
+    T message = Protobuf.newInstance(clazz, this);
     ++input.recursionDepth;
-    schema.mergeFrom(message, this);
-    schema.makeImmutable(message);
     input.checkLastTagWas(0);
     --input.recursionDepth;
     // Restore the previous limit.
     input.popLimit(prevLimit);
     return message;
-  }
-
-  private <T> T readGroup(Schema<T> schema, ExtensionRegistryLite extensionRegistry)
-      throws IOException {
-    int prevEndGroupTag = endGroupTag;
-    endGroupTag = WireFormat.makeTag(WireFormat.getTagFieldNumber(tag), WIRETYPE_END_GROUP);
-
-    try {
-      // Allocate and read the message.
-      T message = schema.newInstance();
-      schema.mergeFrom(message, this);
-      schema.makeImmutable(message);
-
-      if (tag != endGroupTag) {
-        throw InvalidProtocolBufferException.parseFailure();
-      }
-      return message;
-    } finally {
-      // Restore the old end group tag.
-      endGroupTag = prevEndGroupTag;
-    }
   }
 
   @Override
@@ -792,66 +738,6 @@ final class CodedInputStreamReader implements Reader {
   }
 
   @Override
-  public <T> void readMessageList(
-      List<T> target, Class<T> targetType, ExtensionRegistryLite extensionRegistry)
-      throws IOException {
-    final Schema<T> schema = Protobuf.getInstance().schemaFor(targetType);
-    readMessageList(target, schema, extensionRegistry);
-  }
-
-  @Override
-  public <T> void readMessageList(
-      List<T> target, Schema<T> schema, ExtensionRegistryLite extensionRegistry)
-      throws IOException {
-    if (WireFormat.getTagWireType(tag) != WIRETYPE_LENGTH_DELIMITED) {
-      throw InvalidProtocolBufferException.invalidWireType();
-    }
-    final int listTag = tag;
-    while (true) {
-      target.add(readMessage(schema, extensionRegistry));
-      if (input.isAtEnd() || nextTag != NEXT_TAG_UNSET) {
-        return;
-      }
-      int nextTag = input.readTag();
-      if (nextTag != listTag) {
-        // We've reached the end of the repeated field. Save the next tag value.
-        this.nextTag = nextTag;
-        return;
-      }
-    }
-  }
-
-  @Override
-  public <T> void readGroupList(
-      List<T> target, Class<T> targetType, ExtensionRegistryLite extensionRegistry)
-      throws IOException {
-    final Schema<T> schema = Protobuf.getInstance().schemaFor(targetType);
-    readGroupList(target, schema, extensionRegistry);
-  }
-
-  @Override
-  public <T> void readGroupList(
-      List<T> target, Schema<T> schema, ExtensionRegistryLite extensionRegistry)
-      throws IOException {
-    if (WireFormat.getTagWireType(tag) != WIRETYPE_START_GROUP) {
-      throw InvalidProtocolBufferException.invalidWireType();
-    }
-    final int listTag = tag;
-    while (true) {
-      target.add(readGroup(schema, extensionRegistry));
-      if (input.isAtEnd() || nextTag != NEXT_TAG_UNSET) {
-        return;
-      }
-      int nextTag = input.readTag();
-      if (nextTag != listTag) {
-        // We've reached the end of the repeated field. Save the next tag value.
-        this.nextTag = nextTag;
-        return;
-      }
-    }
-  }
-
-  @Override
   public void readBytesList(List<ByteString> target) throws IOException {
     if (WireFormat.getTagWireType(tag) != WIRETYPE_LENGTH_DELIMITED) {
       throw InvalidProtocolBufferException.invalidWireType();
@@ -1230,8 +1116,7 @@ final class CodedInputStreamReader implements Reader {
   @Override
   public <K, V> void readMap(
       Map<K, V> target,
-      MapEntryLite.Metadata<K, V> metadata,
-      ExtensionRegistryLite extensionRegistry)
+      MapEntryLite.Metadata<K, V> metadata)
       throws IOException {
     requireWireType(WIRETYPE_LENGTH_DELIMITED);
     int size = input.readUInt32();
@@ -1247,13 +1132,13 @@ final class CodedInputStreamReader implements Reader {
         try {
           switch (number) {
             case 1:
-              key = (K) readField(metadata.keyType, null, null);
+              key = (K) readField(metadata.keyType, null);
               break;
             case 2:
               value =
                   (V)
                       readField(
-                          metadata.valueType, metadata.defaultValue.getClass(), extensionRegistry);
+                          metadata.valueType, metadata.defaultValue.getClass());
               break;
             default:
               if (!skipField()) {
@@ -1276,7 +1161,7 @@ final class CodedInputStreamReader implements Reader {
   }
 
   private Object readField(
-      WireFormat.FieldType fieldType, Class<?> messageType, ExtensionRegistryLite extensionRegistry)
+      WireFormat.FieldType fieldType, Class<?> messageType)
       throws IOException {
     switch (fieldType) {
       case BOOL:
@@ -1298,7 +1183,7 @@ final class CodedInputStreamReader implements Reader {
       case INT64:
         return readInt64();
       case MESSAGE:
-        return readMessage(messageType, extensionRegistry);
+        return readMessage((Class<Message>) messageType);
       case SFIXED32:
         return readSFixed32();
       case SFIXED64:

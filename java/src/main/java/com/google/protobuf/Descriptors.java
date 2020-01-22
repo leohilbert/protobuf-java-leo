@@ -1495,15 +1495,6 @@ public final class Descriptors {
     private void setProto(final FieldDescriptorProto proto) {
       this.proto = proto;
     }
-
-    /** For internal use only. This is to satisfy the FieldDescriptorLite interface. */
-    @Override
-    public MessageLite.Builder internalMergeFrom(MessageLite.Builder to, MessageLite from) {
-      // FieldDescriptors are only used with non-lite messages so we can just
-      // down-cast and call mergeFrom directly.
-      return ((Message.Builder) to).mergeFrom((Message) from);
-    }
-
   }
 
   // =================================================================

@@ -54,19 +54,6 @@ final class SchemaUtil {
 
   private SchemaUtil() {}
 
-  /**
-   * Requires that the given message extend {@link com.google.protobuf.GeneratedMessageV3} or {@link
-   * GeneratedMessageLite}.
-   */
-  public static void requireGeneratedMessage(Class<?> messageType) {
-    if (!GeneratedMessageLite.class.isAssignableFrom(messageType)
-        && GENERATED_MESSAGE_CLASS != null
-        && !GENERATED_MESSAGE_CLASS.isAssignableFrom(messageType)) {
-      throw new IllegalArgumentException(
-          "Message classes must extend GeneratedMessage or GeneratedMessageLite");
-    }
-  }
-
   public static void writeDouble(int fieldNumber, double value, Writer writer) throws IOException {
     if (Double.compare(value, 0.0) != 0) {
       writer.writeDouble(fieldNumber, value);
@@ -880,15 +867,6 @@ final class SchemaUtil {
         mapFieldSchema.mergeFrom(
             UnsafeUtil.getObject(message, offset), UnsafeUtil.getObject(o, offset));
     UnsafeUtil.putObject(message, offset, merged);
-  }
-
-  static <T, FT extends FieldDescriptorLite<FT>> void mergeExtensions(
-      ExtensionSchema<FT> schema, T message, T other) {
-    FieldSet<FT> otherExtensions = schema.getExtensions(other);
-    if (!otherExtensions.isEmpty()) {
-      FieldSet<FT> messageExtensions = schema.getMutableExtensions(message);
-      messageExtensions.mergeFrom(otherExtensions);
-    }
   }
 
   static <T, UT, UB> void mergeUnknownFields(

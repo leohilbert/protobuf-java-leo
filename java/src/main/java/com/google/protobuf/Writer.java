@@ -101,9 +101,6 @@ interface Writer {
   /** Writes a field of type {@link FieldType#MESSAGE}. */
   void writeMessage(int fieldNumber, Object value) throws IOException;
 
-  /** Writes a field of type {@link FieldType#MESSAGE}. */
-  void writeMessage(int fieldNumber, Object value, Schema schema) throws IOException;
-
   /**
    * Writes a field of type {@link FieldType#GROUP}.
    *
@@ -111,14 +108,6 @@ interface Writer {
    */
   @Deprecated
   void writeGroup(int fieldNumber, Object value) throws IOException;
-
-  /**
-   * Writes a field of type {@link FieldType#GROUP}.
-   *
-   * @deprecated groups fields are deprecated.
-   */
-  @Deprecated
-  void writeGroup(int fieldNumber, Object value, Schema schema) throws IOException;
 
   /**
    * Writes a single start group tag.
@@ -187,9 +176,6 @@ interface Writer {
   /** Writes a list field of type {@link FieldType#MESSAGE}. */
   void writeMessageList(int fieldNumber, List<?> value) throws IOException;
 
-  /** Writes a list field of type {@link FieldType#MESSAGE}. */
-  void writeMessageList(int fieldNumber, List<?> value, Schema schema) throws IOException;
-
   /**
    * Writes a list field of type {@link FieldType#GROUP}.
    *
@@ -197,14 +183,6 @@ interface Writer {
    */
   @Deprecated
   void writeGroupList(int fieldNumber, List<?> value) throws IOException;
-
-  /**
-   * Writes a list field of type {@link FieldType#GROUP}.
-   *
-   * @deprecated groups fields are deprecated.
-   */
-  @Deprecated
-  void writeGroupList(int fieldNumber, List<?> value, Schema schema) throws IOException;
 
   /**
    * Writes a message field in {@code MessageSet} wire-format.

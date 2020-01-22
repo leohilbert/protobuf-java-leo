@@ -150,18 +150,8 @@ final class CodedOutputStreamWriter implements Writer {
   }
 
   @Override
-  public void writeMessage(int fieldNumber, Object value, Schema schema) throws IOException {
-    output.writeMessage(fieldNumber, (MessageLite) value, schema);
-  }
-
-  @Override
   public void writeGroup(int fieldNumber, Object value) throws IOException {
     output.writeGroup(fieldNumber, (MessageLite) value);
-  }
-
-  @Override
-  public void writeGroup(int fieldNumber, Object value, Schema schema) throws IOException {
-    output.writeGroup(fieldNumber, (MessageLite) value, schema);
   }
 
   @Override
@@ -555,23 +545,9 @@ final class CodedOutputStreamWriter implements Writer {
   }
 
   @Override
-  public void writeMessageList(int fieldNumber, List<?> value, Schema schema) throws IOException {
-    for (int i = 0; i < value.size(); ++i) {
-      writeMessage(fieldNumber, value.get(i), schema);
-    }
-  }
-
-  @Override
   public void writeGroupList(int fieldNumber, List<?> value) throws IOException {
     for (int i = 0; i < value.size(); ++i) {
       writeGroup(fieldNumber, value.get(i));
-    }
-  }
-
-  @Override
-  public void writeGroupList(int fieldNumber, List<?> value, Schema schema) throws IOException {
-    for (int i = 0; i < value.size(); ++i) {
-      writeGroup(fieldNumber, value.get(i), schema);
     }
   }
 

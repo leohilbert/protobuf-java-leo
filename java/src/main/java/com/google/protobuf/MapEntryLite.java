@@ -118,7 +118,6 @@ public class MapEntryLite<K, V> {
   @SuppressWarnings("unchecked")
   static <T> T parseField(
       CodedInputStream input,
-      ExtensionRegistryLite extensionRegistry,
       WireFormat.FieldType type,
       T value)
       throws IOException {

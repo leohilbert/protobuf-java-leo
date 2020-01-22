@@ -65,10 +65,6 @@ final class FieldSet<T extends FieldSet.FieldDescriptorLite<T>> {
     boolean isPacked();
 
     Internal.EnumLiteMap<?> getEnumType();
-
-    // If getLiteJavaType() == MESSAGE, this merges a message object of the
-    // type into a builder of the type.  Returns {@code to}.
-    MessageLite.Builder internalMergeFrom(MessageLite.Builder to, MessageLite from);
   }
 
   private static final int DEFAULT_FIELD_MAP_ARRAY_SIZE = 16;
@@ -103,11 +99,6 @@ final class FieldSet<T extends FieldSet.FieldDescriptorLite<T>> {
   @SuppressWarnings("unchecked")
   public static <T extends FieldSet.FieldDescriptorLite<T>> FieldSet<T> emptySet() {
     return DEFAULT_INSTANCE;
-  }
-
-  /** Construct a new Builder. */
-  public static <T extends FieldDescriptorLite<T>> Builder<T> newBuilder() {
-    return new Builder<T>();
   }
 
   @SuppressWarnings("rawtypes")
@@ -216,9 +207,7 @@ final class FieldSet<T extends FieldSet.FieldDescriptorLite<T>> {
       Map<T, Object> map, Map.Entry<T, Object> entry, boolean copyList) {
     T key = entry.getKey();
     Object value = entry.getValue();
-    if (value instanceof LazyField) {
-      map.put(key, ((LazyField) value).getValue());
-    } else if (copyList && value instanceof List) {
+    if (copyList && value instanceof List) {
       map.put(key, new ArrayList<>((List<?>) value));
     } else {
       map.put(key, value);
@@ -230,9 +219,6 @@ final class FieldSet<T extends FieldSet.FieldDescriptorLite<T>> {
    * library as it is not protected from mutation when fields is not immutable.
    */
   public Iterator<Map.Entry<T, Object>> iterator() {
-    if (hasLazyField) {
-      return new LazyIterator<T>(fields.entrySet().iterator());
-    }
     return fields.entrySet().iterator();
   }
 
@@ -242,9 +228,6 @@ final class FieldSet<T extends FieldSet.FieldDescriptorLite<T>> {
    * fields is not immutable.
    */
   Iterator<Map.Entry<T, Object>> descendingIterator() {
-    if (hasLazyField) {
-      return new LazyIterator<T>(fields.descendingEntrySet().iterator());
-    }
     return fields.descendingEntrySet().iterator();
   }
 
@@ -264,9 +247,6 @@ final class FieldSet<T extends FieldSet.FieldDescriptorLite<T>> {
    */
   public Object getField(final T descriptor) {
     Object o = fields.get(descriptor);
-    if (o instanceof LazyField) {
-      return ((LazyField) o).getValue();
-    }
     return o;
   }
 
@@ -293,9 +273,6 @@ final class FieldSet<T extends FieldSet.FieldDescriptorLite<T>> {
       verifyType(descriptor.getLiteType(), value);
     }
 
-    if (value instanceof LazyField) {
-      hasLazyField = true;
-    }
     fields.put(descriptor, value);
   }
 
@@ -426,7 +403,7 @@ final class FieldSet<T extends FieldSet.FieldDescriptorLite<T>> {
         return (value instanceof Integer || value instanceof Internal.EnumLite);
       case MESSAGE:
         // TODO(kenton):  Caller must do type checking here, I guess.
-        return (value instanceof MessageLite) || (value instanceof LazyField);
+        return (value instanceof MessageLite);
     }
     return false;
   }
@@ -470,8 +447,6 @@ final class FieldSet<T extends FieldSet.FieldDescriptorLite<T>> {
           if (!((MessageLite) value).isInitialized()) {
             return false;
           }
-        } else if (value instanceof LazyField) {
-          return true;
         } else {
           throw new IllegalArgumentException(
               "Wrong object type used with protocol message reflection.");
@@ -494,16 +469,6 @@ final class FieldSet<T extends FieldSet.FieldDescriptorLite<T>> {
     }
   }
 
-  /** Like {@link Message.Builder#mergeFrom(Message)}, but merges from another {@link FieldSet}. */
-  public void mergeFrom(final FieldSet<T> other) {
-    for (int i = 0; i < other.fields.getNumArrayEntries(); i++) {
-      mergeFromField(other.fields.getArrayEntryAt(i));
-    }
-    for (final Map.Entry<T, Object> entry : other.fields.getOverflowEntries()) {
-      mergeFromField(entry);
-    }
-  }
-
   private static Object cloneIfMutable(Object value) {
     if (value instanceof byte[]) {
       byte[] bytes = (byte[]) value;
@@ -512,40 +477,6 @@ final class FieldSet<T extends FieldSet.FieldDescriptorLite<T>> {
       return copy;
     } else {
       return value;
-    }
-  }
-
-  @SuppressWarnings({"unchecked", "rawtypes"})
-  private void mergeFromField(final Map.Entry<T, Object> entry) {
-    final T descriptor = entry.getKey();
-    Object otherValue = entry.getValue();
-    if (otherValue instanceof LazyField) {
-      otherValue = ((LazyField) otherValue).getValue();
-    }
-
-    if (descriptor.isRepeated()) {
-      Object value = getField(descriptor);
-      if (value == null) {
-        value = new ArrayList<>();
-      }
-      for (Object element : (List) otherValue) {
-        ((List) value).add(cloneIfMutable(element));
-      }
-      fields.put(descriptor, value);
-    } else if (descriptor.getLiteJavaType() == WireFormat.JavaType.MESSAGE) {
-      Object value = getField(descriptor);
-      if (value == null) {
-        fields.put(descriptor, cloneIfMutable(otherValue));
-      } else {
-        // Merge the messages.
-          value =
-              descriptor
-                  .internalMergeFrom(((MessageLite) value).toBuilder(), (MessageLite) otherValue)
-                  .build();
-        fields.put(descriptor, value);
-      }
-    } else {
-      fields.put(descriptor, cloneIfMutable(otherValue));
     }
   }
 
@@ -601,9 +532,6 @@ final class FieldSet<T extends FieldSet.FieldDescriptorLite<T>> {
         && !descriptor.isRepeated()
         && !descriptor.isPacked()) {
       Object value = entry.getValue();
-      if (value instanceof LazyField) {
-        value = ((LazyField) value).getValue();
-      }
       output.writeMessageSetExtension(entry.getKey().getNumber(), (MessageLite) value);
     } else {
       writeField(descriptor, entry.getValue(), output);
@@ -743,11 +671,7 @@ final class FieldSet<T extends FieldSet.FieldDescriptorLite<T>> {
         }
       }
     } else {
-      if (value instanceof LazyField) {
-        writeElement(output, type, number, ((LazyField) value).getValue());
-      } else {
         writeElement(output, type, number, value);
-      }
     }
   }
 
@@ -785,13 +709,8 @@ final class FieldSet<T extends FieldSet.FieldDescriptorLite<T>> {
     if (descriptor.getLiteJavaType() == WireFormat.JavaType.MESSAGE
         && !descriptor.isRepeated()
         && !descriptor.isPacked()) {
-      if (value instanceof LazyField) {
-        return CodedOutputStream.computeLazyFieldMessageSetExtensionSize(
-            entry.getKey().getNumber(), (LazyField) value);
-      } else {
         return CodedOutputStream.computeMessageSetExtensionSize(
             entry.getKey().getNumber(), (MessageLite) value);
-      }
     } else {
       return computeFieldSize(descriptor, value);
     }
@@ -871,11 +790,7 @@ final class FieldSet<T extends FieldSet.FieldDescriptorLite<T>> {
         return CodedOutputStream.computeSInt64SizeNoTag((Long) value);
 
       case MESSAGE:
-        if (value instanceof LazyField) {
-          return CodedOutputStream.computeLazyFieldSizeNoTag((LazyField) value);
-        } else {
-          return CodedOutputStream.computeMessageSizeNoTag((MessageLite) value);
-        }
+        return CodedOutputStream.computeMessageSizeNoTag((MessageLite) value);
 
       case ENUM:
         if (value instanceof Internal.EnumLite) {
@@ -910,387 +825,6 @@ final class FieldSet<T extends FieldSet.FieldDescriptorLite<T>> {
       }
     } else {
       return computeElementSize(type, number, value);
-    }
-  }
-
-  /**
-   * A FieldSet Builder that accept a {@link MessageLite.Builder} as a field value. This is useful
-   * for implementing methods in {@link MessageLite.Builder}.
-   */
-  static final class Builder<T extends FieldDescriptorLite<T>> {
-
-    private SmallSortedMap<T, Object> fields;
-    private boolean hasLazyField;
-    private boolean isMutable;
-    private boolean hasNestedBuilders;
-
-    private Builder() {
-      this(SmallSortedMap.<T>newFieldMap(DEFAULT_FIELD_MAP_ARRAY_SIZE));
-    }
-
-    private Builder(SmallSortedMap<T, Object> fields) {
-      this.fields = fields;
-      this.isMutable = true;
-    }
-
-    /** Creates the FieldSet */
-    public FieldSet<T> build() {
-      if (fields.isEmpty()) {
-        return FieldSet.emptySet();
-      }
-      isMutable = false;
-      SmallSortedMap<T, Object> fieldsForBuild = fields;
-      if (hasNestedBuilders) {
-        // Make a copy of the fields map with all Builders replaced by Message.
-        fieldsForBuild = cloneAllFieldsMap(fields, /* copyList */ false);
-        replaceBuilders(fieldsForBuild);
-      }
-      FieldSet<T> fieldSet = new FieldSet<>(fieldsForBuild);
-      fieldSet.hasLazyField = hasLazyField;
-      return fieldSet;
-    }
-
-    private static <T extends FieldDescriptorLite<T>> void replaceBuilders(
-        SmallSortedMap<T, Object> fieldMap) {
-      for (int i = 0; i < fieldMap.getNumArrayEntries(); i++) {
-        replaceBuilders(fieldMap.getArrayEntryAt(i));
-      }
-      for (Map.Entry<T, Object> entry : fieldMap.getOverflowEntries()) {
-        replaceBuilders(entry);
-      }
-    }
-
-    private static <T extends FieldDescriptorLite<T>> void replaceBuilders(
-        Map.Entry<T, Object> entry) {
-      entry.setValue(replaceBuilders(entry.getKey(), entry.getValue()));
-    }
-
-    private static <T extends FieldDescriptorLite<T>> Object replaceBuilders(
-        T descriptor, Object value) {
-      if (value == null) {
-        return value;
-      }
-      if (descriptor.getLiteJavaType() == WireFormat.JavaType.MESSAGE) {
-        if (descriptor.isRepeated()) {
-          if (!(value instanceof List)) {
-            throw new IllegalStateException(
-                "Repeated field should contains a List but actually contains type: "
-                    + value.getClass());
-          }
-          @SuppressWarnings("unchecked")  // We just check that value is an instance of List above.
-          List<Object> list = (List<Object>) value;
-          for (int i = 0; i < list.size(); i++) {
-            Object oldElement = list.get(i);
-            Object newElement = replaceBuilder(oldElement);
-            if (newElement != oldElement) {
-              // If the list contains a Message.Builder, then make a copy of that list and then
-              // modify the Message.Builder into a Message and return the new list. This way, the
-              // existing Message.Builder will still be able to modify the inner fields of the
-              // original FieldSet.Builder.
-              if (list == value) {
-                list = new ArrayList<>(list);
-              }
-              list.set(i, newElement);
-            }
-          }
-          return list;
-        } else {
-          return replaceBuilder(value);
-        }
-      }
-      return value;
-    }
-
-    private static Object replaceBuilder(Object value) {
-      return (value instanceof MessageLite.Builder) ? ((MessageLite.Builder) value).build() : value;
-    }
-
-    /** Returns a new Builder using the fields from {@code fieldSet}. */
-    public static <T extends FieldDescriptorLite<T>> Builder<T> fromFieldSet(FieldSet<T> fieldSet) {
-      Builder<T> builder = new Builder<T>(cloneAllFieldsMap(fieldSet.fields, /* copyList */ true));
-      builder.hasLazyField = fieldSet.hasLazyField;
-      return builder;
-    }
-
-    // =================================================================
-
-    /** Get a simple map containing all the fields. */
-    public Map<T, Object> getAllFields() {
-      if (hasLazyField) {
-        SmallSortedMap<T, Object> result = cloneAllFieldsMap(fields, /* copyList */ false);
-        if (fields.isImmutable()) {
-          result.makeImmutable();
-        } else {
-          replaceBuilders(result);
-        }
-        return result;
-      }
-      return fields.isImmutable() ? fields : Collections.unmodifiableMap(fields);
-    }
-
-    /** Useful for implementing {@link Message#hasField(Descriptors.FieldDescriptor)}. */
-    public boolean hasField(final T descriptor) {
-      if (descriptor.isRepeated()) {
-        throw new IllegalArgumentException("hasField() can only be called on non-repeated fields.");
-      }
-
-      return fields.get(descriptor) != null;
-    }
-
-    /**
-     * Useful for implementing {@link Message#getField(Descriptors.FieldDescriptor)}. This method
-     * returns {@code null} if the field is not set; in this case it is up to the caller to fetch
-     * the field's default value.
-     */
-    public Object getField(final T descriptor) {
-      Object value = getFieldAllowBuilders(descriptor);
-      return replaceBuilders(descriptor, value);
-    }
-
-    /** Same as {@link #getField(F)}, but allow a {@link MessageLite.Builder} to be returned. */
-    Object getFieldAllowBuilders(final T descriptor) {
-      Object o = fields.get(descriptor);
-      if (o instanceof LazyField) {
-        return ((LazyField) o).getValue();
-      }
-      return o;
-    }
-
-    private void ensureIsMutable() {
-      if (!isMutable) {
-        fields = cloneAllFieldsMap(fields, /* copyList */ true);
-        isMutable = true;
-      }
-    }
-
-    /**
-     * Useful for implementing {@link Message.Builder#setField(Descriptors.FieldDescriptor,
-     * Object)}.
-     */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public void setField(final T descriptor, Object value) {
-      ensureIsMutable();
-      if (descriptor.isRepeated()) {
-        if (!(value instanceof List)) {
-          throw new IllegalArgumentException(
-              "Wrong object type used with protocol message reflection.");
-        }
-
-        // Wrap the contents in a new list so that the caller cannot change
-        // the list's contents after setting it.
-        final List newList = new ArrayList();
-        newList.addAll((List) value);
-        for (final Object element : newList) {
-          verifyType(descriptor.getLiteType(), element);
-          hasNestedBuilders = hasNestedBuilders || element instanceof MessageLite.Builder;
-        }
-        value = newList;
-      } else {
-        verifyType(descriptor.getLiteType(), value);
-      }
-
-      if (value instanceof LazyField) {
-        hasLazyField = true;
-      }
-      hasNestedBuilders = hasNestedBuilders || value instanceof MessageLite.Builder;
-
-      fields.put(descriptor, value);
-    }
-
-    /** Useful for implementing {@link Message.Builder#clearField(Descriptors.FieldDescriptor)}. */
-    public void clearField(final T descriptor) {
-      ensureIsMutable();
-      fields.remove(descriptor);
-      if (fields.isEmpty()) {
-        hasLazyField = false;
-      }
-    }
-
-    /**
-     * Useful for implementing {@link Message#getRepeatedFieldCount(Descriptors.FieldDescriptor)}.
-     */
-    public int getRepeatedFieldCount(final T descriptor) {
-      if (!descriptor.isRepeated()) {
-        throw new IllegalArgumentException(
-            "getRepeatedField() can only be called on repeated fields.");
-      }
-
-      final Object value = getField(descriptor);
-      if (value == null) {
-        return 0;
-      } else {
-        return ((List<?>) value).size();
-      }
-    }
-
-    /**
-     * Useful for implementing {@link Message#getRepeatedField(Descriptors.FieldDescriptor, int)}.
-     */
-    public Object getRepeatedField(final T descriptor, final int index) {
-      if (hasNestedBuilders) {
-        ensureIsMutable();
-      }
-      Object value = getRepeatedFieldAllowBuilders(descriptor, index);
-      return replaceBuilder(value);
-    }
-
-    /**
-     * Same as {@link #getRepeatedField(F, int)}, but allow a {@link MessageLite.Builder} to be
-     * returned.
-     */
-    Object getRepeatedFieldAllowBuilders(final T descriptor, final int index) {
-      if (!descriptor.isRepeated()) {
-        throw new IllegalArgumentException(
-            "getRepeatedField() can only be called on repeated fields.");
-      }
-
-      final Object value = getFieldAllowBuilders(descriptor);
-
-      if (value == null) {
-        throw new IndexOutOfBoundsException();
-      } else {
-        return ((List<?>) value).get(index);
-      }
-    }
-
-    /**
-     * Useful for implementing {@link Message.Builder#setRepeatedField(Descriptors.FieldDescriptor,
-     * int, Object)}.
-     */
-    @SuppressWarnings("unchecked")
-    public void setRepeatedField(final T descriptor, final int index, final Object value) {
-      ensureIsMutable();
-      if (!descriptor.isRepeated()) {
-        throw new IllegalArgumentException(
-            "getRepeatedField() can only be called on repeated fields.");
-      }
-
-      hasNestedBuilders = hasNestedBuilders || value instanceof MessageLite.Builder;
-
-      final Object list = getField(descriptor);
-      if (list == null) {
-        throw new IndexOutOfBoundsException();
-      }
-
-      verifyType(descriptor.getLiteType(), value);
-      ((List<Object>) list).set(index, value);
-    }
-
-    /**
-     * Useful for implementing {@link Message.Builder#addRepeatedField(Descriptors.FieldDescriptor,
-     * Object)}.
-     */
-    @SuppressWarnings("unchecked")
-    public void addRepeatedField(final T descriptor, final Object value) {
-      ensureIsMutable();
-      if (!descriptor.isRepeated()) {
-        throw new IllegalArgumentException(
-            "addRepeatedField() can only be called on repeated fields.");
-      }
-
-      hasNestedBuilders = hasNestedBuilders || value instanceof MessageLite.Builder;
-
-      verifyType(descriptor.getLiteType(), value);
-
-      final Object existingValue = getField(descriptor);
-      List<Object> list;
-      if (existingValue == null) {
-        list = new ArrayList<>();
-        fields.put(descriptor, list);
-      } else {
-        list = (List<Object>) existingValue;
-      }
-
-      list.add(value);
-    }
-
-    /**
-     * Verifies that the given object is of the correct type to be a valid value for the given
-     * field. (For repeated fields, this checks if the object is the right type to be one element of
-     * the field.)
-     *
-     * @throws IllegalArgumentException The value is not of the right type.
-     */
-    private static void verifyType(final WireFormat.FieldType type, final Object value) {
-      if (!FieldSet.isValidType(type, value)) {
-        // Builder can accept Message.Builder values even though FieldSet will reject.
-        if (type.getJavaType() == WireFormat.JavaType.MESSAGE
-            && value instanceof MessageLite.Builder) {
-          return;
-        }
-        throw new IllegalArgumentException(
-            "Wrong object type used with protocol message reflection.");
-      }
-    }
-
-    /**
-     * See {@link Message#isInitialized()}. Note: Since {@code FieldSet} itself does not have any
-     * way of knowing about required fields that aren't actually present in the set, it is up to the
-     * caller to check that all required fields are present.
-     */
-    public boolean isInitialized() {
-      for (int i = 0; i < fields.getNumArrayEntries(); i++) {
-        if (!FieldSet.isInitialized(fields.getArrayEntryAt(i))) {
-          return false;
-        }
-      }
-      for (final Map.Entry<T, Object> entry : fields.getOverflowEntries()) {
-        if (!FieldSet.isInitialized(entry)) {
-          return false;
-        }
-      }
-      return true;
-    }
-
-    /**
-     * Like {@link Message.Builder#mergeFrom(Message)}, but merges from another {@link FieldSet}.
-     */
-    public void mergeFrom(final FieldSet<T> other) {
-      ensureIsMutable();
-      for (int i = 0; i < other.fields.getNumArrayEntries(); i++) {
-        mergeFromField(other.fields.getArrayEntryAt(i));
-      }
-      for (final Map.Entry<T, Object> entry : other.fields.getOverflowEntries()) {
-        mergeFromField(entry);
-      }
-    }
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private void mergeFromField(final Map.Entry<T, Object> entry) {
-      final T descriptor = entry.getKey();
-      Object otherValue = entry.getValue();
-      if (otherValue instanceof LazyField) {
-        otherValue = ((LazyField) otherValue).getValue();
-      }
-
-      if (descriptor.isRepeated()) {
-        Object value = getField(descriptor);
-        if (value == null) {
-          value = new ArrayList<>();
-        }
-        for (Object element : (List) otherValue) {
-          ((List) value).add(FieldSet.cloneIfMutable(element));
-        }
-        fields.put(descriptor, value);
-      } else if (descriptor.getLiteJavaType() == WireFormat.JavaType.MESSAGE) {
-        Object value = getField(descriptor);
-        if (value == null) {
-          fields.put(descriptor, FieldSet.cloneIfMutable(otherValue));
-        } else {
-          // Merge the messages.
-          if (value instanceof MessageLite.Builder) {
-            descriptor.internalMergeFrom((MessageLite.Builder) value, (MessageLite) otherValue);
-          } else {
-            value =
-                descriptor
-                    .internalMergeFrom(((MessageLite) value).toBuilder(), (MessageLite) otherValue)
-                    .build();
-            fields.put(descriptor, value);
-          }
-        }
-      } else {
-        fields.put(descriptor, cloneIfMutable(otherValue));
-      }
     }
   }
 }

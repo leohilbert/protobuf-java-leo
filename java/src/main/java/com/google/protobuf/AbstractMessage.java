@@ -51,38 +51,14 @@ import java.util.Map;
  */
 public abstract class AbstractMessage
     // TODO(dweis): Update GeneratedMessage to parameterize with MessageType and BuilderType.
-    extends AbstractMessageLite implements Message {
+    implements Message {
+
+  protected int memoizedHashCode = 0;
 
   @Override
   public boolean isInitialized() {
     return MessageReflection.isInitialized(this);
   }
-
-  /**
-   * Interface for the parent of a Builder that allows the builder to communicate invalidations back
-   * to the parent for use when using nested builders.
-   */
-  protected interface BuilderParent {
-
-    /**
-     * A builder becomes dirty whenever a field is modified -- including fields in nested builders
-     * -- and becomes clean when build() is called. Thus, when a builder becomes dirty, all its
-     * parents become dirty as well, and when it becomes clean, all its children become clean. The
-     * dirtiness state is used to invalidate certain cached values.
-     *
-     * <p>To this end, a builder calls markDirty() on its parent whenever it transitions from clean
-     * to dirty. The parent must propagate this call to its own parent, unless it was already dirty,
-     * in which case the grandparent must necessarily already be dirty as well. The parent can only
-     * transition back to "clean" after calling build() on all children.
-     */
-    void markDirty();
-  }
-
-  /** Create a nested builder. */
-  protected Message.Builder newBuilderForType(BuilderParent parent) {
-    throw new UnsupportedOperationException("Nested builder is not supported for this type.");
-  }
-
 
   @Override
   public List<String> findInitializationErrors() {
@@ -117,16 +93,6 @@ public abstract class AbstractMessage
   }
 
   protected int memoizedSize = -1;
-
-  @Override
-  int getMemoizedSerializedSize() {
-    return memoizedSize;
-  }
-
-  @Override
-  void setMemoizedSerializedSize(int size) {
-    memoizedSize = size;
-  }
 
   @Override
   public int getSerializedSize() {
@@ -225,7 +191,7 @@ public abstract class AbstractMessage
 
   /**
    * Compares two set of fields. This method is used to implement {@link
-   * AbstractMessage#equals(Object)} and {@link AbstractMutableMessage#equals(Object)}. It takes
+   * AbstractMessage#equals(Object)}. It takes
    * special care of bytes fields because immutable messages and mutable messages use different Java
    * type to represent a bytes field and this method should be able to compare immutable messages,
    * mutable messages and also an immutable message to a mutable message.
@@ -299,221 +265,7 @@ public abstract class AbstractMessage
     return hash;
   }
 
-  /**
-   * Package private helper method for AbstractParser to create UninitializedMessageException with
-   * missing field information.
-   */
-  @Override
-  UninitializedMessageException newUninitializedMessageException() {
-    return Builder.newUninitializedMessageException(this);
-  }
-
   // =================================================================
-
-  /**
-   * A partial implementation of the {@link Message.Builder} interface which implements as many
-   * methods of that interface as possible in terms of other methods.
-   */
-  @SuppressWarnings("unchecked")
-  public abstract static class Builder<BuilderType extends Builder<BuilderType>>
-      extends AbstractMessageLite.Builder implements Message.Builder {
-    // The compiler produces an error if this is not declared explicitly.
-    // Method isn't abstract to bypass Java 1.6 compiler issue:
-    //     http://bugs.java.com/view_bug.do?bug_id=6908259
-    @Override
-    public BuilderType clone() {
-      throw new UnsupportedOperationException("clone() should be implemented in subclasses.");
-    }
-
-    /** TODO(jieluo): Clear it when all subclasses have implemented this method. */
-    @Override
-    public boolean hasOneof(OneofDescriptor oneof) {
-      throw new UnsupportedOperationException("hasOneof() is not implemented.");
-    }
-
-    /** TODO(jieluo): Clear it when all subclasses have implemented this method. */
-    @Override
-    public FieldDescriptor getOneofFieldDescriptor(OneofDescriptor oneof) {
-      throw new UnsupportedOperationException("getOneofFieldDescriptor() is not implemented.");
-    }
-
-    /** TODO(jieluo): Clear it when all subclasses have implemented this method. */
-    @Override
-    public BuilderType clearOneof(OneofDescriptor oneof) {
-      throw new UnsupportedOperationException("clearOneof() is not implemented.");
-    }
-
-    @Override
-    public BuilderType clear() {
-      for (final Map.Entry<FieldDescriptor, Object> entry : getAllFields().entrySet()) {
-        clearField(entry.getKey());
-      }
-      return (BuilderType) this;
-    }
-
-    @Override
-    public List<String> findInitializationErrors() {
-      return MessageReflection.findMissingFields(this);
-    }
-
-    @Override
-    public String getInitializationErrorString() {
-      return MessageReflection.delimitWithCommas(findInitializationErrors());
-    }
-
-    @Override
-    protected BuilderType internalMergeFrom(AbstractMessageLite other) {
-      return mergeFrom((Message) other);
-    }
-
-    @Override
-    public BuilderType mergeFrom(final Message other) {
-      return mergeFrom(other, other.getAllFields());
-    }
-
-    BuilderType mergeFrom(final Message other, Map<FieldDescriptor, Object> allFields) {
-      if (other.getDescriptorForType() != getDescriptorForType()) {
-        throw new IllegalArgumentException(
-            "mergeFrom(Message) can only merge messages of the same type.");
-      }
-
-      // Note:  We don't attempt to verify that other's fields have valid
-      //   types.  Doing so would be a losing battle.  We'd have to verify
-      //   all sub-messages as well, and we'd have to make copies of all of
-      //   them to insure that they don't change after verification (since
-      //   the Message interface itself cannot enforce immutability of
-      //   implementations).
-      // TODO(kenton):  Provide a function somewhere called makeDeepCopy()
-      //   which allows people to make secure deep copies of messages.
-
-      for (final Map.Entry<FieldDescriptor, Object> entry : allFields.entrySet()) {
-        final FieldDescriptor field = entry.getKey();
-        if (field.isRepeated()) {
-          for (final Object element : (List) entry.getValue()) {
-            addRepeatedField(field, element);
-          }
-        } else if (field.getJavaType() == FieldDescriptor.JavaType.MESSAGE) {
-          final Message existingValue = (Message) getField(field);
-          if (existingValue == existingValue.getDefaultInstanceForType()) {
-            setField(field, entry.getValue());
-          } else {
-            setField(
-                field,
-                existingValue
-                    .newBuilderForType()
-                    .mergeFrom(existingValue)
-                    .mergeFrom((Message) entry.getValue())
-                    .build());
-          }
-        } else {
-          setField(field, entry.getValue());
-        }
-      }
-
-      mergeUnknownFields(other.getUnknownFields());
-
-      return (BuilderType) this;
-    }
-
-    @Override
-    public BuilderType mergeFrom(final CodedInputStream input) throws IOException {
-      return mergeFrom(input, ExtensionRegistry.getEmptyRegistry());
-    }
-
-    @Override
-    public BuilderType mergeUnknownFields(final UnknownFieldSet unknownFields) {
-      setUnknownFields(
-          UnknownFieldSet.newBuilder(getUnknownFields()).mergeFrom(unknownFields).build());
-      return (BuilderType) this;
-    }
-
-    @Override
-    public Message.Builder getFieldBuilder(final FieldDescriptor field) {
-      throw new UnsupportedOperationException(
-          "getFieldBuilder() called on an unsupported message type.");
-    }
-
-    @Override
-    public Message.Builder getRepeatedFieldBuilder(final FieldDescriptor field, int index) {
-      throw new UnsupportedOperationException(
-          "getRepeatedFieldBuilder() called on an unsupported message type.");
-    }
-
-    /** Construct an UninitializedMessageException reporting missing fields in the given message. */
-    protected static UninitializedMessageException newUninitializedMessageException(
-        Message message) {
-      return new UninitializedMessageException(MessageReflection.findMissingFields(message));
-    }
-
-    /**
-     * Used to support nested builders and called to mark this builder as clean. Clean builders will
-     * propagate the {@link BuilderParent#markDirty()} event to their parent builders, while dirty
-     * builders will not, as their parents should be dirty already.
-     *
-     * <p>NOTE: Implementations that don't support nested builders don't need to override this
-     * method.
-     */
-    void markClean() {
-      throw new IllegalStateException("Should be overridden by subclasses.");
-    }
-
-    /**
-     * Used to support nested builders and called when this nested builder is no longer used by its
-     * parent builder and should release the reference to its parent builder.
-     *
-     * <p>NOTE: Implementations that don't support nested builders don't need to override this
-     * method.
-     */
-    void dispose() {
-      throw new IllegalStateException("Should be overridden by subclasses.");
-    }
-
-    // ===============================================================
-    // The following definitions seem to be required in order to make javac
-    // not produce weird errors like:
-    //
-    // java/com/google/protobuf/DynamicMessage.java:203: types
-    //   com.google.protobuf.AbstractMessage.Builder<
-    //     com.google.protobuf.DynamicMessage.Builder> and
-    //   com.google.protobuf.AbstractMessage.Builder<
-    //     com.google.protobuf.DynamicMessage.Builder> are incompatible; both
-    //   define mergeFrom(com.google.protobuf.ByteString), but with unrelated
-    //   return types.
-    //
-    // Strangely, these lines are only needed if javac is invoked separately
-    // on AbstractMessage.java and AbstractMessageLite.java.  If javac is
-    // invoked on both simultaneously, it works.  (Or maybe the important
-    // point is whether or not DynamicMessage.java is compiled together with
-    // AbstractMessageLite.java -- not sure.)  I suspect this is a compiler
-    // bug.
-
-    @Override
-    public BuilderType mergeFrom(final ByteString data) throws InvalidProtocolBufferException {
-      return (BuilderType) super.mergeFrom(data);
-    }
-
-    @Override
-    public BuilderType mergeFrom(final byte[] data) throws InvalidProtocolBufferException {
-      return (BuilderType) super.mergeFrom(data);
-    }
-
-    @Override
-    public BuilderType mergeFrom(final byte[] data, final int off, final int len)
-        throws InvalidProtocolBufferException {
-      return (BuilderType) super.mergeFrom(data, off, len);
-    }
-
-    @Override
-    public BuilderType mergeFrom(final InputStream input) throws IOException {
-      return (BuilderType) super.mergeFrom(input);
-    }
-
-    @Override
-    public boolean mergeDelimitedFrom(final InputStream input) throws IOException {
-      return super.mergeDelimitedFrom(input);
-    }
-
-  }
 
   /**
    * @deprecated from v3.0.0-beta-3+, for compatibility with v2.5.0 and v2.6.1

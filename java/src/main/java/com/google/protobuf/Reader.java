@@ -134,29 +134,9 @@ interface Reader {
    */
   String readStringRequireUtf8() throws IOException;
 
-  // TODO(yilunchong): the lack of other opinions for whether to expose this on the interface
-  <T> T readMessageBySchemaWithCheck(Schema<T> schema, ExtensionRegistryLite extensionRegistry)
-      throws IOException;
-
-  /**
-   * Reads and returns the next field of type {@code MESSAGE} and advances the reader to the next
-   * field.
-   */
-  <T> T readMessage(Class<T> clazz, ExtensionRegistryLite extensionRegistry) throws IOException;
-
-  /**
-   * Reads and returns the next field of type {@code GROUP} and advances the reader to the next
-   * field.
-   *
-   * @deprecated groups fields are deprecated.
-   */
-  @Deprecated
-  <T> T readGroup(Class<T> clazz, ExtensionRegistryLite extensionRegistry) throws IOException;
-
-  // TODO(yilunchong): the lack of other opinions for whether to expose this on the interface
-  @Deprecated
-  <T> T readGroupBySchemaWithCheck(Schema<T> schema, ExtensionRegistryLite extensionRegistry)
-      throws IOException;
+  @SuppressWarnings("unchecked")
+  <T extends Message> T readMessage(Class<T> clazz)
+          throws IOException;
 
   /**
    * Reads and returns the next field of type {@code BYTES} and advances the reader to the next
@@ -280,36 +260,6 @@ interface Reader {
   void readStringListRequireUtf8(List<String> target) throws IOException;
 
   /**
-   * Reads the next field of type {@code MESSAGE_LIST} and advances the reader to the next field.
-   *
-   * @param target the list that will receive the read values.
-   * @param targetType the type of the elements stored in the {@code target} list.
-   */
-  <T> void readMessageList(
-      List<T> target, Schema<T> schema, ExtensionRegistryLite extensionRegistry) throws IOException;
-
-  <T> void readMessageList(
-      List<T> target, Class<T> targetType, ExtensionRegistryLite extensionRegistry)
-      throws IOException;
-
-  /**
-   * Reads the next field of type {@code GROUP_LIST} and advances the reader to the next field.
-   *
-   * @param target the list that will receive the read values.
-   * @param targetType the type of the elements stored in the {@code target} list.
-   * @deprecated groups fields are deprecated.
-   */
-  @Deprecated
-  <T> void readGroupList(
-      List<T> target, Class<T> targetType, ExtensionRegistryLite extensionRegistry)
-      throws IOException;
-
-  @Deprecated
-  <T> void readGroupList(
-      List<T> target, Schema<T> targetType, ExtensionRegistryLite extensionRegistry)
-      throws IOException;
-
-  /**
    * Reads the next field of type {@code BYTES_LIST} and advances the reader to the next field.
    *
    * @param target the list that will receive the read values.
@@ -369,11 +319,9 @@ interface Reader {
    *
    * @param target the mutable map that will receive the read values.
    * @param mapDefaultEntry the default entry of the map field.
-   * @param extensionRegistry the extension registry for parsing message value fields.
    */
   <K, V> void readMap(
       Map<K, V> target,
-      MapEntryLite.Metadata<K, V> mapDefaultEntry,
-      ExtensionRegistryLite extensionRegistry)
+      MapEntryLite.Metadata<K, V> mapDefaultEntry)
       throws IOException;
 }

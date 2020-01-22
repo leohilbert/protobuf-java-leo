@@ -287,35 +287,6 @@ public abstract class CodedInputStream {
    */
   public abstract String readStringRequireUtf8() throws IOException;
 
-  /** Read a {@code group} field value from the stream. */
-  public abstract void readGroup(
-          final int fieldNumber,
-          final MessageLite.Builder builder)
-      throws IOException;
-
-
-  /** Read a {@code group} field value from the stream. */
-  public abstract <T extends MessageLite> T readGroup(
-      final int fieldNumber, final Parser<T> parser, final ExtensionRegistryLite extensionRegistry)
-      throws IOException;
-
-  /**
-   * Reads a {@code group} field value from the stream and merges it into the given {@link
-   * UnknownFieldSet}.
-   *
-   * @deprecated UnknownFieldSet.Builder now implements MessageLite.Builder, so you can just call
-   *     {@link #readGroup}.
-   */
-  @Deprecated
-  public abstract void readUnknownGroup(final int fieldNumber, final MessageLite.Builder builder)
-      throws IOException;
-
-  /** Read an embedded message field value from the stream. */
-  public abstract void readMessage(
-      final MessageLite.Builder builder, final ExtensionRegistryLite extensionRegistry)
-      throws IOException;
-
-
   /** Read an embedded message field value from the stream. */
   public abstract <T extends MessageLite> T readMessage(
           final Parser<T> parser) throws IOException;
@@ -818,61 +789,6 @@ public abstract class CodedInputStream {
       }
       throw InvalidProtocolBufferException.truncatedMessage();
     }
-
-    @Override
-    public void readGroup(
-            final int fieldNumber,
-            final MessageLite.Builder builder)
-        throws IOException {
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
-      ++recursionDepth;
-      builder.mergeFrom(this, extensionRegistry);
-      checkLastTagWas(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_END_GROUP));
-      --recursionDepth;
-    }
-
-
-    @Override
-    public <T extends MessageLite> T readGroup(
-        final int fieldNumber,
-        final Parser<T> parser,
-        final ExtensionRegistryLite extensionRegistry)
-        throws IOException {
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
-      ++recursionDepth;
-      T result = parser.parsePartialFrom(this);
-      checkLastTagWas(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_END_GROUP));
-      --recursionDepth;
-      return result;
-    }
-
-    @Deprecated
-    @Override
-    public void readUnknownGroup(final int fieldNumber, final MessageLite.Builder builder)
-        throws IOException {
-      readGroup(fieldNumber, builder, ExtensionRegistryLite.getEmptyRegistry());
-    }
-
-    @Override
-    public void readMessage(
-        final MessageLite.Builder builder, final ExtensionRegistryLite extensionRegistry)
-        throws IOException {
-      final int length = readRawVarint32();
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
-      final int oldLimit = pushLimit(length);
-      ++recursionDepth;
-      builder.mergeFrom(this, extensionRegistry);
-      checkLastTagWas(0);
-      --recursionDepth;
-      popLimit(oldLimit);
-    }
-
 
     @Override
     public <T extends MessageLite> T readMessage(
@@ -1536,61 +1452,6 @@ public abstract class CodedInputStream {
       }
       throw InvalidProtocolBufferException.truncatedMessage();
     }
-
-    @Override
-    public void readGroup(
-            final int fieldNumber,
-            final MessageLite.Builder builder)
-        throws IOException {
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
-      ++recursionDepth;
-      builder.mergeFrom(this, extensionRegistry);
-      checkLastTagWas(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_END_GROUP));
-      --recursionDepth;
-    }
-
-
-    @Override
-    public <T extends MessageLite> T readGroup(
-        final int fieldNumber,
-        final Parser<T> parser,
-        final ExtensionRegistryLite extensionRegistry)
-        throws IOException {
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
-      ++recursionDepth;
-      T result = parser.parsePartialFrom(this);
-      checkLastTagWas(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_END_GROUP));
-      --recursionDepth;
-      return result;
-    }
-
-    @Deprecated
-    @Override
-    public void readUnknownGroup(final int fieldNumber, final MessageLite.Builder builder)
-        throws IOException {
-      readGroup(fieldNumber, builder, ExtensionRegistryLite.getEmptyRegistry());
-    }
-
-    @Override
-    public void readMessage(
-        final MessageLite.Builder builder, final ExtensionRegistryLite extensionRegistry)
-        throws IOException {
-      final int length = readRawVarint32();
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
-      final int oldLimit = pushLimit(length);
-      ++recursionDepth;
-      builder.mergeFrom(this, extensionRegistry);
-      checkLastTagWas(0);
-      --recursionDepth;
-      popLimit(oldLimit);
-    }
-
 
     @Override
     public <T extends MessageLite> T readMessage(
@@ -2294,61 +2155,6 @@ public abstract class CodedInputStream {
       }
       return Utf8.decodeUtf8(bytes, tempPos, size);
     }
-
-    @Override
-    public void readGroup(
-            final int fieldNumber,
-            final MessageLite.Builder builder)
-        throws IOException {
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
-      ++recursionDepth;
-      builder.mergeFrom(this, extensionRegistry);
-      checkLastTagWas(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_END_GROUP));
-      --recursionDepth;
-    }
-
-
-    @Override
-    public <T extends MessageLite> T readGroup(
-        final int fieldNumber,
-        final Parser<T> parser,
-        final ExtensionRegistryLite extensionRegistry)
-        throws IOException {
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
-      ++recursionDepth;
-      T result = parser.parsePartialFrom(this);
-      checkLastTagWas(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_END_GROUP));
-      --recursionDepth;
-      return result;
-    }
-
-    @Deprecated
-    @Override
-    public void readUnknownGroup(final int fieldNumber, final MessageLite.Builder builder)
-        throws IOException {
-      readGroup(fieldNumber, builder, ExtensionRegistryLite.getEmptyRegistry());
-    }
-
-    @Override
-    public void readMessage(
-        final MessageLite.Builder builder, final ExtensionRegistryLite extensionRegistry)
-        throws IOException {
-      final int length = readRawVarint32();
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
-      final int oldLimit = pushLimit(length);
-      ++recursionDepth;
-      builder.mergeFrom(this, extensionRegistry);
-      checkLastTagWas(0);
-      --recursionDepth;
-      popLimit(oldLimit);
-    }
-
 
     @Override
     public <T extends MessageLite> T readMessage(
@@ -3389,61 +3195,6 @@ public abstract class CodedInputStream {
       }
       throw InvalidProtocolBufferException.truncatedMessage();
     }
-
-    @Override
-    public void readGroup(
-            final int fieldNumber,
-            final MessageLite.Builder builder)
-        throws IOException {
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
-      ++recursionDepth;
-      builder.mergeFrom(this, extensionRegistry);
-      checkLastTagWas(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_END_GROUP));
-      --recursionDepth;
-    }
-
-
-    @Override
-    public <T extends MessageLite> T readGroup(
-        final int fieldNumber,
-        final Parser<T> parser,
-        final ExtensionRegistryLite extensionRegistry)
-        throws IOException {
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
-      ++recursionDepth;
-      T result = parser.parsePartialFrom(this);
-      checkLastTagWas(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_END_GROUP));
-      --recursionDepth;
-      return result;
-    }
-
-    @Deprecated
-    @Override
-    public void readUnknownGroup(final int fieldNumber, final MessageLite.Builder builder)
-        throws IOException {
-      readGroup(fieldNumber, builder, ExtensionRegistryLite.getEmptyRegistry());
-    }
-
-    @Override
-    public void readMessage(
-        final MessageLite.Builder builder, final ExtensionRegistryLite extensionRegistry)
-        throws IOException {
-      final int length = readRawVarint32();
-      if (recursionDepth >= recursionLimit) {
-        throw InvalidProtocolBufferException.recursionLimitExceeded();
-      }
-      final int oldLimit = pushLimit(length);
-      ++recursionDepth;
-      builder.mergeFrom(this, extensionRegistry);
-      checkLastTagWas(0);
-      --recursionDepth;
-      popLimit(oldLimit);
-    }
-
 
     @Override
     public <T extends MessageLite> T readMessage(

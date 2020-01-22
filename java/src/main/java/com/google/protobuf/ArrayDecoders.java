@@ -217,42 +217,6 @@ final class ArrayDecoders {
     }
   }
 
-  /** Decodes a message value. */
-  @SuppressWarnings({"unchecked", "rawtypes"})
-  static int decodeMessageField(
-      Schema schema, byte[] data, int position, int limit, Registers registers) throws IOException {
-    int length = data[position++];
-    if (length < 0) {
-      position = decodeVarint32(length, data, position, registers);
-      length = registers.int1;
-    }
-    if (length < 0 || length > limit - position) {
-      throw InvalidProtocolBufferException.truncatedMessage();
-    }
-    Object result = schema.newInstance();
-    schema.mergeFrom(result, data, position, position + length);
-    schema.makeImmutable(result);
-    registers.object1 = result;
-    return position + length;
-  }
-
-  /** Decodes a group value. */
-  @SuppressWarnings({"unchecked", "rawtypes"})
-  static int decodeGroupField(
-      Schema schema, byte[] data, int position, int limit, int endGroup, Registers registers)
-      throws IOException {
-    // A group field must has a MessageSchema (the only other subclass of Schema is MessageSetSchema
-    // and it can't be used in group fields).
-    final MessageSchema messageSchema = (MessageSchema) schema;
-    Object result = messageSchema.newInstance();
-    // It's OK to directly use parseProto2Message since proto3 doesn't have group.
-    final int endPosition =
-        messageSchema.parseProto2Message(result, data, position, limit, endGroup, registers);
-    messageSchema.makeImmutable(result);
-    registers.object1 = result;
-    return endPosition;
-  }
-
   /** Decodes a repeated 32-bit varint field. Returns the position after all read values. */
   static int decodeVarint32List(
       int tag, byte[] data, int position, int limit, ProtobufList<?> list, Registers registers) {
@@ -668,65 +632,6 @@ final class ArrayDecoders {
         output.add(ByteString.copyFrom(data, position, nextLength));
         position += nextLength;
       }
-    }
-    return position;
-  }
-
-  /**
-   * Decodes a repeated message field
-   *
-   * @return The position of after read all messages
-   */
-  @SuppressWarnings({"unchecked"})
-  static int decodeMessageList(
-      Schema<?> schema,
-      int tag,
-      byte[] data,
-      int position,
-      int limit,
-      ProtobufList<?> list,
-      Registers registers)
-      throws IOException {
-    final ProtobufList<Object> output = (ProtobufList<Object>) list;
-    position = decodeMessageField(schema, data, position, limit, registers);
-    output.add(registers.object1);
-    while (position < limit) {
-      int nextPosition = decodeVarint32(data, position, registers);
-      if (tag != registers.int1) {
-        break;
-      }
-      position = decodeMessageField(schema, data, nextPosition, limit, registers);
-      output.add(registers.object1);
-    }
-    return position;
-  }
-
-  /**
-   * Decodes a repeated group field
-   *
-   * @return The position of after read all groups
-   */
-  @SuppressWarnings({"unchecked", "rawtypes"})
-  static int decodeGroupList(
-      Schema schema,
-      int tag,
-      byte[] data,
-      int position,
-      int limit,
-      ProtobufList<?> list,
-      Registers registers)
-      throws IOException {
-    final ProtobufList<Object> output = (ProtobufList<Object>) list;
-    final int endgroup = (tag & ~0x7) | WireFormat.WIRETYPE_END_GROUP;
-    position = decodeGroupField(schema, data, position, limit, endgroup, registers);
-    output.add(registers.object1);
-    while (position < limit) {
-      int nextPosition = decodeVarint32(data, position, registers);
-      if (tag != registers.int1) {
-        break;
-      }
-      position = decodeGroupField(schema, data, nextPosition, limit, endgroup, registers);
-      output.add(registers.object1);
     }
     return position;
   }
