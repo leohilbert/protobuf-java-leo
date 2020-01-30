@@ -18,7 +18,7 @@ jobs:
           BUILD_CONTEXT: '.'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  build:
+  build-protoc:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -40,6 +40,33 @@ jobs:
         with:
           name: protoc-gen-java-leo-${{ matrix.os }}
           path: ./build/protoc-gen-java-leo
+  build-jar:
+    needs: build-protoc
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: TheMrMilchmann/install-jdk@v1
+        with:
+          version: '11'
+          architecture: x64
+      - uses: actions/download-artifact@v1
+        with:
+          name: protoc-gen-java-leo-ubuntu-latest
+          path: ./build/
+      - name: build jar
+        run: |
+          ./configure.sh
+          chmod +x ./build/protoc-gen-java-leo
+          sudo cp -R protoc/** /usr/local
+          sudo ldconfig
+          cd java
+          mvn clean install
+      - name: Upload
+        uses: actions/upload-artifact@v1
+        with:
+          name: protoc-gen-java-leo-jar
+          path: ./java/target/protobuf-java-leo-1.0.0.jar
+    
   build-windows:
     if: startsWith(github.ref, 'disabled')
     runs-on: windows-latest
