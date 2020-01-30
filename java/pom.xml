@@ -47,8 +47,8 @@
                 <configuration>
                     <pluginId>java-leo</pluginId>
                     <protocExecutable>protoc</protocExecutable>
-                    <pluginExecutable>../build/protoc-gen-java-leo</pluginExecutable>
-                    <protoSourceRoot>../protoc/include</protoSourceRoot>
+                    <pluginExecutable>${project.basedir}/../build/protoc-gen-java-leo</pluginExecutable>
+                    <protoSourceRoot>${project.basedir}/../protoc/include</protoSourceRoot>
                 </configuration>
                 <executions>
                     <execution>
