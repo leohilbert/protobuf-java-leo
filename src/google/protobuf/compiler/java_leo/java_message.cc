@@ -1440,7 +1440,8 @@ void ImmutableMessageGenerator::GenerateToStringMethod(io::Printer* printer) {
   printer->Print(
       "@java.lang.Override\n"
       "public java.lang.String toString() {\n"
-      "  java.lang.StringBuilder sb = new java.lang.StringBuilder(\"{\\n\");\n");
+      "  java.lang.StringBuilder sb = new java.lang.StringBuilder(\"$classname$: {\\n\");\n",
+      "classname", descriptor_->name());
 
   printer->Indent();
 

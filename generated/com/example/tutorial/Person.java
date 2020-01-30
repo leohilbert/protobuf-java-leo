@@ -416,7 +416,7 @@ private static final long serialVersionUID = 0L;
 
     @java.lang.Override
     public java.lang.String toString() {
-      java.lang.StringBuilder sb = new java.lang.StringBuilder("{\n");
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("PhoneNumber: {\n");
       sb.append("\"number\": \"").append(java.lang.String.valueOf(number_)).append("\",\n");
       sb.append("\"type\": \"").append(java.lang.String.valueOf(type_)).append("\",\n");
       return sb.append('}').toString();
@@ -1067,7 +1067,7 @@ private static final long serialVersionUID = 0L;
 
   @java.lang.Override
   public java.lang.String toString() {
-    java.lang.StringBuilder sb = new java.lang.StringBuilder("{\n");
+    java.lang.StringBuilder sb = new java.lang.StringBuilder("Person: {\n");
     sb.append("\"id\": \"").append(java.lang.String.valueOf(id_)).append("\",\n");
     sb.append("\"name\": \"").append(java.lang.String.valueOf(name_)).append("\",\n");
     sb.append("\"age\": \"").append(java.lang.String.valueOf(age_)).append("\",\n");
