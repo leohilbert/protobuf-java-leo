@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.leohilbert.protobuf</groupId>
     <artifactId>protobuf-java-leo</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -10,6 +10,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+
+    <distributionManagement>
+    <repository>
+        <id>github</id>
+        <name>GitHub Apache Maven Packages</name>
+        <url>https://maven.pkg.github.com/leohilbert/protoc-gen-java-leo</url>
+    </repository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
@@ -38,6 +46,7 @@
         </dependency>
     </dependencies>
     <build>
+        <finalName>protobuf-java-leo</finalName>
         <plugins>
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
