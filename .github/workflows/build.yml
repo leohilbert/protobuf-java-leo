@@ -41,7 +41,7 @@ jobs:
           name: protoc-gen-java-leo-${{ matrix.os }}
           path: ./build/protoc-gen-java-leo  
   build-windows:
-    if: startsWith(github.ref, 'disabled')
+    #if: startsWith(github.ref, 'disabled')
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v1
@@ -52,12 +52,13 @@ jobs:
           Write-Output "Downloading $url"
           Invoke-WebRequest -uri $url -outfile protoc.zip
           Expand-Archive protoc.zip protoc
+      - uses: ilammy/msvc-dev-cmd@v1
       - name: install
         run: |
           mkdir -p build
           cd build
-          cmake ..
-          make
+          cmake -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+          nmake
       - name: Upload
         uses: actions/upload-artifact@v1
         with:
