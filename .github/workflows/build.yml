@@ -62,7 +62,7 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v1
         with:
-          name: protoc-gen-java-leo-${{ matrix.os }}
+          name: protoc-gen-java-leo-windows
           path: ./build/
   build-jar:
     needs: build-protoc
