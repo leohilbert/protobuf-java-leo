@@ -3,21 +3,6 @@ name: build plugin
 on: [push]
 
 jobs:
-  docker-push:
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
-    steps:
-      - uses: actions/checkout@master
-      - name: publish
-        uses: machine-learning-apps/gpr-docker-publish@master
-        id: docker
-        with:
-          IMAGE_NAME: 'protoc-gen-java-leo'
-          TAG: 'latest'
-          DOCKERFILE_PATH: 'Dockerfile'
-          BUILD_CONTEXT: '.'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build-protoc:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -63,8 +48,23 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: protoc-gen-java-leo-windows
-          path: ./build/
-  build-jar:
+          path: ./build/protoc-gen-java-leo.exe
+  docker-push:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/checkout@master
+      - name: publish
+        uses: machine-learning-apps/gpr-docker-publish@master
+        id: docker
+        with:
+          IMAGE_NAME: 'protoc-gen-java-leo'
+          TAG: 'latest'
+          DOCKERFILE_PATH: 'Dockerfile'
+          BUILD_CONTEXT: '.'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  deploy-jar:
     needs: build-protoc
     runs-on: ubuntu-latest
     steps:
@@ -72,7 +72,7 @@ jobs:
       - name: Install Java and Maven
         uses: actions/setup-java@v1
         with:
-          java-version: 11
+          java-version: 13
       - uses: actions/download-artifact@v1
         with:
           name: protoc-gen-java-leo-ubuntu-latest
