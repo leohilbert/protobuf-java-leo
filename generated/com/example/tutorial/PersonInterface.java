@@ -120,54 +120,88 @@ public interface PersonInterface<SELF> extends
    * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
    */
   public SELF clearFriendIds();
-  public static final int FAVORITENUMBER_FIELD_NUMBER = 7;
+  public static final int FRIENDIDS2_FIELD_NUMBER = 7;
 
   /**
-   * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
+   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * @return A list containing the friendIds2.
+   */
+  java.util.List<java.util.UUID> getFriendIds2List();
+  /**
+   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * @return The count of friendIds2.
+   */
+  int getFriendIds2Count();
+  /**
+   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * @param index The index of the element to return.
+   * @return The friendIds2 at the given index.
+   */
+  java.util.UUID getFriendIds2(int index);
+  /**
+   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   */
+  public SELF setFriendIds2(int index, java.util.UUID value);
+  /**
+   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   */
+  public SELF addFriendIds2(java.util.UUID value);
+  /**
+   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   */
+  public SELF addAllFriendIds2(java.util.Collection<java.util.UUID> values);
+  /**
+   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   */
+  public SELF clearFriendIds2();
+  public static final int FAVORITENUMBER_FIELD_NUMBER = 8;
+
+  /**
+   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
    * @return A list containing the favoriteNumber.
    */
   java.util.List<java.lang.Integer> getFavoriteNumberList();
   /**
-   * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
+   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
    * @return The count of favoriteNumber.
    */
   int getFavoriteNumberCount();
   /**
-   * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
+   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
    * @param index The index of the element to return.
    * @return The favoriteNumber at the given index.
    */
   int getFavoriteNumber(int index);
   /**
-   * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
+   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
    */
   public SELF setFavoriteNumber(int index, int value);
   /**
-   * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
+   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
    */
   public SELF addFavoriteNumber(int value);
   /**
-   * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
+   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
    */
   public SELF addAllFavoriteNumber(java.util.Collection<java.lang.Integer> values);
   /**
-   * <code>repeated int32 favoriteNumber = 7[json_name = "favoriteNumber"];</code>
+   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
    */
   public SELF clearFavoriteNumber();
-  public static final int LAST_UPDATED_FIELD_NUMBER = 8;
+  public static final int LAST_UPDATED_FIELD_NUMBER = 9;
 
   /**
-   * <code>.google.protobuf.Timestamp last_updated = 8[json_name = "lastUpdated"];</code>
+   * <code>.google.protobuf.Timestamp last_updated = 9[json_name = "lastUpdated"];</code>
    * @return Whether the lastUpdated field is set.
    */
   boolean hasLastUpdated();
   /**
-   * <code>.google.protobuf.Timestamp last_updated = 8[json_name = "lastUpdated"];</code>
+   * <code>.google.protobuf.Timestamp last_updated = 9[json_name = "lastUpdated"];</code>
    * @return The lastUpdated.
    */
   com.google.protobuf.Timestamp getLastUpdated();
   /**
-   * <code>.google.protobuf.Timestamp last_updated = 8[json_name = "lastUpdated"];</code>
+   * <code>.google.protobuf.Timestamp last_updated = 9[json_name = "lastUpdated"];</code>
    * @param value The lastUpdated to set.
    */
   SELF setLastUpdated(com.google.protobuf.Timestamp value);
