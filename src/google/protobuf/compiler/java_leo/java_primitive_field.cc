@@ -69,7 +69,7 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
     (*variables)["type"] = customType;
     if (descriptor->message_type() != nullptr) {
       // if it is a "message" and no primitive field, we need to access the parser.
-      // this is necessary, because all leo-customClasses are handeled by this class
+      // this is necessary, because all leo-customClasses are handled by this class
       (*variables)["message_type"] = name_resolver->GetImmutableClassName(descriptor->message_type());
       (*variables)["get_parser"] = ExposePublicParser(descriptor->message_type()->file()) ? "PARSER" : "parser()";
     }
@@ -543,7 +543,7 @@ void ImmutablePrimitiveOneofFieldGenerator::GenerateParsingCode(
     io::Printer* printer) const {
   printer->Print(variables_,
                  "$set_oneof_case_message$;\n"
-                 "$oneof_name$_ = input.read$capitalized_type$();\n");
+                 "$oneof_name$_ = $customTypeParse$(input.read$capitalized_type$());\n");
 }
 
 void ImmutablePrimitiveOneofFieldGenerator::GenerateSerializationCode(
@@ -554,11 +554,11 @@ void ImmutablePrimitiveOneofFieldGenerator::GenerateSerializationCode(
   // $type$ and $boxed_type$ is the same for bytes fields so we don't need to
   // do redundant casts.
   if (GetJavaType(descriptor_) == JAVATYPE_BYTES) {
-    printer->Print(variables_, "      $number$, ($type$) $oneof_name$_);\n");
+    printer->Print(variables_, "      $number$, ($type$) $customTypeSerialize$($oneof_name$_));\n");
   } else {
     printer->Print(
         variables_,
-        "      $number$, ($type$)(($boxed_type$) $oneof_name$_));\n");
+        "      $number$, ($type$)(($boxed_type$) $customTypeSerialize$($oneof_name$_)));\n");
   }
   printer->Print("}\n");
 }
@@ -572,11 +572,11 @@ void ImmutablePrimitiveOneofFieldGenerator::GenerateSerializedSizeCode(
   // $type$ and $boxed_type$ is the same for bytes fields so we don't need to
   // do redundant casts.
   if (GetJavaType(descriptor_) == JAVATYPE_BYTES) {
-    printer->Print(variables_, "        $number$, ($type$) $oneof_name$_);\n");
+    printer->Print(variables_, "        $number$, ($type$) $customTypeSerialize$($oneof_name$_));\n");
   } else {
     printer->Print(
         variables_,
-        "        $number$, ($type$)(($boxed_type$) $oneof_name$_));\n");
+        "        $number$, ($type$)(($boxed_type$) $customTypeSerialize$($oneof_name$_)));\n");
   }
   printer->Print("}\n");
 }
@@ -754,7 +754,7 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateParsingCode(
                  "  $name$_ = $create_list$;\n"
                  "  $set_mutable_bit_parser$;\n"
                  "}\n"
-                 "$repeated_add$(input.read$capitalized_type$());\n");
+                 "$repeated_add$($customTypeParse$(input.read$capitalized_type$()));\n");
 }
 
 void RepeatedImmutablePrimitiveFieldGenerator::GenerateParsingCodeFromPacked(
@@ -768,7 +768,7 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateParsingCodeFromPacked(
       "  $set_mutable_bit_parser$;\n"
       "}\n"
       "while (input.getBytesUntilLimit() > 0) {\n"
-      "  $repeated_add$(input.read$capitalized_type$());\n"
+      "  $repeated_add$($customTypeParse$(input.read$capitalized_type$()));\n"
       "}\n"
       "input.popLimit(limit);\n");
 }
@@ -789,13 +789,13 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateSerializationCode(
                    "  output.writeUInt32NoTag($name$MemoizedSerializedSize);\n"
                    "}\n"
                    "for (int i = 0; i < $name$_.size(); i++) {\n"
-                   "  output.write$capitalized_type$NoTag($repeated_get$(i));\n"
+                   "  output.write$capitalized_type$NoTag($customTypeSerialize$($repeated_get$(i)));\n"
                    "}\n");
   } else {
     printer->Print(
         variables_,
         "for (int i = 0; i < $name$_.size(); i++) {\n"
-        "  output.write$capitalized_type$($number$, $repeated_get$(i));\n"
+        "  output.write$capitalized_type$($number$, $customTypeSerialize$($repeated_get$(i)));\n"
         "}\n");
   }
 }
@@ -812,7 +812,7 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateSerializedSizeCode(
         variables_,
         "for (int i = 0; i < $name$_.size(); i++) {\n"
         "  dataSize += com.google.protobuf.CodedOutputStream\n"
-        "    .compute$capitalized_type$SizeNoTag($repeated_get$(i));\n"
+        "    .compute$capitalized_type$SizeNoTag($customTypeSerialize$($repeated_get$(i)));\n"
         "}\n");
   } else {
     printer->Print(

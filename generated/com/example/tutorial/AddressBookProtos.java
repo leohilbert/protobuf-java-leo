@@ -40,23 +40,24 @@ public final class AddressBookProtos {
     java.lang.String[] descriptorData = {
       "\n\021addressbook.proto\022\010tutorial\032\037google/pr" +
       "otobuf/timestamp.proto\032\021leo_options.prot" +
-      "o\"\233\003\n\006Person\022\"\n\002id\030\001 \001(\tB\022\222\202\031\016java.util." +
+      "o\"\317\003\n\006Person\022\"\n\002id\030\001 \001(\tB\022\222\202\031\016java.util." +
       "UUIDR\002id\022\022\n\004name\030\002 \001(\tR\004name\022\020\n\003age\030\003 \001(" +
       "\005R\003age\022\024\n\005email\030\004 \001(\tR\005email\0224\n\006phones\030\005" +
       " \003(\0132\034.tutorial.Person.PhoneNumberR\006phon" +
-      "es\022\034\n\tfriendIds\030\006 \003(\tR\tfriendIds\022&\n\016favo" +
-      "riteNumber\030\007 \003(\005R\016favoriteNumber\022=\n\014last" +
-      "_updated\030\010 \001(\0132\032.google.protobuf.Timesta" +
-      "mpR\013lastUpdated\032v\n\013PhoneNumber\022\026\n\006number" +
-      "\030\001 \001(\tR\006number\022O\n\004type\030\002 \001(\0162\023.tutorial." +
-      "PhoneTypeB&\222\202\031\"com.example.custom.Custom" +
-      "PhoneTypeR\004type\"\216\001\n\013AddressBook\022(\n\006peopl" +
-      "e\030\001 \003(\0132\020.tutorial.PersonR\006people\022O\n\005own" +
-      "er\030\002 \001(\0132\020.tutorial.PersonB\'\222\202\031#com.exam" +
-      "ple.custom.CustomOwnerClassR\005owner:\004\240\202\031\000" +
-      "*+\n\tPhoneType\022\n\n\006MOBILE\020\000\022\010\n\004HOME\020\001\022\010\n\004W" +
-      "ORK\020\002B/\n\024com.example.tutorialB\021AddressBo" +
-      "okProtosP\001\230\202\031\001b\006proto3"
+      "es\022\034\n\tfriendIds\030\006 \003(\tR\tfriendIds\0222\n\nfrie" +
+      "ndIds2\030\007 \003(\tB\022\222\202\031\016java.util.UUIDR\nfriend" +
+      "Ids2\022&\n\016favoriteNumber\030\010 \003(\005R\016favoriteNu" +
+      "mber\022=\n\014last_updated\030\t \001(\0132\032.google.prot" +
+      "obuf.TimestampR\013lastUpdated\032v\n\013PhoneNumb" +
+      "er\022\026\n\006number\030\001 \001(\tR\006number\022O\n\004type\030\002 \001(\016" +
+      "2\023.tutorial.PhoneTypeB&\222\202\031\"com.example.c" +
+      "ustom.CustomPhoneTypeR\004type\"\216\001\n\013AddressB" +
+      "ook\022(\n\006people\030\001 \003(\0132\020.tutorial.PersonR\006p" +
+      "eople\022O\n\005owner\030\002 \001(\0132\020.tutorial.PersonB\'" +
+      "\222\202\031#com.example.custom.CustomOwnerClassR" +
+      "\005owner:\004\240\202\031\000*+\n\tPhoneType\022\n\n\006MOBILE\020\000\022\010\n" +
+      "\004HOME\020\001\022\010\n\004WORK\020\002B/\n\024com.example.tutoria" +
+      "lB\021AddressBookProtosP\001\230\202\031\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -69,7 +70,7 @@ public final class AddressBookProtos {
     internal_static_tutorial_Person_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tutorial_Person_descriptor,
-        new java.lang.String[] { "Id", "Name", "Age", "Email", "Phones", "FriendIds", "FavoriteNumber", "LastUpdated", });
+        new java.lang.String[] { "Id", "Name", "Age", "Email", "Phones", "FriendIds", "FriendIds2", "FavoriteNumber", "LastUpdated", });
     internal_static_tutorial_Person_PhoneNumber_descriptor =
       internal_static_tutorial_Person_descriptor.getNestedTypes().get(0);
     internal_static_tutorial_Person_PhoneNumber_fieldAccessorTable = new
