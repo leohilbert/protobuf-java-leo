@@ -28,9 +28,10 @@ message Person {
 
     repeated PhoneNumber phones = 5;
     repeated string friendIds = 6;
-    repeated int32 favoriteNumber = 7;
+    repeated string friendIds2 = 7 [(leo.proto.javatype) = "java.util.UUID"];
+    repeated int32 favoriteNumber = 8;
 
-    google.protobuf.Timestamp last_updated = 8;
+    google.protobuf.Timestamp last_updated = 9;
 }
 
 message AddressBook {

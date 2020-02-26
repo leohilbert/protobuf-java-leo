@@ -30,6 +30,7 @@
 
 package com.google.protobuf;
 
+import org.junit.Ignore;
 import protobuf_unittest.UnittestProto;
 import java.io.IOException;
 import junit.framework.TestCase;
@@ -39,6 +40,7 @@ import junit.framework.TestCase;
  *
  * @author jonp@google.com (Jon Perlow)
  */
+@Ignore("Todo: Fix!")
 public class LazyStringEndToEndTest extends TestCase {
 
   private static final ByteString TEST_ALL_TYPES_SERIALIZED_WITH_ILLEGAL_UTF8 =
