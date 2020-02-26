@@ -83,15 +83,16 @@ jobs:
           chmod +x ./build/protoc-gen-java-leo
           sudo cp -R protoc/** /usr/local
           sudo ldconfig
-          cd java
-          mvn clean install
+      - name: maven deploy
+        uses: samuelmeuli/action-maven-publish@v1
+        with:
+          directory: java
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg_passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          nexus_username: ${{ secrets.OSSRH_USERNAME }}
+          nexus_password: ${{ secrets.OSSRH_PASSWORD }}
       - name: Upload jar artifact
         uses: actions/upload-artifact@v1
         with:
           name: protoc-gen-java-leo-jar
           path: ./java/target/protobuf-java-leo.jar  
-      - name: deploy to maven
-        env:
-          GITHUB_USERNAME: x-access-token
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: cd java && mvn -B -e --settings settings.xml deploy
