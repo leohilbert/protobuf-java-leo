@@ -71,8 +71,7 @@ jobs:
           BUILD_CONTEXT: '.'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  deploy-jar:
-    if: github.ref == 'refs/heads/master'
+  test-deploy-jar:
     needs: build-unix
     runs-on: ubuntu-latest
     steps:
@@ -91,7 +90,10 @@ jobs:
           chmod +x ./build/protoc-gen-java-leo
           sudo cp -R protoc/** /usr/local
           sudo ldconfig
+      - name: maven test
+        run: cd java && mvn clean test
       - name: maven deploy
+        if: github.ref == 'refs/heads/master'
         uses: samuelmeuli/action-maven-publish@v1
         with:
           directory: java
@@ -100,13 +102,14 @@ jobs:
           nexus_username: ${{ secrets.OSSRH_USERNAME }}
           nexus_password: ${{ secrets.OSSRH_PASSWORD }}
       - name: Upload jar artifact
+        if: github.ref == 'refs/heads/master'
         uses: actions/upload-artifact@v1
         with:
           name: protoc-gen-java-leo-jar
           path: ./java/target/protobuf-java-leo.jar
   deploy-exe:
     if: github.ref == 'refs/heads/master'
-    needs: [deploy-jar, build-unix, build-windows]
+    needs: [test-deploy-jar, build-unix, build-windows]
     runs-on: ubuntu-latest
     strategy:
       matrix:
