@@ -3,11 +3,11 @@ name: build plugin
 on: [push]
 
 jobs:
-  build-protoc:
-    runs-on: ${{ matrix.os }}
+  build-unix:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v1
       - name: configure
@@ -20,11 +20,18 @@ jobs:
           cd build || exit
           cmake ..
           make
-      - name: Upload
+      - name: Upload Linux
+        if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v1
         with:
-          name: protoc-gen-java-leo-${{ matrix.os }}
-          path: ./build/protoc-gen-java-leo  
+          name: protoc-gen-java-leo-linux
+          path: ./build/protoc-gen-java-leo
+      - name: Upload Macos
+        if: matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v1
+        with:
+          name: protoc-gen-java-leo-macos
+          path: ./build/protoc-gen-java-leo
   build-windows:
     #if: startsWith(github.ref, 'disabled')
     runs-on: windows-latest
@@ -64,8 +71,38 @@ jobs:
           BUILD_CONTEXT: '.'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  deploy-exe:
+    if: github.ref == 'refs/heads/master'
+    needs: [build-unix, build-windows]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        classifier: [linux, macos, windows]
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/download-artifact@v1
+        with:
+          name: protoc-gen-java-leo-${{ matrix.classifier }}
+          path: ./executable
+      - name: exe deploy preparations
+        run: |
+          mv $(find executable -type f) executable/exe
+          chmod +x ./gpghack.sh
+      - name: maven deploy
+        uses: leohilbert/action-maven-publish@v1
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg_passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          nexus_username: ${{ secrets.OSSRH_USERNAME }}
+          nexus_password: ${{ secrets.OSSRH_PASSWORD }}
+          maven_goals_phases: gpg:sign-and-deploy-file
+          maven_args: >
+            -DpomFile=java/pom.xml -Dfile=./executable/exe
+            -Durl=https://oss.sonatype.org/content/repositories/snapshots -Dclassifier=${{ matrix.classifier }}
+            -DrepositoryId=ossrh -Dpackaging=exe -Dgpg.executable="./gpghack.sh"
   deploy-jar:
-    needs: build-protoc
+    if: github.ref == 'refs/heads/master'
+    needs: build-unix
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -75,7 +112,7 @@ jobs:
           java-version: 13
       - uses: actions/download-artifact@v1
         with:
-          name: protoc-gen-java-leo-ubuntu-latest
+          name: protoc-gen-java-leo-linux
           path: ./build/
       - name: build jar
         run: |
