@@ -30,7 +30,7 @@ jobs:
         if: matrix.os == 'macos-latest'
         uses: actions/upload-artifact@v1
         with:
-          name: protoc-gen-java-leo-macos
+          name: protoc-gen-java-leo-osx
           path: ./build/protoc-gen-java-leo
   build-windows:
     #if: startsWith(github.ref, 'disabled')
@@ -113,7 +113,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        classifier: [linux, macos, windows]
+        classifier: [linux, osx, windows]
     steps:
       - uses: actions/checkout@v1
       - uses: actions/download-artifact@v1
