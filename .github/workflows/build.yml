@@ -135,4 +135,4 @@ jobs:
           maven_args: >
             -DpomFile=java/pom.xml -Dfile=./executable/exe
             -Durl=https://oss.sonatype.org/content/repositories/snapshots -Dclassifier=${{ matrix.classifier }}
-            -DrepositoryId=ossrh -Dpackaging=exe -Dgpg.executable="./gpghack.sh"
+            -DrepositoryId=ossrh -Dpackaging=exe -Dgpg.executable="./gpghack.sh" -DupdateReleaseInfo=true
