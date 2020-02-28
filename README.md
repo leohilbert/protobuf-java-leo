@@ -38,17 +38,49 @@ These are the changes compared to Google's implementation:
 
 You can take a look at `/java/src/test` to see it in action.
 
-Get started
+Use it in your project
 ==========================================
-The easiest way to compile java-classes with this plugin, is by using the docker-image.
-You don't even need to have protoc installed.
+Maven
+------------------------------------------
+
+The easiest way to generated java-classes with this plugin, is by using the Maven-Plugin.  
+This is inspired by how GRPC does it.
+
+```
+<plugin>
+    <groupId>org.xolstice.maven.plugins</groupId>
+    <artifactId>protobuf-maven-plugin</artifactId>
+    <version>0.6.1</version>
+
+    <configuration>
+        <protocArtifact>com.google.protobuf:protoc:3.11.4:exe:${os.detected.classifier}</protocArtifact>
+    </configuration>
+    <executions>
+        <execution>
+            <id>leo</id>
+            <goals>
+                <goal>compile-custom</goal>
+                <goal>test-compile-custom</goal>
+            </goals>
+            <configuration>
+                <pluginId>java-leo</pluginId>
+                <pluginArtifact>
+                    de.leohilbert.protobuf:protobuf-java-leo:${protobufLeo.version}:exe:${os.detected.name}
+                </pluginArtifact>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+```
+
+Docker
+------------------------------------------
+
+You can also use a docker-image to build it.  
 Take a look at the `runAsDocker.sh`. You can also use the images I push to the [DockerHub](https://hub.docker.com/repository/docker/leohilbert/protoc-gen-java-leo).
 
-I also added Github-Actions to compile the plugin for Windows, Linux and MacOS.  
-Of course, you can also compile it yourself by checking the Compile-Guide
-
 Compile-Guide
-------------------------------------------
+==========================================
 * run `./configure.sh`
     * this will download the protoc-libraries into the /protoc-folder
 * make sure you have protoc installed in the version used by the plugin 
