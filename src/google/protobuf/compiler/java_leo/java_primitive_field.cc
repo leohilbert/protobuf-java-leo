@@ -453,7 +453,7 @@ void ImmutablePrimitiveFieldGenerator::GenerateHashCode(
     case JAVATYPE_BYTES:
       printer->Print(
           variables_,
-          "hash = (53 * hash) + get$capitalized_name$().hashCode();\n");
+          "hash = (53 * hash) + java.util.Objects.hashCode(get$capitalized_name$());\n");
       break;
 
     case JAVATYPE_ENUM:
@@ -858,7 +858,7 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateHashCode(
       variables_,
       "if (get$capitalized_name$Count() > 0) {\n"
       "  hash = (37 * hash) + $constant_name$;\n"
-      "  hash = (53 * hash) + get$capitalized_name$List().hashCode();\n"
+      "  hash = (53 * hash) + java.util.Objects.hashCode(get$capitalized_name$List());\n"
       "}\n");
 }
 

@@ -77,4 +77,10 @@ public class ProtoLeoTest {
         addressBook.toByteArray();
     }
 
+    @Test
+    public void testHashCode() {
+        AddressBook addressBook = new AddressBook();
+        assertThat(addressBook.hashCode()).isNotNull();
+    }
+
 }

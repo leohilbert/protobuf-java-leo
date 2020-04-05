@@ -780,7 +780,7 @@ void RepeatedImmutableEnumFieldGenerator::GenerateHashCode(
   printer->Print(variables_,
                  "if (get$capitalized_name$Count() > 0) {\n"
                  "  hash = (37 * hash) + $constant_name$;\n"
-                 "  hash = (53 * hash) + $name$_.hashCode();\n"
+                 "  hash = (53 * hash) + java.util.Objects.hashCode($name$_);\n"
                  "}\n");
 }
 

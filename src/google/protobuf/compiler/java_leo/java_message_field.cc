@@ -319,7 +319,7 @@ void ImmutableMessageFieldGenerator::GenerateHashCode(
     io::Printer* printer) const {
   printer->Print(variables_,
                  "hash = (37 * hash) + $constant_name$;\n"
-                 "hash = (53 * hash) + get$capitalized_name$().hashCode();\n");
+                 "hash = (53 * hash) + java.util.Objects.hashCode(get$capitalized_name$());\n");
 }
 
 std::string ImmutableMessageFieldGenerator::GetBoxedType() const {
@@ -673,7 +673,7 @@ void RepeatedImmutableMessageFieldGenerator::GenerateHashCode(
       variables_,
       "if (get$capitalized_name$Count() > 0) {\n"
       "  hash = (37 * hash) + $constant_name$;\n"
-      "  hash = (53 * hash) + get$capitalized_name$List().hashCode();\n"
+      "  hash = (53 * hash) + java.util.Objects.hashCode(get$capitalized_name$List());\n"
       "}\n");
 }
 

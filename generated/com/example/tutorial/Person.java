@@ -407,9 +407,9 @@ private static final long serialVersionUID = 0L;
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + NUMBER_FIELD_NUMBER;
-      hash = (53 * hash) + getNumber().hashCode();
+      hash = (53 * hash) + java.util.Objects.hashCode(getNumber());
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
-      hash = (53 * hash) + getType().hashCode();
+      hash = (53 * hash) + java.util.Objects.hashCode(getType());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1112,32 +1112,32 @@ private static final long serialVersionUID = 0L;
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + ID_FIELD_NUMBER;
-    hash = (53 * hash) + getId().hashCode();
+    hash = (53 * hash) + java.util.Objects.hashCode(getId());
     hash = (37 * hash) + NAME_FIELD_NUMBER;
-    hash = (53 * hash) + getName().hashCode();
+    hash = (53 * hash) + java.util.Objects.hashCode(getName());
     hash = (37 * hash) + AGE_FIELD_NUMBER;
     hash = (53 * hash) + getAge();
     hash = (37 * hash) + EMAIL_FIELD_NUMBER;
-    hash = (53 * hash) + getEmail().hashCode();
+    hash = (53 * hash) + java.util.Objects.hashCode(getEmail());
     if (getPhonesCount() > 0) {
       hash = (37 * hash) + PHONES_FIELD_NUMBER;
-      hash = (53 * hash) + getPhonesList().hashCode();
+      hash = (53 * hash) + java.util.Objects.hashCode(getPhonesList());
     }
     if (getFriendIdsCount() > 0) {
       hash = (37 * hash) + FRIENDIDS_FIELD_NUMBER;
-      hash = (53 * hash) + getFriendIdsList().hashCode();
+      hash = (53 * hash) + java.util.Objects.hashCode(getFriendIdsList());
     }
     if (getFriendIds2Count() > 0) {
       hash = (37 * hash) + FRIENDIDS2_FIELD_NUMBER;
-      hash = (53 * hash) + getFriendIds2List().hashCode();
+      hash = (53 * hash) + java.util.Objects.hashCode(getFriendIds2List());
     }
     if (getFavoriteNumberCount() > 0) {
       hash = (37 * hash) + FAVORITENUMBER_FIELD_NUMBER;
-      hash = (53 * hash) + getFavoriteNumberList().hashCode();
+      hash = (53 * hash) + java.util.Objects.hashCode(getFavoriteNumberList());
     }
     if (hasLastUpdated()) {
       hash = (37 * hash) + LAST_UPDATED_FIELD_NUMBER;
-      hash = (53 * hash) + getLastUpdated().hashCode();
+      hash = (53 * hash) + java.util.Objects.hashCode(getLastUpdated());
     }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;

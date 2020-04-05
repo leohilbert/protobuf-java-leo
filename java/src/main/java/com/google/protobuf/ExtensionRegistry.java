@@ -328,7 +328,8 @@ public class ExtensionRegistry extends ExtensionRegistryLite {
         extension);
 
     final FieldDescriptor field = extension.descriptor;
-    if (field.getContainingType().getOptions().getMessageSetWireFormat()
+    DescriptorProtos.MessageOptions options = field.getContainingType().getOptions();
+    if (options != null && options.getMessageSetWireFormat()
         && field.getType() == FieldDescriptor.Type.MESSAGE
         && field.isOptional()
         && field.getExtensionScope() == field.getMessageType()) {

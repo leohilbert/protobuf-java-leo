@@ -271,10 +271,10 @@ private static final long serialVersionUID = 0L;
     hash = (19 * hash) + getDescriptor().hashCode();
     if (getPeopleCount() > 0) {
       hash = (37 * hash) + PEOPLE_FIELD_NUMBER;
-      hash = (53 * hash) + getPeopleList().hashCode();
+      hash = (53 * hash) + java.util.Objects.hashCode(getPeopleList());
     }
     hash = (37 * hash) + OWNER_FIELD_NUMBER;
-    hash = (53 * hash) + getOwner().hashCode();
+    hash = (53 * hash) + java.util.Objects.hashCode(getOwner());
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;

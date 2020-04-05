@@ -584,7 +584,7 @@ void ImmutableMapFieldGenerator::GenerateHashCode(io::Printer* printer) const {
       variables_,
       "if (!internalGet$capitalized_name$().getMap().isEmpty()) {\n"
       "  hash = (37 * hash) + $constant_name$;\n"
-      "  hash = (53 * hash) + internalGet$capitalized_name$().hashCode();\n"
+      "  hash = (53 * hash) + java.util.Objects.hashCode(internalGet$capitalized_name$());\n"
       "}\n");
 }
 
