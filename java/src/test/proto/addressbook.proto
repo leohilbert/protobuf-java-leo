@@ -16,6 +16,7 @@ enum PhoneType {
 }
 
 message Person {
+    option (leo.proto.msg_implements_interface) = "com.example.custom.CustomPersonMarkerInterface";
     string id = 1 [(leo.proto.javatype) = "java.util.UUID"];
     string name = 2;
     int32 age = 3;

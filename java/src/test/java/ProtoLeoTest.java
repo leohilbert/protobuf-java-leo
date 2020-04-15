@@ -28,6 +28,7 @@ public class ProtoLeoTest {
         assertEquals(person.getId(), TEST_UUID1);
         assertEquals(person.getEmail(), "hans@wurst.de");
         assertThat(person.toString()).isNotNull();
+        person.cheer();
 
         final Person deserPerson = new Person(newInstance(person.toByteArray()), getEmptyRegistry());
         assertEquals(deserPerson.getId(), TEST_UUID1);

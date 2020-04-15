@@ -5,6 +5,7 @@ package com.example.tutorial;
 
 public interface PersonInterface<SELF> extends
     // @@protoc_insertion_point(interface_extends:tutorial.Person)
+com.example.custom.CustomPersonMarkerInterface,
     com.google.protobuf.MessageOrBuilder {
   public static final int ID_FIELD_NUMBER = 1;
 

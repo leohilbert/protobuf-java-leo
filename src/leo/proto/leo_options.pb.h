@@ -79,6 +79,10 @@ static const int kMsgUseCustomSuperclassFieldNumber = 51236;
 extern ::PROTOBUF_NAMESPACE_ID::internal::ExtensionIdentifier< ::google::protobuf::MessageOptions,
     ::PROTOBUF_NAMESPACE_ID::internal::PrimitiveTypeTraits< bool >, 8, false >
   msg_use_custom_superclass;
+static const int kMsgImplementsInterfaceFieldNumber = 51238;
+extern ::PROTOBUF_NAMESPACE_ID::internal::ExtensionIdentifier< ::google::protobuf::MessageOptions,
+    ::PROTOBUF_NAMESPACE_ID::internal::StringTypeTraits, 9, false >
+  msg_implements_interface;
 
 // ===================================================================
 

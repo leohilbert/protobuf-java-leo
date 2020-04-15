@@ -304,6 +304,10 @@ std::string ExtraMessageOrBuilderInterfaces(const Descriptor* descriptor) {
   if (additionalInterface != nullptr) {
     interfaces += "\n" + additionalInterface + ",";
   }
+  string msgAdditionalInterface = descriptor->options().GetExtension(leo::proto::msg_implements_interface);
+  if (msgAdditionalInterface != nullptr) {
+    interfaces += "\n" + msgAdditionalInterface + ",";
+  }
   return interfaces;
 }
 
