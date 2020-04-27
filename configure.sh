@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-
 # --------------------------------------------------------------------------------
 # Downloads the current supported protoc-release to place it into the "protoc"-folder.
 # This binary should be used during compile to ensure the same protoc-binary&libraries is used.
@@ -24,7 +23,7 @@ url=https://github.com/leohilbert/protobuf-compile/releases/download/$latestProt
 echo "Downloading $url"
 rm -rf ./protoc && mkdir ./protoc
 
-wget $url -q -O protoc.zip
+wget $url -nv -O protoc.zip
 unzip -q protoc.zip -d protoc
 rm protoc.zip
 chmod +x protoc/bin/protoc

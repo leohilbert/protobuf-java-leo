@@ -26,7 +26,7 @@ RUN ldconfig; set -x \
 
 FROM debian:buster-slim as final
 COPY --from=buildGrpc "/tmp/grpc-java/compiler/build/exe/java_plugin/protoc-gen-grpc-java" "/usr/local/bin"
-COPY --from=buildLeo ["/tmp/protoc/lib/libprotobuf.so", "/tmp/protoc/lib/libprotoc.so", "/usr/local/lib/"]
+COPY --from=buildLeo ["/tmp/protoc/lib/libprotobuf.a", "/tmp/protoc/lib/libprotoc.a", "/usr/local/lib/"]
 COPY --from=buildLeo ["/tmp/protoc/bin/protoc", "/tmp/build/protoc-gen-java-leo", "/usr/local/bin/"]
 COPY --from=buildLeo "/tmp/protoc/include" "/usr/local/include"
 
