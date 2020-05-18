@@ -6,7 +6,7 @@ package com.example.tutorial;
 /**
  * Protobuf type {@code tutorial.AddressBook}
  */
-public  final class AddressBook extends
+public final class AddressBook extends
     de.leohilbert.proto.GeneratedMessageLeo implements
     // @@protoc_insertion_point(message_implements:tutorial.AddressBook)
     AddressBookInterface<AddressBook> {
@@ -65,7 +65,7 @@ private static final long serialVersionUID = 0L;
             break;
           }
           case 18: {
-
+            bitField0_ |= 0x00000001;
             owner_ = de.leohilbert.protoconverter.ProtoConverter_COM_EXAMPLE_CUSTOM_CUSTOMOWNERCLASS.fromProto(input.readMessage(com.example.tutorial.Person.parser(), extensionRegistry));
             break;
           }
@@ -102,10 +102,12 @@ private static final long serialVersionUID = 0L;
             com.example.tutorial.AddressBook.class);
   }
 
+  private int bitField0_;
   private java.util.List<com.example.tutorial.Person> people_;
   /**
    * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
    */
+  @java.lang.Override
   public java.util.List<com.example.tutorial.Person> getPeopleList() {
     return people_;
   }
@@ -119,12 +121,14 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
    */
+  @java.lang.Override
   public int getPeopleCount() {
     return people_.size();
   }
   /**
    * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
    */
+  @java.lang.Override
   public com.example.tutorial.Person getPeople(int index) {
     return people_.get(index);
   }
@@ -134,6 +138,7 @@ private static final long serialVersionUID = 0L;
    * @param value The people to set.
    * @return 'This' for chaining.
    */
+  @java.lang.Override
   public AddressBook setPeople(
       int index, com.example.tutorial.Person value) {
     people_.set(index, value);
@@ -175,8 +180,17 @@ private static final long serialVersionUID = 0L;
   private com.example.custom.CustomOwnerClass owner_;
   /**
    * <code>.tutorial.Person owner = 2[json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
+   * @return Whether the owner field is set.
+   */
+  @java.lang.Override
+  public boolean hasOwner() {
+    return ((bitField0_ & 0x00000001) != 0);
+  }
+  /**
+   * <code>.tutorial.Person owner = 2[json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
    * @return The owner.
    */
+  @java.lang.Override
   public com.example.custom.CustomOwnerClass getOwner() {
     return owner_;
   }
@@ -185,7 +199,7 @@ private static final long serialVersionUID = 0L;
    * @param value The owner to set.
    */
   public AddressBook setOwner(com.example.custom.CustomOwnerClass value) {
-    if(owner_ != value) {    
+    if(owner_ != value) {    bitField0_ |= 0x00000002;
       owner_ = value;
       onChanged(OWNER_FIELD_NUMBER);
     }
@@ -218,7 +232,7 @@ private static final long serialVersionUID = 0L;
     for (int i = 0; i < people_.size(); i++) {
       output.writeMessage(1, people_.get(i));
     }
-    if (owner_ != null) {
+    if (((bitField0_ & 0x00000001) != 0)) {
       output.writeMessage(2, de.leohilbert.protoconverter.ProtoConverter_COM_EXAMPLE_CUSTOM_CUSTOMOWNERCLASS.toProto(owner_));
     }
     unknownFields.writeTo(output);
@@ -235,7 +249,7 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(1, people_.get(i));
     }
-    if (owner_ != null) {
+    if (((bitField0_ & 0x00000001) != 0)) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(2, de.leohilbert.protoconverter.ProtoConverter_COM_EXAMPLE_CUSTOM_CUSTOMOWNERCLASS.toProto(owner_));
     }
@@ -284,7 +298,7 @@ private static final long serialVersionUID = 0L;
   public void clear() {
     people_ = java.util.Collections.emptyList();
     owner_ = null;
-
+    bitField0_ = (bitField0_ & ~0x00000002);
   }
 
   @java.lang.Override

@@ -329,6 +329,7 @@ void ImmutableMapFieldGenerator::GenerateMapGetters(
   printer->Print(
       variables_,
       "$deprecation$\n"
+      "@java.lang.Override\n"
       "public boolean ${$contains$capitalized_name$$}$(\n"
       "    $key_type$ key) {\n"
       "  $key_null_check$\n"
@@ -340,6 +341,7 @@ void ImmutableMapFieldGenerator::GenerateMapGetters(
                    "/**\n"
                    " * Use {@link #get$capitalized_name$Map()} instead.\n"
                    " */\n"
+                   "@java.lang.Override\n"
                    "@java.lang.Deprecated\n"
                    "public java.util.Map<$boxed_key_type$, $value_enum_type$>\n"
                    "${$get$capitalized_name$$}$() {\n"
@@ -348,6 +350,7 @@ void ImmutableMapFieldGenerator::GenerateMapGetters(
     printer->Annotate("{", "}", descriptor_);
     WriteFieldDocComment(printer, descriptor_);
     printer->Print(variables_,
+                   "@java.lang.Override\n"
                    "$deprecation$\n"
                    "public java.util.Map<$boxed_key_type$, $value_enum_type$>\n"
                    "${$get$capitalized_name$Map$}$() {\n"
@@ -358,6 +361,7 @@ void ImmutableMapFieldGenerator::GenerateMapGetters(
     WriteFieldDocComment(printer, descriptor_);
     printer->Print(
         variables_,
+        "@java.lang.Override\n"
         "$deprecation$\n"
         "public $value_enum_type$ ${$get$capitalized_name$OrDefault$}$(\n"
         "    $key_type$ key,\n"
@@ -373,6 +377,7 @@ void ImmutableMapFieldGenerator::GenerateMapGetters(
     WriteFieldDocComment(printer, descriptor_);
     printer->Print(
         variables_,
+        "@java.lang.Override\n"
         "$deprecation$\n"
         "public $value_enum_type$ ${$get$capitalized_name$OrThrow$}$(\n"
         "    $key_type$ key) {\n"
@@ -391,6 +396,7 @@ void ImmutableMapFieldGenerator::GenerateMapGetters(
           "/**\n"
           " * Use {@link #get$capitalized_name$ValueMap()} instead.\n"
           " */\n"
+          "@java.lang.Override\n"
           "@java.lang.Deprecated\n"
           "public java.util.Map<$boxed_key_type$, $boxed_value_type$>\n"
           "${$get$capitalized_name$Value$}$() {\n"
@@ -400,6 +406,7 @@ void ImmutableMapFieldGenerator::GenerateMapGetters(
       WriteFieldDocComment(printer, descriptor_);
       printer->Print(
           variables_,
+          "@java.lang.Override\n"
           "$deprecation$\n"
           "public java.util.Map<$boxed_key_type$, $boxed_value_type$>\n"
           "${$get$capitalized_name$ValueMap$}$() {\n"
@@ -409,6 +416,7 @@ void ImmutableMapFieldGenerator::GenerateMapGetters(
       WriteFieldDocComment(printer, descriptor_);
       printer->Print(
           variables_,
+          "@java.lang.Override\n"
           "$deprecation$\n"
           "public $value_type$ ${$get$capitalized_name$ValueOrDefault$}$(\n"
           "    $key_type$ key,\n"
@@ -422,6 +430,7 @@ void ImmutableMapFieldGenerator::GenerateMapGetters(
       WriteFieldDocComment(printer, descriptor_);
       printer->Print(
           variables_,
+          "@java.lang.Override\n"
           "$deprecation$\n"
           "public $value_type$ ${$get$capitalized_name$ValueOrThrow$}$(\n"
           "    $key_type$ key) {\n"
@@ -440,6 +449,7 @@ void ImmutableMapFieldGenerator::GenerateMapGetters(
                    "/**\n"
                    " * Use {@link #get$capitalized_name$Map()} instead.\n"
                    " */\n"
+                   "@java.lang.Override\n"
                    "@java.lang.Deprecated\n"
                    "public java.util.Map<$type_parameters$> "
                    "${$get$capitalized_name$$}$() {\n"
@@ -448,6 +458,7 @@ void ImmutableMapFieldGenerator::GenerateMapGetters(
     printer->Annotate("{", "}", descriptor_);
     WriteFieldDocComment(printer, descriptor_);
     printer->Print(variables_,
+                   "@java.lang.Override\n"
                    "$deprecation$\n"
                    "public java.util.Map<$type_parameters$> "
                    "${$get$capitalized_name$Map$}$() {\n"
@@ -457,6 +468,7 @@ void ImmutableMapFieldGenerator::GenerateMapGetters(
     WriteFieldDocComment(printer, descriptor_);
     printer->Print(
         variables_,
+        "@java.lang.Override\n"
         "$deprecation$\n"
         "public $value_type$ ${$get$capitalized_name$OrDefault$}$(\n"
         "    $key_type$ key,\n"
@@ -469,6 +481,7 @@ void ImmutableMapFieldGenerator::GenerateMapGetters(
     printer->Annotate("{", "}", descriptor_);
     WriteFieldDocComment(printer, descriptor_);
     printer->Print(variables_,
+                   "@java.lang.Override\n"
                    "$deprecation$\n"
                    "public $value_type$ ${$get$capitalized_name$OrThrow$}$(\n"
                    "    $key_type$ key) {\n"

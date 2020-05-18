@@ -146,7 +146,7 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
   }
   (*variables)["on_changed"] = "onChanged(" + FieldConstantName(descriptor) + ");";
 
-  if (SupportFieldPresence(descriptor->file())) {
+  if (SupportFieldPresence(descriptor)) {
     // For singular messages and builders, one bit is used for the hasField bit.
     (*variables)["get_has_field_bit_message"] = GenerateGetBit(messageBitIndex);
     (*variables)["get_has_field_bit_builder"] = GenerateGetBit(builderBitIndex);
@@ -174,7 +174,7 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
     }
   }
 
-  // For repated builders, one bit is used for whether the array is immutable.
+  // For repeated builders, one bit is used for whether the array is immutable.
   (*variables)["get_mutable_bit_builder"] = GenerateGetBit(builderBitIndex);
   (*variables)["set_mutable_bit_builder"] = GenerateSetBit(builderBitIndex);
   (*variables)["clear_mutable_bit_builder"] = GenerateClearBit(builderBitIndex);
@@ -221,7 +221,7 @@ ImmutablePrimitiveFieldGenerator::ImmutablePrimitiveFieldGenerator(
 ImmutablePrimitiveFieldGenerator::~ImmutablePrimitiveFieldGenerator() {}
 
 int ImmutablePrimitiveFieldGenerator::GetNumBitsForMessage() const {
-  return SupportFieldPresence(descriptor_->file()) ? 1 : 0;
+  return SupportFieldPresence(descriptor_) ? 1 : 0;
 }
 
 int ImmutablePrimitiveFieldGenerator::GetNumBitsForBuilder() const {
@@ -230,7 +230,7 @@ int ImmutablePrimitiveFieldGenerator::GetNumBitsForBuilder() const {
 
 void ImmutablePrimitiveFieldGenerator::GenerateInterfaceMembers(
     io::Printer* printer) const {
-  if (SupportFieldPresence(descriptor_->file())) {
+  if (SupportFieldPresence(descriptor_)) {
     WriteFieldAccessorDocComment(printer, descriptor_, HAZZER);
     printer->Print(variables_,
                    "$deprecation$boolean has$capitalized_name$();\n");
@@ -247,10 +247,11 @@ void ImmutablePrimitiveFieldGenerator::GenerateMembers(
     io::Printer* printer) const {
   printer->Print(variables_, "private $field_type$ $name$_;\n");
   PrintExtraFieldInfo(variables_, printer);
-  if (SupportFieldPresence(descriptor_->file())) {
+  if (SupportFieldPresence(descriptor_)) {
     WriteFieldAccessorDocComment(printer, descriptor_, HAZZER);
     printer->Print(
         variables_,
+        "@java.lang.Override\n"
         "$deprecation$public boolean ${$has$capitalized_name$$}$() {\n"
         "  return $get_has_field_bit_message$;\n"
         "}\n");
@@ -259,6 +260,7 @@ void ImmutablePrimitiveFieldGenerator::GenerateMembers(
 
   WriteFieldAccessorDocComment(printer, descriptor_, GETTER);
   printer->Print(variables_,
+                 "@java.lang.Override\n"
                  "$deprecation$public $type$ ${$get$capitalized_name$$}$() {\n"
                  "  return $name$_;\n"
                  "}\n");
@@ -319,7 +321,7 @@ void ImmutablePrimitiveFieldGenerator::GenerateToStringCode(io::Printer* printer
 
 void ImmutablePrimitiveFieldGenerator::GenerateMergingCode(
     io::Printer* printer) const {
-  if (SupportFieldPresence(descriptor_->file())) {
+  if (SupportFieldPresence(descriptor_)) {
     printer->Print(variables_,
                    "if (other.has$capitalized_name$()) {\n"
                    "  set$capitalized_name$(other.get$capitalized_name$());\n"
@@ -486,7 +488,7 @@ ImmutablePrimitiveOneofFieldGenerator::
 void ImmutablePrimitiveOneofFieldGenerator::GenerateMembers(
     io::Printer* printer) const {
   PrintExtraFieldInfo(variables_, printer);
-  if (SupportFieldPresence(descriptor_->file())) {
+  if (SupportFieldPresence(descriptor_)) {
     WriteFieldAccessorDocComment(printer, descriptor_, HAZZER);
     printer->Print(
         variables_,
@@ -641,6 +643,7 @@ void RepeatedImmutablePrimitiveFieldGenerator::GenerateMembers(
   PrintExtraFieldInfo(variables_, printer);
   WriteFieldAccessorDocComment(printer, descriptor_, LIST_GETTER);
   printer->Print(variables_,
+                 "@java.lang.Override\n"
                  "$deprecation$public java.util.List<$boxed_type$>\n"
                  "    ${$get$capitalized_name$List$}$() {\n"
                  "  return $name$_;\n"  // note:  unmodifiable list

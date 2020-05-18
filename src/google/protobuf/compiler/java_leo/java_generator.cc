@@ -56,6 +56,10 @@ namespace java_leo {
 JavaGenerator::JavaGenerator() {}
 JavaGenerator::~JavaGenerator() {}
 
+uint64 JavaGenerator::GetSupportedFeatures() const {
+  return CodeGenerator::Feature::FEATURE_PROTO3_OPTIONAL;
+}
+
 bool JavaGenerator::Generate(const FileDescriptor* file,
                              const std::string& parameter,
                              GeneratorContext* context,

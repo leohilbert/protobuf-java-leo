@@ -73,7 +73,7 @@ void SetMessageVariables(const FieldDescriptor* descriptor, int messageBitIndex,
       ExposePublicParser(descriptor->message_type()->file()) ? "PARSER"
                                                              : "parser()";
 
-  if (SupportFieldPresence(descriptor->file())) {
+  if (HasHasbit(descriptor)) {
     // For singular messages and builders, one bit is used for the hasField bit.
     (*variables)["get_has_field_bit_message"] = GenerateGetBit(messageBitIndex);
     (*variables)["get_has_field_bit_builder"] = GenerateGetBit(builderBitIndex);
@@ -96,7 +96,7 @@ void SetMessageVariables(const FieldDescriptor* descriptor, int messageBitIndex,
         (*variables)["name"] + "_ != null";
   }
 
-  // For repated builders, one bit is used for whether the array is immutable.
+  // For repeated builders, one bit is used for whether the array is immutable.
   (*variables)["get_mutable_bit_builder"] = GenerateGetBit(builderBitIndex);
   (*variables)["set_mutable_bit_builder"] = GenerateSetBit(builderBitIndex);
   (*variables)["clear_mutable_bit_builder"] = GenerateClearBit(builderBitIndex);
@@ -130,7 +130,7 @@ ImmutableMessageFieldGenerator::ImmutableMessageFieldGenerator(
 ImmutableMessageFieldGenerator::~ImmutableMessageFieldGenerator() {}
 
 int ImmutableMessageFieldGenerator::GetNumBitsForMessage() const {
-  return SupportFieldPresence(descriptor_->file()) ? 1 : 0;
+  return HasHasbit(descriptor_) ? 1 : 0;
 }
 
 int ImmutableMessageFieldGenerator::GetNumBitsForBuilder() const {
@@ -158,10 +158,11 @@ void ImmutableMessageFieldGenerator::GenerateMembers(
   printer->Print(variables_, "private $type$ $name$_;\n");
   PrintExtraFieldInfo(variables_, printer);
 
-  if (SupportFieldPresence(descriptor_->file())) {
+  if (HasHasbit(descriptor_)) {
     WriteFieldAccessorDocComment(printer, descriptor_, HAZZER);
     printer->Print(
         variables_,
+        "@java.lang.Override\n"
         "$deprecation$public boolean ${$has$capitalized_name$$}$() {\n"
         "  return $get_has_field_bit_message$;\n"
         "}\n");
@@ -169,6 +170,7 @@ void ImmutableMessageFieldGenerator::GenerateMembers(
     WriteFieldAccessorDocComment(printer, descriptor_, GETTER);
     printer->Print(
         variables_,
+        "@java.lang.Override\n"
         "$deprecation$public $type$ ${$get$capitalized_name$$}$() {\n"
         "  return $name$_;\n"
         "}\n");
@@ -177,6 +179,7 @@ void ImmutableMessageFieldGenerator::GenerateMembers(
     WriteFieldDocComment(printer, descriptor_);
     printer->Print(
         variables_,
+        //"@java.lang.Override\n"
         "$deprecation$public $type$Interface "
         "${$get$capitalized_name$Interface$}$() {\n"
         "  return $name$_;\n"
@@ -186,6 +189,7 @@ void ImmutableMessageFieldGenerator::GenerateMembers(
     WriteFieldAccessorDocComment(printer, descriptor_, HAZZER);
     printer->Print(
         variables_,
+        "@java.lang.Override\n"
         "$deprecation$public boolean ${$has$capitalized_name$$}$() {\n"
         "  return $name$_ != null;\n"
         "}\n");
@@ -193,10 +197,12 @@ void ImmutableMessageFieldGenerator::GenerateMembers(
     WriteFieldAccessorDocComment(printer, descriptor_, GETTER);
     printer->Print(
         variables_,
+        "@java.lang.Override\n"
         "$deprecation$public $type$ ${$get$capitalized_name$$}$() {\n"
         "  return $name$_;\n"
         "}\n");
     printer->Annotate("{", "}", descriptor_);
+
   }
 
   // !!!! Leo !!!! Add Setters to messages
@@ -345,12 +351,14 @@ void ImmutableMessageOneofFieldGenerator::GenerateMembers(
   PrintExtraFieldInfo(variables_, printer);
   WriteFieldAccessorDocComment(printer, descriptor_, HAZZER);
   printer->Print(variables_,
+                 "@java.lang.Override\n"
                  "$deprecation$public boolean ${$has$capitalized_name$$}$() {\n"
                  "  return $has_oneof_case_message$;\n"
                  "}\n");
   printer->Annotate("{", "}", descriptor_);
   WriteFieldAccessorDocComment(printer, descriptor_, GETTER);
   printer->Print(variables_,
+                 "@java.lang.Override\n"
                  "$deprecation$public $type$ ${$get$capitalized_name$$}$() {\n"
                  "  if ($has_oneof_case_message$) {\n"
                  "     return ($type$) $oneof_name$_;\n"
@@ -468,6 +476,7 @@ void RepeatedImmutableMessageFieldGenerator::GenerateMembers(
   PrintExtraFieldInfo(variables_, printer);
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
+                 "@java.lang.Override\n"
                  "$deprecation$public java.util.List<$type$> "
                  "${$get$capitalized_name$List$}$() {\n"
                  "  return $name$_;\n"  // note:  unmodifiable list
@@ -476,6 +485,7 @@ void RepeatedImmutableMessageFieldGenerator::GenerateMembers(
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(
       variables_,
+      //"@java.lang.Override\n"
       "$deprecation$public java.util.List<? extends $type$Interface> \n"
       "    ${$get$capitalized_name$InterfaceList$}$() {\n"
       "  return $name$_;\n"
@@ -484,6 +494,7 @@ void RepeatedImmutableMessageFieldGenerator::GenerateMembers(
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(
       variables_,
+      "@java.lang.Override\n"
       "$deprecation$public int ${$get$capitalized_name$Count$}$() {\n"
       "  return $name$_.size();\n"
       "}\n");
@@ -491,6 +502,7 @@ void RepeatedImmutableMessageFieldGenerator::GenerateMembers(
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(
       variables_,
+      "@java.lang.Override\n"
       "$deprecation$public $type$ ${$get$capitalized_name$$}$(int index) {\n"
       "  return $name$_.get(index);\n"
       "}\n");
@@ -499,6 +511,7 @@ void RepeatedImmutableMessageFieldGenerator::GenerateMembers(
   printer->Annotate("{", "}", descriptor_);
   WriteFieldAccessorDocComment(printer, descriptor_, LIST_INDEXED_SETTER, true);
   printer->Print(variables_,
+                 "@java.lang.Override\n"
                  "$deprecation$public $classname$ ${$set$capitalized_name$$}$(\n"
                  "    int index, $type$ value) {\n"
                  "  $name$_.set(index, value);\n"

@@ -85,7 +85,7 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
       descriptor->options().deprecated() ? "@java.lang.Deprecated " : "";
   (*variables)["on_changed"] = "onChanged(" + FieldConstantName(descriptor) + ");";
 
-  if (SupportFieldPresence(descriptor->file())) {
+  if (SupportFieldPresence(descriptor)) {
     // For singular messages and builders, one bit is used for the hasField bit.
     (*variables)["get_has_field_bit_message"] = GenerateGetBit(messageBitIndex);
     (*variables)["get_has_field_bit_builder"] = GenerateGetBit(builderBitIndex);
@@ -137,7 +137,7 @@ ImmutableStringFieldGenerator::ImmutableStringFieldGenerator(
 ImmutableStringFieldGenerator::~ImmutableStringFieldGenerator() {}
 
 int ImmutableStringFieldGenerator::GetNumBitsForMessage() const {
-  return SupportFieldPresence(descriptor_->file()) ? 1 : 0;
+  return SupportFieldPresence(descriptor_) ? 1 : 0;
 }
 
 int ImmutableStringFieldGenerator::GetNumBitsForBuilder() const {
@@ -147,7 +147,7 @@ int ImmutableStringFieldGenerator::GetNumBitsForBuilder() const {
 // A note about how strings are handled. This code used to just store a String
 // in the Message. This had two issues:
 //
-//  1. It wouldn't roundtrip byte arrays that were not vaid UTF-8 encoded
+//  1. It wouldn't roundtrip byte arrays that were not valid UTF-8 encoded
 //     strings, but rather fields that were raw bytes incorrectly marked
 //     as strings in the proto file. This is common because in the proto1
 //     syntax, string was the way to indicate bytes and C++ engineers can
@@ -178,7 +178,7 @@ int ImmutableStringFieldGenerator::GetNumBitsForBuilder() const {
 // UnmodifiableLazyStringList.
 void ImmutableStringFieldGenerator::GenerateInterfaceMembers(
     io::Printer* printer) const {
-  if (SupportFieldPresence(descriptor_->file())) {
+  if (SupportFieldPresence(descriptor_)) {
     WriteFieldAccessorDocComment(printer, descriptor_, HAZZER);
     printer->Print(variables_,
                    "$deprecation$boolean has$capitalized_name$();\n");
@@ -197,10 +197,11 @@ void ImmutableStringFieldGenerator::GenerateMembers(
   printer->Print(variables_, "private volatile java.lang.String $name$_;\n");
   PrintExtraFieldInfo(variables_, printer);
 
-  if (SupportFieldPresence(descriptor_->file())) {
+  if (SupportFieldPresence(descriptor_)) {
     WriteFieldAccessorDocComment(printer, descriptor_, HAZZER);
     printer->Print(
         variables_,
+        "@java.lang.Override\n"
         "$deprecation$public boolean ${$has$capitalized_name$$}$() {\n"
         "  return $get_has_field_bit_message$;\n"
         "}\n");
@@ -210,6 +211,7 @@ void ImmutableStringFieldGenerator::GenerateMembers(
   WriteFieldAccessorDocComment(printer, descriptor_, GETTER);
   printer->Print(
       variables_,
+      "@java.lang.Override\n"
       "$deprecation$public java.lang.String ${$get$capitalized_name$$}$() {\n"
       "  return $name$_;\n"
       "}\n");
@@ -248,7 +250,7 @@ void ImmutableStringFieldGenerator::GenerateToStringCode(io::Printer* printer) c
 
 void ImmutableStringFieldGenerator::GenerateMergingCode(
     io::Printer* printer) const {
-  if (SupportFieldPresence(descriptor_->file())) {
+  if (SupportFieldPresence(descriptor_)) {
     // Allow a slight breach of abstraction here in order to avoid forcing
     // all string fields to Strings when copying fields from a Message.
     printer->Print(variables_,
@@ -338,7 +340,7 @@ void ImmutableStringOneofFieldGenerator::GenerateMembers(
     io::Printer* printer) const {
   PrintExtraFieldInfo(variables_, printer);
 
-  if (SupportFieldPresence(descriptor_->file())) {
+  if (SupportFieldPresence(descriptor_)) {
     WriteFieldAccessorDocComment(printer, descriptor_, HAZZER);
     printer->Print(
         variables_,

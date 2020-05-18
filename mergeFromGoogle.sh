@@ -33,6 +33,8 @@ newCommitId=$(git rev-list -n 1 HEAD)
 
 C_SourcePath="src/google/protobuf/compiler/java"
 C_TargetPath="src/google/protobuf/compiler/java_leo"
+Java_SourcePath="java/core/src"
+Java_TargetPath="java/src"
 C_PatchTempDir="/tmp/leoProtobufPatchC.patch"
 Java_PatchTempDir="/tmp/leoProtobufPatchJava.patch"
 
@@ -40,7 +42,8 @@ echo "merging changes from google-repo ($newCommitId)"
 git diff -R HEAD $previousCommit -- $C_SourcePath |
   sed "s~$C_SourcePath~$C_TargetPath~g" \
     >$C_PatchTempDir
-git diff -R HEAD $previousCommit -- "java/core/src" \
+git diff -R HEAD $previousCommit -- $Java_SourcePath |
+  sed "s~$Java_SourcePath~$Java_TargetPath~g" \
   >$Java_PatchTempDir
 
 cd $leoDir || exit 3

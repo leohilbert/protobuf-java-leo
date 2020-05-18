@@ -41,6 +41,11 @@ public interface AddressBookInterface<SELF> extends
 
   /**
    * <code>.tutorial.Person owner = 2[json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
+   * @return Whether the owner field is set.
+   */
+  boolean hasOwner();
+  /**
+   * <code>.tutorial.Person owner = 2[json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
    * @return The owner.
    */
   com.example.custom.CustomOwnerClass getOwner();
