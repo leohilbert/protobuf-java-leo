@@ -121,6 +121,7 @@ public class FieldPresenceTest extends TestCase {
     assertTrue(builder.hasOptionalInt32());
 
     TestProto3Optional otherBuilder = new TestProto3Optional().setOptionalInt32(1);
+    otherBuilder.updateFrom(CodedInputStream.newInstance(builder.toByteArray()), ExtensionRegistryLite.EMPTY_REGISTRY_LITE);
     assertTrue(otherBuilder.hasOptionalInt32());
     assertEquals(0, otherBuilder.getOptionalInt32());
 

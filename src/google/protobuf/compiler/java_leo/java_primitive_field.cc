@@ -154,15 +154,12 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
     // Note that these have a trailing ";".
     (*variables)["set_has_field_bit_message"] =
         GenerateSetBit(messageBitIndex) + ";";
-    (*variables)["set_has_field_bit_builder"] =
-        GenerateSetBit(builderBitIndex) + ";";
     (*variables)["clear_has_field_bit_builder"] =
         GenerateClearBit(builderBitIndex) + ";";
 
     (*variables)["is_field_present_message"] = GenerateGetBit(messageBitIndex);
   } else {
     (*variables)["set_has_field_bit_message"] = "";
-    (*variables)["set_has_field_bit_builder"] = "";
     (*variables)["clear_has_field_bit_builder"] = "";
 
     if (descriptor->type() == FieldDescriptor::TYPE_BYTES && javaType != JAVATYPE_CUSTOM) {
@@ -271,8 +268,8 @@ void ImmutablePrimitiveFieldGenerator::GenerateMembers(
   printer->Print(variables_,
                  "$deprecation$public $classname$ "
                  "${$set$capitalized_name$$}$($type$ value) {\n"
-                 "  if($name$_ != value) {"
-                 "    $set_has_field_bit_builder$\n"
+                 "  $set_has_field_bit_message$\n"
+                 "  if($name$_ != value) {\n"
                  "    $name$_ = value;\n"
                  "    $on_changed$\n"
                  "  }\n"

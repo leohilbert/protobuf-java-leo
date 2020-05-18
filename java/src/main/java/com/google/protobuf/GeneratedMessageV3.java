@@ -2073,13 +2073,11 @@ public abstract class GeneratedMessageV3 extends AbstractMessage
           caseMethodBuilder = getMethodOrDie(messageClass, "get" + camelCaseName + "Case");
           fieldDescriptor = null;
         }
-        clearMethod = getMethodOrDie(messageClass, "clear" + camelCaseName);
       }
 
       private final Descriptor descriptor;
       private final Method caseMethod;
       private final Method caseMethodBuilder;
-      private final Method clearMethod;
       private final FieldDescriptor fieldDescriptor;
 
       public boolean has(final GeneratedMessageV3 message) {

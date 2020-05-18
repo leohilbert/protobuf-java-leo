@@ -325,7 +325,8 @@ private static final long serialVersionUID = 0L;
      * @param value The type to set.
      */
     public PhoneNumber setType(com.example.custom.CustomPhoneType value) {
-      if(type_ != value) {    
+      
+      if(type_ != value) {
         type_ = value;
         onChanged(TYPE_FIELD_NUMBER);
       }
@@ -555,7 +556,8 @@ private static final long serialVersionUID = 0L;
    * @param value The id to set.
    */
   public Person setId(java.util.UUID value) {
-    if(id_ != value) {    
+    
+    if(id_ != value) {
       id_ = value;
       onChanged(ID_FIELD_NUMBER);
     }
@@ -608,7 +610,8 @@ private static final long serialVersionUID = 0L;
    * @param value The age to set.
    */
   public Person setAge(int value) {
-    if(age_ != value) {    
+    
+    if(age_ != value) {
       age_ = value;
       onChanged(AGE_FIELD_NUMBER);
     }

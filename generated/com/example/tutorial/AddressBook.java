@@ -199,7 +199,8 @@ private static final long serialVersionUID = 0L;
    * @param value The owner to set.
    */
   public AddressBook setOwner(com.example.custom.CustomOwnerClass value) {
-    if(owner_ != value) {    bitField0_ |= 0x00000002;
+    bitField0_ |= 0x00000001;
+    if(owner_ != value) {
       owner_ = value;
       onChanged(OWNER_FIELD_NUMBER);
     }
