@@ -25,7 +25,7 @@ Features
 ------------------------------------------
 These are the changes compared to Google's implementation:
 * All fields now have setters so you can modify them without building a whole new Message-Object
-    * This also should make builders optional, since you can directly set the fields on the Message itself.
+    * This also makes builders optional, since you can directly set the fields on the Message itself.
 * Each Message-Class references to a "{MESSAGE_NAME}Custom"-class. 
     * You can use it to implement your own functionality without needing to wrap each Message-object.
     * The Custom-class will not be generated, so your project will only compile 
@@ -53,7 +53,7 @@ This is inspired by how GRPC does it.
     <version>0.6.1</version>
 
     <configuration>
-        <protocArtifact>com.google.protobuf:protoc:3.11.4:exe:${os.detected.classifier}</protocArtifact>
+        <protocArtifact>com.google.protobuf:protoc:3.12.0:exe:${os.detected.classifier}</protocArtifact>
     </configuration>
     <executions>
         <execution>

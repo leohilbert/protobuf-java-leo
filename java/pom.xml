@@ -110,7 +110,57 @@
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
-            <plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>windows</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.xolstice.maven.plugins</groupId>
+                        <artifactId>protobuf-maven-plugin</artifactId>
+                        <configuration>
+                            <protocExecutable>${project.basedir}/../protoc/bin/protoc.exe</protocExecutable>
+                            <pluginExecutable>${project.basedir}/../build/protoc-gen-java-leo.exe</pluginExecutable>
+                            <protoSourceRoot>${project.basedir}/../protoc/include</protoSourceRoot>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>unix</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.xolstice.maven.plugins</groupId>
+                        <artifactId>protobuf-maven-plugin</artifactId>
+                        <configuration>
+                            <protocExecutable>${project.basedir}/../protoc/bin/protoc</protocExecutable>
+                            <pluginExecutable>${project.basedir}/../build/protoc-gen-java-leo</pluginExecutable>
+                            <protoSourceRoot>${project.basedir}/../protoc/include</protoSourceRoot>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>deploy</id>
+            <build>
+                <plugins>
+                      <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>3.2.1</version>
@@ -160,49 +210,6 @@
                     </execution>
                 </executions>
             </plugin>
-        </plugins>
-    </build>
-
-    <profiles>
-        <profile>
-            <id>windows</id>
-            <activation>
-                <os>
-                    <family>windows</family>
-                </os>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.xolstice.maven.plugins</groupId>
-                        <artifactId>protobuf-maven-plugin</artifactId>
-                        <configuration>
-                            <protocExecutable>${project.basedir}/../protoc/bin/protoc.exe</protocExecutable>
-                            <pluginExecutable>${project.basedir}/../build/protoc-gen-java-leo.exe</pluginExecutable>
-                            <protoSourceRoot>${project.basedir}/../protoc/include</protoSourceRoot>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>unix</id>
-            <activation>
-                <os>
-                    <family>unix</family>
-                </os>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.xolstice.maven.plugins</groupId>
-                        <artifactId>protobuf-maven-plugin</artifactId>
-                        <configuration>
-                            <protocExecutable>${project.basedir}/../protoc/bin/protoc</protocExecutable>
-                            <pluginExecutable>${project.basedir}/../build/protoc-gen-java-leo</pluginExecutable>
-                            <protoSourceRoot>${project.basedir}/../protoc/include</protoSourceRoot>
-                        </configuration>
-                    </plugin>
                 </plugins>
             </build>
         </profile>
