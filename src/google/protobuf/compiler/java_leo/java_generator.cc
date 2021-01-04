@@ -56,7 +56,7 @@ namespace java_leo {
 JavaGenerator::JavaGenerator() {}
 JavaGenerator::~JavaGenerator() {}
 
-uint64 JavaGenerator::GetSupportedFeatures() const {
+uint64_t JavaGenerator::GetSupportedFeatures() const {
   return CodeGenerator::Feature::FEATURE_PROTO3_OPTIONAL;
 }
 
