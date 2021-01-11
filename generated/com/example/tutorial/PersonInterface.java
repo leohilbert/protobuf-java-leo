@@ -10,199 +10,199 @@ com.example.custom.CustomPersonMarkerInterface,
   public static final int ID_FIELD_NUMBER = 1;
 
   /**
-   * <code>string id = 1[json_name = "id", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>string id = 1 [json_name = "id", (.leo.proto.javatype) = "java.util.UUID"];</code>
    * @return The id.
    */
   java.util.UUID getId();
   /**
-   * <code>string id = 1[json_name = "id", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>string id = 1 [json_name = "id", (.leo.proto.javatype) = "java.util.UUID"];</code>
    * @param value The id to set.
    */
   SELF setId(java.util.UUID value);
   public static final int NAME_FIELD_NUMBER = 2;
 
   /**
-   * <code>string name = 2[json_name = "name"];</code>
+   * <code>string name = 2 [json_name = "name"];</code>
    * @return The name.
    */
   java.lang.String getName();
   /**
-   * <code>string name = 2[json_name = "name"];</code>
+   * <code>string name = 2 [json_name = "name"];</code>
    * @param value The name to set.
    */
   SELF setName(java.lang.String value);
   public static final int AGE_FIELD_NUMBER = 3;
 
   /**
-   * <code>int32 age = 3[json_name = "age"];</code>
+   * <code>int32 age = 3 [json_name = "age"];</code>
    * @return The age.
    */
   int getAge();
   /**
-   * <code>int32 age = 3[json_name = "age"];</code>
+   * <code>int32 age = 3 [json_name = "age"];</code>
    * @param value The age to set.
    */
   SELF setAge(int value);
   public static final int EMAIL_FIELD_NUMBER = 4;
 
   /**
-   * <code>string email = 4[json_name = "email"];</code>
+   * <code>string email = 4 [json_name = "email"];</code>
    * @return The email.
    */
   java.lang.String getEmail();
   /**
-   * <code>string email = 4[json_name = "email"];</code>
+   * <code>string email = 4 [json_name = "email"];</code>
    * @param value The email to set.
    */
   SELF setEmail(java.lang.String value);
   public static final int PHONES_FIELD_NUMBER = 5;
 
   /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5 [json_name = "phones"];</code>
    */
   java.util.List<com.example.tutorial.Person.PhoneNumber> 
       getPhonesList();
   /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5 [json_name = "phones"];</code>
    */
   com.example.tutorial.Person.PhoneNumber getPhones(int index);
   /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5 [json_name = "phones"];</code>
    */
   int getPhonesCount();
   /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5 [json_name = "phones"];</code>
    */
   public SELF setPhones(int index, com.example.tutorial.Person.PhoneNumber value);
   /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5 [json_name = "phones"];</code>
    */
   public SELF addPhones(com.example.tutorial.Person.PhoneNumber value);
   /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5 [json_name = "phones"];</code>
    */
   public SELF addAllPhones(java.util.Collection<com.example.tutorial.Person.PhoneNumber> values);
   /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5 [json_name = "phones"];</code>
    */
   public SELF clearPhones();
   public static final int FRIENDIDS_FIELD_NUMBER = 6;
 
   /**
-   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * <code>repeated string friendIds = 6 [json_name = "friendIds"];</code>
    * @return A list containing the friendIds.
    */
   java.util.List<java.lang.String>
       getFriendIdsList();
   /**
-   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * <code>repeated string friendIds = 6 [json_name = "friendIds"];</code>
    * @return The count of friendIds.
    */
   int getFriendIdsCount();
   /**
-   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * <code>repeated string friendIds = 6 [json_name = "friendIds"];</code>
    * @param index The index of the element to return.
    * @return The friendIds at the given index.
    */
   java.lang.String getFriendIds(int index);
   /**
-   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * <code>repeated string friendIds = 6 [json_name = "friendIds"];</code>
    */
   public SELF setFriendIds(int index, java.lang.String value);
   /**
-   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * <code>repeated string friendIds = 6 [json_name = "friendIds"];</code>
    */
   public SELF addFriendIds(java.lang.String value);
   /**
-   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * <code>repeated string friendIds = 6 [json_name = "friendIds"];</code>
    */
   public SELF addAllFriendIds(java.util.Collection<java.lang.String> values);
   /**
-   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * <code>repeated string friendIds = 6 [json_name = "friendIds"];</code>
    */
   public SELF clearFriendIds();
   public static final int FRIENDIDS2_FIELD_NUMBER = 7;
 
   /**
-   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>repeated string friendIds2 = 7 [json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
    * @return A list containing the friendIds2.
    */
   java.util.List<java.util.UUID> getFriendIds2List();
   /**
-   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>repeated string friendIds2 = 7 [json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
    * @return The count of friendIds2.
    */
   int getFriendIds2Count();
   /**
-   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>repeated string friendIds2 = 7 [json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
    * @param index The index of the element to return.
    * @return The friendIds2 at the given index.
    */
   java.util.UUID getFriendIds2(int index);
   /**
-   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>repeated string friendIds2 = 7 [json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
    */
   public SELF setFriendIds2(int index, java.util.UUID value);
   /**
-   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>repeated string friendIds2 = 7 [json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
    */
   public SELF addFriendIds2(java.util.UUID value);
   /**
-   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>repeated string friendIds2 = 7 [json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
    */
   public SELF addAllFriendIds2(java.util.Collection<java.util.UUID> values);
   /**
-   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>repeated string friendIds2 = 7 [json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
    */
   public SELF clearFriendIds2();
   public static final int FAVORITENUMBER_FIELD_NUMBER = 8;
 
   /**
-   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
+   * <code>repeated int32 favoriteNumber = 8 [json_name = "favoriteNumber"];</code>
    * @return A list containing the favoriteNumber.
    */
   java.util.List<java.lang.Integer> getFavoriteNumberList();
   /**
-   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
+   * <code>repeated int32 favoriteNumber = 8 [json_name = "favoriteNumber"];</code>
    * @return The count of favoriteNumber.
    */
   int getFavoriteNumberCount();
   /**
-   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
+   * <code>repeated int32 favoriteNumber = 8 [json_name = "favoriteNumber"];</code>
    * @param index The index of the element to return.
    * @return The favoriteNumber at the given index.
    */
   int getFavoriteNumber(int index);
   /**
-   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
+   * <code>repeated int32 favoriteNumber = 8 [json_name = "favoriteNumber"];</code>
    */
   public SELF setFavoriteNumber(int index, int value);
   /**
-   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
+   * <code>repeated int32 favoriteNumber = 8 [json_name = "favoriteNumber"];</code>
    */
   public SELF addFavoriteNumber(int value);
   /**
-   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
+   * <code>repeated int32 favoriteNumber = 8 [json_name = "favoriteNumber"];</code>
    */
   public SELF addAllFavoriteNumber(java.util.Collection<java.lang.Integer> values);
   /**
-   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
+   * <code>repeated int32 favoriteNumber = 8 [json_name = "favoriteNumber"];</code>
    */
   public SELF clearFavoriteNumber();
   public static final int LAST_UPDATED_FIELD_NUMBER = 9;
 
   /**
-   * <code>.google.protobuf.Timestamp last_updated = 9[json_name = "lastUpdated"];</code>
+   * <code>.google.protobuf.Timestamp last_updated = 9 [json_name = "lastUpdated"];</code>
    * @return Whether the lastUpdated field is set.
    */
   boolean hasLastUpdated();
   /**
-   * <code>.google.protobuf.Timestamp last_updated = 9[json_name = "lastUpdated"];</code>
+   * <code>.google.protobuf.Timestamp last_updated = 9 [json_name = "lastUpdated"];</code>
    * @return The lastUpdated.
    */
   com.google.protobuf.Timestamp getLastUpdated();
   /**
-   * <code>.google.protobuf.Timestamp last_updated = 9[json_name = "lastUpdated"];</code>
+   * <code>.google.protobuf.Timestamp last_updated = 9 [json_name = "lastUpdated"];</code>
    * @param value The lastUpdated to set.
    */
   SELF setLastUpdated(com.google.protobuf.Timestamp value);

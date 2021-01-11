@@ -146,7 +146,7 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
   }
   (*variables)["on_changed"] = "onChanged(" + FieldConstantName(descriptor) + ");";
 
-  if (HasHasbit(descriptor)) {
+  if (SupportFieldPresence(descriptor)) {
     // For singular messages and builders, one bit is used for the hasField bit.
     (*variables)["get_has_field_bit_message"] = GenerateGetBit(messageBitIndex);
     (*variables)["get_has_field_bit_builder"] = GenerateGetBit(builderBitIndex);

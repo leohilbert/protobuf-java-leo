@@ -9,48 +9,48 @@ public interface AddressBookInterface<SELF> extends
   public static final int PEOPLE_FIELD_NUMBER = 1;
 
   /**
-   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   * <code>repeated .tutorial.Person people = 1 [json_name = "people"];</code>
    */
   java.util.List<com.example.tutorial.Person> 
       getPeopleList();
   /**
-   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   * <code>repeated .tutorial.Person people = 1 [json_name = "people"];</code>
    */
   com.example.tutorial.Person getPeople(int index);
   /**
-   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   * <code>repeated .tutorial.Person people = 1 [json_name = "people"];</code>
    */
   int getPeopleCount();
   /**
-   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   * <code>repeated .tutorial.Person people = 1 [json_name = "people"];</code>
    */
   public SELF setPeople(int index, com.example.tutorial.Person value);
   /**
-   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   * <code>repeated .tutorial.Person people = 1 [json_name = "people"];</code>
    */
   public SELF addPeople(com.example.tutorial.Person value);
   /**
-   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   * <code>repeated .tutorial.Person people = 1 [json_name = "people"];</code>
    */
   public SELF addAllPeople(java.util.Collection<com.example.tutorial.Person> values);
   /**
-   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   * <code>repeated .tutorial.Person people = 1 [json_name = "people"];</code>
    */
   public SELF clearPeople();
   public static final int OWNER_FIELD_NUMBER = 2;
 
   /**
-   * <code>.tutorial.Person owner = 2[json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
+   * <code>.tutorial.Person owner = 2 [json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
    * @return Whether the owner field is set.
    */
   boolean hasOwner();
   /**
-   * <code>.tutorial.Person owner = 2[json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
+   * <code>.tutorial.Person owner = 2 [json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
    * @return The owner.
    */
   com.example.custom.CustomOwnerClass getOwner();
   /**
-   * <code>.tutorial.Person owner = 2[json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
+   * <code>.tutorial.Person owner = 2 [json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
    * @param value The owner to set.
    */
   SELF setOwner(com.example.custom.CustomOwnerClass value);

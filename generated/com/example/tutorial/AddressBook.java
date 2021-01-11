@@ -102,38 +102,37 @@ private static final long serialVersionUID = 0L;
             com.example.tutorial.AddressBook.class);
   }
 
-  private int bitField0_;
   private java.util.List<com.example.tutorial.Person> people_;
   /**
-   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   * <code>repeated .tutorial.Person people = 1 [json_name = "people"];</code>
    */
   @java.lang.Override
   public java.util.List<com.example.tutorial.Person> getPeopleList() {
     return people_;
   }
   /**
-   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   * <code>repeated .tutorial.Person people = 1 [json_name = "people"];</code>
    */
   public java.util.List<? extends com.example.tutorial.PersonInterface> 
       getPeopleInterfaceList() {
     return people_;
   }
   /**
-   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   * <code>repeated .tutorial.Person people = 1 [json_name = "people"];</code>
    */
   @java.lang.Override
   public int getPeopleCount() {
     return people_.size();
   }
   /**
-   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   * <code>repeated .tutorial.Person people = 1 [json_name = "people"];</code>
    */
   @java.lang.Override
   public com.example.tutorial.Person getPeople(int index) {
     return people_.get(index);
   }
   /**
-   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   * <code>repeated .tutorial.Person people = 1 [json_name = "people"];</code>
    * @param index The index to set the value at.
    * @param value The people to set.
    * @return 'This' for chaining.
@@ -146,7 +145,7 @@ private static final long serialVersionUID = 0L;
     return this;
   }
   /**
-   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   * <code>repeated .tutorial.Person people = 1 [json_name = "people"];</code>
    * @param value The people to add.
    * @return 'This' for chaining.
    */
@@ -157,7 +156,7 @@ private static final long serialVersionUID = 0L;
     return this;
   }
   /**
-   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   * <code>repeated .tutorial.Person people = 1 [json_name = "people"];</code>
    * @param values The people to add.
    * @return 'This' for chaining.
    */
@@ -168,7 +167,7 @@ private static final long serialVersionUID = 0L;
     return this;
   }
   /**
-   * <code>repeated .tutorial.Person people = 1[json_name = "people"];</code>
+   * <code>repeated .tutorial.Person people = 1 [json_name = "people"];</code>
    * @return 'This' for chaining.
    */
   public AddressBook clearPeople() {
@@ -179,7 +178,7 @@ private static final long serialVersionUID = 0L;
 
   private com.example.custom.CustomOwnerClass owner_;
   /**
-   * <code>.tutorial.Person owner = 2[json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
+   * <code>.tutorial.Person owner = 2 [json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
    * @return Whether the owner field is set.
    */
   @java.lang.Override
@@ -187,7 +186,7 @@ private static final long serialVersionUID = 0L;
     return ((bitField0_ & 0x00000001) != 0);
   }
   /**
-   * <code>.tutorial.Person owner = 2[json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
+   * <code>.tutorial.Person owner = 2 [json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
    * @return The owner.
    */
   @java.lang.Override
@@ -195,7 +194,7 @@ private static final long serialVersionUID = 0L;
     return owner_;
   }
   /**
-   * <code>.tutorial.Person owner = 2[json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
+   * <code>.tutorial.Person owner = 2 [json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
    * @param value The owner to set.
    */
   public AddressBook setOwner(com.example.custom.CustomOwnerClass value) {
@@ -207,7 +206,7 @@ private static final long serialVersionUID = 0L;
     return this;
   }
   /**
-   * <code>.tutorial.Person owner = 2[json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
+   * <code>.tutorial.Person owner = 2 [json_name = "owner", (.leo.proto.javatype) = "com.example.custom.CustomOwnerClass"];</code>
    * @return 'This' for chaining.
    */
   public AddressBook clearOwner() {

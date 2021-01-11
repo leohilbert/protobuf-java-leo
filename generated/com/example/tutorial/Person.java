@@ -172,24 +172,24 @@ private static final long serialVersionUID = 0L;
     public static final int NUMBER_FIELD_NUMBER = 1;
 
     /**
-     * <code>string number = 1[json_name = "number"];</code>
+     * <code>string number = 1 [json_name = "number"];</code>
      * @return The number.
      */
     java.lang.String getNumber();
     /**
-     * <code>string number = 1[json_name = "number"];</code>
+     * <code>string number = 1 [json_name = "number"];</code>
      * @param value The number to set.
      */
     SELF setNumber(java.lang.String value);
     public static final int TYPE_FIELD_NUMBER = 2;
 
     /**
-     * <code>.tutorial.PhoneType type = 2[json_name = "type", (.leo.proto.javatype) = "com.example.custom.CustomPhoneType"];</code>
+     * <code>.tutorial.PhoneType type = 2 [json_name = "type", (.leo.proto.javatype) = "com.example.custom.CustomPhoneType"];</code>
      * @return The type.
      */
     com.example.custom.CustomPhoneType getType();
     /**
-     * <code>.tutorial.PhoneType type = 2[json_name = "type", (.leo.proto.javatype) = "com.example.custom.CustomPhoneType"];</code>
+     * <code>.tutorial.PhoneType type = 2 [json_name = "type", (.leo.proto.javatype) = "com.example.custom.CustomPhoneType"];</code>
      * @param value The type to set.
      */
     SELF setType(com.example.custom.CustomPhoneType value);
@@ -290,7 +290,7 @@ private static final long serialVersionUID = 0L;
 
     private volatile java.lang.String number_;
     /**
-     * <code>string number = 1[json_name = "number"];</code>
+     * <code>string number = 1 [json_name = "number"];</code>
      * @return The number.
      */
     @java.lang.Override
@@ -298,7 +298,7 @@ private static final long serialVersionUID = 0L;
       return number_;
     }
     /**
-     * <code>string number = 1[json_name = "number"];</code>
+     * <code>string number = 1 [json_name = "number"];</code>
      * @param value The number to set.
      */
     public PhoneNumber setNumber(
@@ -313,7 +313,7 @@ private static final long serialVersionUID = 0L;
 
     private com.example.custom.CustomPhoneType type_;
     /**
-     * <code>.tutorial.PhoneType type = 2[json_name = "type", (.leo.proto.javatype) = "com.example.custom.CustomPhoneType"];</code>
+     * <code>.tutorial.PhoneType type = 2 [json_name = "type", (.leo.proto.javatype) = "com.example.custom.CustomPhoneType"];</code>
      * @return The type.
      */
     @java.lang.Override
@@ -321,7 +321,7 @@ private static final long serialVersionUID = 0L;
       return type_;
     }
     /**
-     * <code>.tutorial.PhoneType type = 2[json_name = "type", (.leo.proto.javatype) = "com.example.custom.CustomPhoneType"];</code>
+     * <code>.tutorial.PhoneType type = 2 [json_name = "type", (.leo.proto.javatype) = "com.example.custom.CustomPhoneType"];</code>
      * @param value The type to set.
      */
     public PhoneNumber setType(com.example.custom.CustomPhoneType value) {
@@ -333,7 +333,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.tutorial.PhoneType type = 2[json_name = "type", (.leo.proto.javatype) = "com.example.custom.CustomPhoneType"];</code>
+     * <code>.tutorial.PhoneType type = 2 [json_name = "type", (.leo.proto.javatype) = "com.example.custom.CustomPhoneType"];</code>
      * @return 'This' for chaining.
      */
     public PhoneNumber clearType() {
@@ -544,7 +544,7 @@ private static final long serialVersionUID = 0L;
 
   private java.util.UUID id_;
   /**
-   * <code>string id = 1[json_name = "id", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>string id = 1 [json_name = "id", (.leo.proto.javatype) = "java.util.UUID"];</code>
    * @return The id.
    */
   @java.lang.Override
@@ -552,7 +552,7 @@ private static final long serialVersionUID = 0L;
     return id_;
   }
   /**
-   * <code>string id = 1[json_name = "id", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>string id = 1 [json_name = "id", (.leo.proto.javatype) = "java.util.UUID"];</code>
    * @param value The id to set.
    */
   public Person setId(java.util.UUID value) {
@@ -564,7 +564,7 @@ private static final long serialVersionUID = 0L;
     return this;
   }
   /**
-   * <code>string id = 1[json_name = "id", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>string id = 1 [json_name = "id", (.leo.proto.javatype) = "java.util.UUID"];</code>
    * @return 'This' for chaining.
    */
   public Person clearId() {
@@ -575,7 +575,7 @@ private static final long serialVersionUID = 0L;
 
   private volatile java.lang.String name_;
   /**
-   * <code>string name = 2[json_name = "name"];</code>
+   * <code>string name = 2 [json_name = "name"];</code>
    * @return The name.
    */
   @java.lang.Override
@@ -583,7 +583,7 @@ private static final long serialVersionUID = 0L;
     return name_;
   }
   /**
-   * <code>string name = 2[json_name = "name"];</code>
+   * <code>string name = 2 [json_name = "name"];</code>
    * @param value The name to set.
    */
   public Person setName(
@@ -598,7 +598,7 @@ private static final long serialVersionUID = 0L;
 
   private int age_;
   /**
-   * <code>int32 age = 3[json_name = "age"];</code>
+   * <code>int32 age = 3 [json_name = "age"];</code>
    * @return The age.
    */
   @java.lang.Override
@@ -606,7 +606,7 @@ private static final long serialVersionUID = 0L;
     return age_;
   }
   /**
-   * <code>int32 age = 3[json_name = "age"];</code>
+   * <code>int32 age = 3 [json_name = "age"];</code>
    * @param value The age to set.
    */
   public Person setAge(int value) {
@@ -618,7 +618,7 @@ private static final long serialVersionUID = 0L;
     return this;
   }
   /**
-   * <code>int32 age = 3[json_name = "age"];</code>
+   * <code>int32 age = 3 [json_name = "age"];</code>
    * @return 'This' for chaining.
    */
   public Person clearAge() {
@@ -629,7 +629,7 @@ private static final long serialVersionUID = 0L;
 
   private volatile java.lang.String email_;
   /**
-   * <code>string email = 4[json_name = "email"];</code>
+   * <code>string email = 4 [json_name = "email"];</code>
    * @return The email.
    */
   @java.lang.Override
@@ -637,7 +637,7 @@ private static final long serialVersionUID = 0L;
     return email_;
   }
   /**
-   * <code>string email = 4[json_name = "email"];</code>
+   * <code>string email = 4 [json_name = "email"];</code>
    * @param value The email to set.
    */
   public Person setEmail(
@@ -652,35 +652,35 @@ private static final long serialVersionUID = 0L;
 
   private java.util.List<com.example.tutorial.Person.PhoneNumber> phones_;
   /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5 [json_name = "phones"];</code>
    */
   @java.lang.Override
   public java.util.List<com.example.tutorial.Person.PhoneNumber> getPhonesList() {
     return phones_;
   }
   /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5 [json_name = "phones"];</code>
    */
   public java.util.List<? extends com.example.tutorial.Person.PhoneNumberInterface> 
       getPhonesInterfaceList() {
     return phones_;
   }
   /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5 [json_name = "phones"];</code>
    */
   @java.lang.Override
   public int getPhonesCount() {
     return phones_.size();
   }
   /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5 [json_name = "phones"];</code>
    */
   @java.lang.Override
   public com.example.tutorial.Person.PhoneNumber getPhones(int index) {
     return phones_.get(index);
   }
   /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5 [json_name = "phones"];</code>
    * @param index The index to set the value at.
    * @param value The phones to set.
    * @return 'This' for chaining.
@@ -693,7 +693,7 @@ private static final long serialVersionUID = 0L;
     return this;
   }
   /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5 [json_name = "phones"];</code>
    * @param value The phones to add.
    * @return 'This' for chaining.
    */
@@ -704,7 +704,7 @@ private static final long serialVersionUID = 0L;
     return this;
   }
   /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5 [json_name = "phones"];</code>
    * @param values The phones to add.
    * @return 'This' for chaining.
    */
@@ -715,7 +715,7 @@ private static final long serialVersionUID = 0L;
     return this;
   }
   /**
-   * <code>repeated .tutorial.Person.PhoneNumber phones = 5[json_name = "phones"];</code>
+   * <code>repeated .tutorial.Person.PhoneNumber phones = 5 [json_name = "phones"];</code>
    * @return 'This' for chaining.
    */
   public Person clearPhones() {
@@ -726,7 +726,7 @@ private static final long serialVersionUID = 0L;
 
   private com.google.protobuf.LazyStringList friendIds_;
   /**
-   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * <code>repeated string friendIds = 6 [json_name = "friendIds"];</code>
    * @return A list containing the friendIds.
    */
   public com.google.protobuf.ProtocolStringList
@@ -734,14 +734,14 @@ private static final long serialVersionUID = 0L;
     return friendIds_;
   }
   /**
-   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * <code>repeated string friendIds = 6 [json_name = "friendIds"];</code>
    * @return The count of friendIds.
    */
   public int getFriendIdsCount() {
     return friendIds_.size();
   }
   /**
-   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * <code>repeated string friendIds = 6 [json_name = "friendIds"];</code>
    * @param index The index of the element to return.
    * @return The friendIds at the given index.
    */
@@ -749,7 +749,7 @@ private static final long serialVersionUID = 0L;
     return friendIds_.get(index);
   }
   /**
-   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * <code>repeated string friendIds = 6 [json_name = "friendIds"];</code>
    * @param index The index to set the value at.
    * @param value The friendIds to set.
    * @return 'This' for chaining.
@@ -761,7 +761,7 @@ private static final long serialVersionUID = 0L;
     return this;
   }
   /**
-   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * <code>repeated string friendIds = 6 [json_name = "friendIds"];</code>
    * @param value The friendIds to add.
    * @return 'This' for chaining.
    */
@@ -772,7 +772,7 @@ private static final long serialVersionUID = 0L;
     return this;
   }
   /**
-   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * <code>repeated string friendIds = 6 [json_name = "friendIds"];</code>
    * @param values The friendIds to add.
    * @return 'This' for chaining.
    */
@@ -783,7 +783,7 @@ private static final long serialVersionUID = 0L;
     return this;
   }
   /**
-   * <code>repeated string friendIds = 6[json_name = "friendIds"];</code>
+   * <code>repeated string friendIds = 6 [json_name = "friendIds"];</code>
    * @return 'This' for chaining.
    */
   public Person clearFriendIds() {
@@ -794,7 +794,7 @@ private static final long serialVersionUID = 0L;
 
   private java.util.List<java.util.UUID> friendIds2_;
   /**
-   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>repeated string friendIds2 = 7 [json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
    * @return A list containing the friendIds2.
    */
   @java.lang.Override
@@ -803,14 +803,14 @@ private static final long serialVersionUID = 0L;
     return friendIds2_;
   }
   /**
-   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>repeated string friendIds2 = 7 [json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
    * @return The count of friendIds2.
    */
   public int getFriendIds2Count() {
     return friendIds2_.size();
   }
   /**
-   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>repeated string friendIds2 = 7 [json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
    * @param index The index of the element to return.
    * @return The friendIds2 at the given index.
    */
@@ -818,7 +818,7 @@ private static final long serialVersionUID = 0L;
     return friendIds2_.get(index);
   }
   /**
-   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>repeated string friendIds2 = 7 [json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
    * @param index The index to set the value at.
    * @param value The friendIds2 to set.
    * @return 'This' for chaining.
@@ -830,7 +830,7 @@ private static final long serialVersionUID = 0L;
     return this;
   }
   /**
-   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>repeated string friendIds2 = 7 [json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
    * @param value The friendIds2 to add.
    * @return 'This' for chaining.
    */
@@ -841,7 +841,7 @@ private static final long serialVersionUID = 0L;
     return this;
   }
   /**
-   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>repeated string friendIds2 = 7 [json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
    * @param values The friendIds2 to add.
    * @return 'This' for chaining.
    */
@@ -852,7 +852,7 @@ private static final long serialVersionUID = 0L;
     return this;
   }
   /**
-   * <code>repeated string friendIds2 = 7[json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
+   * <code>repeated string friendIds2 = 7 [json_name = "friendIds2", (.leo.proto.javatype) = "java.util.UUID"];</code>
    * @return 'This' for chaining.
    */
   public Person clearFriendIds2() {
@@ -863,7 +863,7 @@ private static final long serialVersionUID = 0L;
 
   private com.google.protobuf.Internal.IntList favoriteNumber_;
   /**
-   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
+   * <code>repeated int32 favoriteNumber = 8 [json_name = "favoriteNumber"];</code>
    * @return A list containing the favoriteNumber.
    */
   @java.lang.Override
@@ -872,14 +872,14 @@ private static final long serialVersionUID = 0L;
     return favoriteNumber_;
   }
   /**
-   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
+   * <code>repeated int32 favoriteNumber = 8 [json_name = "favoriteNumber"];</code>
    * @return The count of favoriteNumber.
    */
   public int getFavoriteNumberCount() {
     return favoriteNumber_.size();
   }
   /**
-   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
+   * <code>repeated int32 favoriteNumber = 8 [json_name = "favoriteNumber"];</code>
    * @param index The index of the element to return.
    * @return The favoriteNumber at the given index.
    */
@@ -888,7 +888,7 @@ private static final long serialVersionUID = 0L;
   }
   private int favoriteNumberMemoizedSerializedSize = -1;
   /**
-   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
+   * <code>repeated int32 favoriteNumber = 8 [json_name = "favoriteNumber"];</code>
    * @param index The index to set the value at.
    * @param value The favoriteNumber to set.
    * @return 'This' for chaining.
@@ -901,7 +901,7 @@ private static final long serialVersionUID = 0L;
     return this;
   }
   /**
-   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
+   * <code>repeated int32 favoriteNumber = 8 [json_name = "favoriteNumber"];</code>
    * @param value The favoriteNumber to add.
    * @return 'This' for chaining.
    */
@@ -913,7 +913,7 @@ private static final long serialVersionUID = 0L;
     return this;
   }
   /**
-   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
+   * <code>repeated int32 favoriteNumber = 8 [json_name = "favoriteNumber"];</code>
    * @param values The favoriteNumber to add.
    * @return 'This' for chaining.
    */
@@ -925,7 +925,7 @@ private static final long serialVersionUID = 0L;
     return this;
   }
   /**
-   * <code>repeated int32 favoriteNumber = 8[json_name = "favoriteNumber"];</code>
+   * <code>repeated int32 favoriteNumber = 8 [json_name = "favoriteNumber"];</code>
    * @return 'This' for chaining.
    */
   public Person clearFavoriteNumber() {
@@ -937,7 +937,7 @@ private static final long serialVersionUID = 0L;
 
   private com.google.protobuf.Timestamp lastUpdated_;
   /**
-   * <code>.google.protobuf.Timestamp last_updated = 9[json_name = "lastUpdated"];</code>
+   * <code>.google.protobuf.Timestamp last_updated = 9 [json_name = "lastUpdated"];</code>
    * @return Whether the lastUpdated field is set.
    */
   @java.lang.Override
@@ -945,7 +945,7 @@ private static final long serialVersionUID = 0L;
     return lastUpdated_ != null;
   }
   /**
-   * <code>.google.protobuf.Timestamp last_updated = 9[json_name = "lastUpdated"];</code>
+   * <code>.google.protobuf.Timestamp last_updated = 9 [json_name = "lastUpdated"];</code>
    * @return The lastUpdated.
    */
   @java.lang.Override
@@ -953,7 +953,7 @@ private static final long serialVersionUID = 0L;
     return lastUpdated_;
   }
   /**
-   * <code>.google.protobuf.Timestamp last_updated = 9[json_name = "lastUpdated"];</code>
+   * <code>.google.protobuf.Timestamp last_updated = 9 [json_name = "lastUpdated"];</code>
    * @param value The lastUpdated to set.
    */
   public Person setLastUpdated(com.google.protobuf.Timestamp value) {
@@ -964,7 +964,7 @@ private static final long serialVersionUID = 0L;
     return this;
   }
   /**
-   * <code>.google.protobuf.Timestamp last_updated = 9[json_name = "lastUpdated"];</code>
+   * <code>.google.protobuf.Timestamp last_updated = 9 [json_name = "lastUpdated"];</code>
    */
   public Person clearLastUpdated() {
     lastUpdated_ = null;
