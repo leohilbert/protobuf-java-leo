@@ -9,7 +9,7 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: configure
         run: ./configure.sh
       - name: install protoc
@@ -22,13 +22,13 @@ jobs:
           make
       - name: Upload Linux
         if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: protoc-gen-java-leo-linux
           path: ./build/protoc-gen-java-leo
       - name: Upload Macos
         if: matrix.os == 'macos-latest'
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: protoc-gen-java-leo-osx
           path: ./build/protoc-gen-java-leo
@@ -36,7 +36,7 @@ jobs:
     #if: startsWith(github.ref, 'disabled')
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: configure
         run: |
           $latestProtocRelease = Get-Content fetch/protoc_release.txt -First 1
@@ -52,7 +52,7 @@ jobs:
           cmake -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release ..
           nmake
       - name: Upload
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: protoc-gen-java-leo-windows
           path: ./build/protoc-gen-java-leo.exe
@@ -60,7 +60,7 @@ jobs:
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
       - name: publish
         uses: machine-learning-apps/gpr-docker-publish@master
         id: docker
@@ -75,12 +75,12 @@ jobs:
     needs: build-unix
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Install Java and Maven
         uses: actions/setup-java@v1
         with:
           java-version: 13
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v2
         with:
           name: protoc-gen-java-leo-linux
           path: ./build/
@@ -103,7 +103,7 @@ jobs:
           nexus_password: ${{ secrets.OSSRH_PASSWORD }}
       - name: Upload jar artifact
         if: github.ref == 'refs/heads/master'
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: protoc-gen-java-leo-jar
           path: ./java/target/protobuf-java-leo.jar
@@ -115,8 +115,8 @@ jobs:
       matrix:
         classifier: [linux, osx, windows]
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/download-artifact@v1
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
         with:
           name: protoc-gen-java-leo-${{ matrix.classifier }}
           path: ./executable
@@ -125,12 +125,13 @@ jobs:
           mv $(find executable -type f) executable/exe
           chmod +x ./gpghack.sh
       - name: maven deploy
-        uses: leohilbert/action-maven-publish@v1
+        uses: samuelmeuli/action-maven-publish@v1
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg_passphrase: ${{ secrets.GPG_PASSPHRASE }}
           nexus_username: ${{ secrets.OSSRH_USERNAME }}
           nexus_password: ${{ secrets.OSSRH_PASSWORD }}
+          maven_profiles: ''
           maven_goals_phases: gpg:sign-and-deploy-file
           maven_args: >
             -DpomFile=java/pom.xml -Dfile=./executable/exe
