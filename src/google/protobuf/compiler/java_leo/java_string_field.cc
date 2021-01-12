@@ -85,7 +85,7 @@ void SetPrimitiveVariables(const FieldDescriptor* descriptor,
       descriptor->options().deprecated() ? "@java.lang.Deprecated " : "";
   (*variables)["on_changed"] = "onChanged(" + FieldConstantName(descriptor) + ");";
 
-  if (HasHasbit(descriptor)) {
+  if (SupportFieldPresence(descriptor)) {
     // For singular messages and builders, one bit is used for the hasField bit.
     (*variables)["get_has_field_bit_message"] = GenerateGetBit(messageBitIndex);
     (*variables)["get_has_field_bit_builder"] = GenerateGetBit(builderBitIndex);
@@ -137,7 +137,7 @@ ImmutableStringFieldGenerator::ImmutableStringFieldGenerator(
 ImmutableStringFieldGenerator::~ImmutableStringFieldGenerator() {}
 
 int ImmutableStringFieldGenerator::GetNumBitsForMessage() const {
-  return HasHasbit(descriptor_) ? 1 : 0;
+  return SupportFieldPresence(descriptor_) ? 1 : 0;
 }
 
 int ImmutableStringFieldGenerator::GetNumBitsForBuilder() const {

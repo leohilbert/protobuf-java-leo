@@ -218,7 +218,7 @@ ImmutablePrimitiveFieldGenerator::ImmutablePrimitiveFieldGenerator(
 ImmutablePrimitiveFieldGenerator::~ImmutablePrimitiveFieldGenerator() {}
 
 int ImmutablePrimitiveFieldGenerator::GetNumBitsForMessage() const {
-  return HasHasbit(descriptor_) ? 1 : 0;
+  return SupportFieldPresence(descriptor_) ? 1 : 0;
 }
 
 int ImmutablePrimitiveFieldGenerator::GetNumBitsForBuilder() const {
