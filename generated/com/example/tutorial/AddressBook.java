@@ -102,6 +102,7 @@ private static final long serialVersionUID = 0L;
             com.example.tutorial.AddressBook.class);
   }
 
+  private int bitField0_;
   private java.util.List<com.example.tutorial.Person> people_;
   /**
    * <code>repeated .tutorial.Person people = 1 [json_name = "people"];</code>
