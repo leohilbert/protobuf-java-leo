@@ -80,7 +80,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 13
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: protoc-gen-java-leo-linux
           path: ./build/
@@ -116,7 +116,7 @@ jobs:
         classifier: [linux, windows]
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: protoc-gen-java-leo-${{ matrix.classifier }}
           path: ./executable
